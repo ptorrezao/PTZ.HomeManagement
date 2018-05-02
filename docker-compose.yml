@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  ptz.homemanagement:
+    build:
+      context: .
+      dockerfile: PTZ.HomeManagement/Dockerfile
+    image: ptorrezao/ptz.homemanagement

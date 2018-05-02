@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement", "PTZ.HomeManagement\PTZ.HomeManagement.csproj", "{F491DD1F-D14D-4ED2-809F-609EE8075F61}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{70B9F108-2C51-44C9-883E-6AA7C6753B07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDCF7D28-FD92-4483-91AA-8FE538C21499}"
+	ProjectSection(SolutionItems) = preProject
+		CREDITS.md = CREDITS.md
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F491DD1F-D14D-4ED2-809F-609EE8075F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F491DD1F-D14D-4ED2-809F-609EE8075F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F491DD1F-D14D-4ED2-809F-609EE8075F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F491DD1F-D14D-4ED2-809F-609EE8075F61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41919CEE-02AE-4AC5-8BA6-C53A774579E6}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+[submodule "PTZ.HomeManagement/3rdParty/Adminator"]
+	path = PTZ.HomeManagement/3rdParty/Adminator
+	url = https://github.com/puikinsh/Adminator-admin-dashboard
+[submodule "PTZ.HomeManagement/3rdParty/sufee"]
+	path = PTZ.HomeManagement/3rdParty/sufee
+	url = https://github.com/puikinsh/sufee-admin-dashboard
