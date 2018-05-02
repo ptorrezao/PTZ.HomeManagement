@@ -1,0 +1,51 @@
+﻿<ul class="nav">
+    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Dashboard" ? "active" : "")">
+        <a class="nav-link" asp-area="" asp-controller="Demo" asp-action="Dashboard">
+            <i class="nc-icon nc-chart-pie-35"></i>
+            <p>Dashboard</p>
+        </a>
+    </li>
+    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "User" ? "active" : "")">
+        <a class="nav-link" asp-area="" asp-controller="Demo" asp-action="User">
+            <i class="nc-icon nc-circle-09"></i>
+            <p>User Profile</p>
+
+        </a>
+    </li>
+    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Table" ? "active" : "")">
+        <a class="nav-link" asp-area="" asp-controller="Demo" asp-action="Table">
+            <i class="nc-icon nc-notes"></i>
+            <p>Table List</p>
+        </a>
+    </li>
+    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Typography" ? "active" : "")">
+        <a class="nav-link" asp-area="" asp-controller="Demo" asp-action="Typography">
+            <i class="nc-icon nc-paper-2"></i>
+            <p>Typography</p>
+        </a>
+    </li>
+    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Icons" ? "active" : "")">
+        <a class="nav-link" asp-area="" asp-controller="Demo" asp-action="Icons">
+            <i class="nc-icon nc-atom"></i>
+            <p>Icons</p>
+        </a>
+    </li>
+    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Maps" ? "active" : "")">
+        <a class="nav-link" asp-area="" asp-controller="Demo" asp-action="Maps">
+            <i class="nc-icon nc-pin-3"></i>
+            <p>Maps</p>
+        </a>
+    </li>
+    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString() == "Notifications" ? "active" : "")">
+        <a class="nav-link" asp-area="" asp-controller="Demo" asp-action="Notifications">
+            <i class="nc-icon nc-bell-55"></i>
+            <p>Notifications</p>
+        </a>
+    </li>
+    <li class="nav-item active active-pro">
+        <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">
+            <i class="nc-icon nc-alien-33"></i>
+            <p>Upgrade to PRO</p>
+        </a>
+    </li>
+</ul>

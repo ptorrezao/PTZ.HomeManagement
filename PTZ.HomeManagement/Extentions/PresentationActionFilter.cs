@@ -17,6 +17,10 @@ namespace PTZ.HomeManagement.Extentions
             // set the viewbag values
             controller.ViewBag.Title = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
             controller.ViewBag.GoogleMapKey = "AIzaSyBZ4OWSVpF7Mq7ryLA49FRWxo1o-ZUgzVQ";
+
+            controller.ViewBag.CurrentAction = filterContext.RouteData.Values["Action"];
+            controller.ViewBag.CurrentController = filterContext.RouteData.Values["Controller"];
+            controller.ViewBag.CurrentArea = filterContext.RouteData.Values["Area"];
         }
     }
 }
