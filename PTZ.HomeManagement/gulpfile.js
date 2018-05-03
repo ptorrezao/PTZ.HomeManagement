@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/// <binding BeforeBuild='Generate_App, Generate_LBD' />
+"use strict";
 
 var gulp = require("gulp"),
     concat = require("gulp-concat"),
