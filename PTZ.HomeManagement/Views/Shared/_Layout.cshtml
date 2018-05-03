@@ -19,7 +19,7 @@
             <div class="sidebar-wrapper">
                 <div class="logo">
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="simple-text">
-                        @ViewBag.Title
+                        @ViewBag.AppName
                     </a>
                 </div>
                 @Html.Partial("_Navigation")
@@ -44,5 +44,6 @@
     <script type="text/javascript" src="~/lib/bootstrap-notify/js/bootstrap-notify.js"></script>
     <script type="text/javascript" src="~/lib/lbd/js/lbd.js"></script>
     <script type="text/javascript" src="~/lib/app.js" asp-append-version="true"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

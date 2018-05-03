@@ -1,1 +1,1 @@
-produceoutput=false
+﻿///<binding AfterBuild='wwwroot/js/app.min.js, wwwroot/css/app.min.css' />

@@ -15,7 +15,8 @@ namespace PTZ.HomeManagement.Extentions
             var controller = filterContext.Controller as Controller;
 
             // set the viewbag values
-            controller.ViewBag.Title = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            controller.ViewBag.AppName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            controller.ViewBag.Title = filterContext.RouteData.Values["Action"];
             controller.ViewBag.GoogleMapKey = "AIzaSyBZ4OWSVpF7Mq7ryLA49FRWxo1o-ZUgzVQ";
 
             controller.ViewBag.CurrentAction = filterContext.RouteData.Values["Action"];

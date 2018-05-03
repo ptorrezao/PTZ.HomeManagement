@@ -12,14 +12,9 @@ namespace PTZ.HomeManagement.Controllers
 {
     public class HomeController : Controller
     {
-        public override void OnActionExecuted(ActionExecutedContext context)
-        {
-            base.OnActionExecuted(context);
-        }
-
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Dashboard", "Demo");
         }
     }
 }
