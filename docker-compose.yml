@@ -5,4 +5,4 @@ services:
     build:
       context: .
       dockerfile: PTZ.HomeManagement/Dockerfile
-    image: ptorrezao/ptz.homemanagement
+    image: ptorrezao/ptz.homemanagement:build
