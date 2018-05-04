@@ -14,7 +14,7 @@ namespace PTZ.HomeManagement.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Dashboard", "Demo");
+            return View();
         }
     }
 }

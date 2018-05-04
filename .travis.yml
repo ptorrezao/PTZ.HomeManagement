@@ -20,3 +20,11 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+  - provider: script
+    script: ./deploy.sh $TRAVIS_BRANCH $DOCKER_USERNAME $DOCKER_PASSWORD
+    skip_cleanup: true
+    on: development
+  - provider: script
+    script: ./deploy.sh latest $DOCKER_USERNAME $DOCKER_PASSWORD
+    skip_cleanup: true
+    on: master
