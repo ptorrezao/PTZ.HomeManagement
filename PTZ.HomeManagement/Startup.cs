@@ -50,6 +50,7 @@ namespace PTZ.HomeManagement
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
             }
 
             app.UseStaticFiles();

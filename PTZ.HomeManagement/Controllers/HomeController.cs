@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using PTZ.HomeManagement.Extentions;
-using PTZ.HomeManagement.Models;
 
 namespace PTZ.HomeManagement.Controllers
 {
@@ -22,12 +16,32 @@ namespace PTZ.HomeManagement.Controllers
 
         public IActionResult Index()
         {
-            logger.LogInformation("Hello, world!");
             return View();
         }
 
-        public IActionResult Error()
+        public IActionResult Error(int? statusCode = null)
         {
+            IExceptionHandlerPathFeature exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+
+            string message = "", detail = "";
+
+            if (statusCode.HasValue && statusCode.Value == 404)
+            {
+                message = "Uh oh! Looks like you’re lost...";
+            }
+            else if (exceptionFeature != null)
+            {
+                Exception exceptionThatOccurred = exceptionFeature.Error;
+
+                message = "Looks like we're having some server issues.";
+                detail = exceptionThatOccurred.Message;
+
+                logger.LogError(exceptionThatOccurred, exceptionThatOccurred.Message);
+            }
+
+            ViewBag.Message = message;
+            ViewBag.MessageDetail = detail;
+            ViewBag.StatusCode = statusCode ?? 500;
             return View();
         }
     }
