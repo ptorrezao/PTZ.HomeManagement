@@ -25,5 +25,10 @@ namespace PTZ.HomeManagement.Controllers
             logger.LogInformation("Hello, world!");
             return View();
         }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }
