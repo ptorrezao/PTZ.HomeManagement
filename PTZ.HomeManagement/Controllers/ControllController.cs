@@ -1,22 +1,42 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Targets;
+using NLog.Targets.Wrappers;
+using PTZ.HomeManagement.Interfaces;
+using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement.Controllers
 {
-    public class HomeController : Controller
+    public class ControlController : Controller
     {
-        readonly ILogger<HomeController> logger;
+        readonly ILogger<ControlController> logger;
+        readonly ICoreService core;
 
-        public HomeController(ILogger<HomeController> log)
+        public ControlController(
+            ILogger<ControlController> log,
+            ICoreService coreSvc)
         {
             logger = log;
+            core = coreSvc;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Status()
+        {
+            StatusViewModel vw = new StatusViewModel();
+            vw.LogEntries = core.GetLastNMessages(10, LogUtils.GetLogFileName());
+            vw.TotalMemory = Conversion.ConvertBytesToMegabytes(Process.GetCurrentProcess().WorkingSet64, 2);
+            vw.Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            return View(vw);
         }
 
         public IActionResult Error(int? statusCode = null)

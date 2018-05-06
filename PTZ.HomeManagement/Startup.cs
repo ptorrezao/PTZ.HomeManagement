@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using PTZ.HomeManagement.Extentions;
+using PTZ.HomeManagement.Interfaces;
 
 namespace PTZ.HomeManagement
 {
@@ -37,6 +38,8 @@ namespace PTZ.HomeManagement
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<ICoreService, CoreService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,8 +52,8 @@ namespace PTZ.HomeManagement
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+                app.UseExceptionHandler("/Control/Error");
+                app.UseStatusCodePagesWithReExecute("/Control/Error", "?statusCode={0}");
             }
 
             app.UseStaticFiles();
@@ -66,7 +69,7 @@ namespace PTZ.HomeManagement
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Control}/{action=Index}/{id?}");
             });
         }
 
