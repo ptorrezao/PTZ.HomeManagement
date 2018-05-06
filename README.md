@@ -16,6 +16,8 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
 
 ## Features
 - Admin Template (light-bootstrap-dashboard) [Creative Tim](https://www.creative-tim.com/product/light-bootstrap-dashboard)
+## WorkFlow
+![WorkFlow](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/workflow.png?raw=true)
 
 ## License
 This project is licensed under the terms of the **MIT** license.
