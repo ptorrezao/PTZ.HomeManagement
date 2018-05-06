@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\PTZ.HomeManagement.Lib\PTZ.HomeManagement.Lib.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.Lib\PTZ.HomeManagement.Lib.csproj" />
   </ItemGroup>
 

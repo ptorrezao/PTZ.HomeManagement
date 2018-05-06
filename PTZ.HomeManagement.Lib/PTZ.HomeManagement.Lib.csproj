@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>PTZ.HomeManagement</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
