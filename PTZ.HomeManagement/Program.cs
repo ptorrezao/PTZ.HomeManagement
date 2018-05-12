@@ -21,7 +21,7 @@ namespace PTZ.HomeManagement
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseNLog()
+               .UseNLog()
                 .Build();
     }
 }

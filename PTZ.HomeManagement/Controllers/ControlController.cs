@@ -6,8 +6,8 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
-using PTZ.HomeManagement.Interfaces;
 using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.Services;
 using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement.Controllers

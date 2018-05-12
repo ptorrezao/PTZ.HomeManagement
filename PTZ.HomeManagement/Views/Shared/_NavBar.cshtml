@@ -1,4 +1,9 @@
-﻿<nav class="navbar navbar-expand-lg " color-on-scroll="500">
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class=" container-fluid  ">
         <a class="navbar-brand" href="#pablo"> @ViewBag.Title </a>
         <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,19 +30,52 @@
                             <a class="dropdown-item" href="#">Another notification</a>
                         </ul>
                     </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#pablo">
+                </ul>*@
+
+            <ul class="navbar-nav ml-auto">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="dropdown nav-item">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                             <span class="no-icon">Account</span>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" asp-action="Index" asp-controller="Manage">Profile</a>
+                            </li>
+                            <li>
+
+                                <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Manage">Password</a>
+                            </li>
+                            @if (hasExternalLogins)
+                            {
+                                <li>
+                                    <a class="dropdown-item" asp-action="ExternalLogins" asp-controller="Manage">External logins</a>
+                                </li>
+
+                            }
+                            <li>
+                                <a class="dropdown-item" asp-action="TwoFactorAuthentication" asp-controller="Manage">Two-factor authentication</a>
+                            </li>
+
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#pablo">
-                            <span class="no-icon">Log out</span>
-                        </a>
+                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
+                            <button type="submit" class="nav-link btn-link"><span class="no-icon">Log out</span></button>
+                        </form>
                     </li>
-                </ul>*@
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register"><span class="no-icon">Register</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login"><span class="no-icon">Log in</span></a>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 </nav>
