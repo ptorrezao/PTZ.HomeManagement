@@ -16,5 +16,6 @@
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
     <None Include="docker-compose.ci.build.yml" />
+    <None Include="portainer-compose.yml" />
   </ItemGroup>
 </Project>

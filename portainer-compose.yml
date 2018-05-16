@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  homemanagement:
+    image: ptorrezao/ptz.homemanagement:development
+    restart: always
+    ports:
+      - "1234:80"
+    volumes:
+      - src:/src
+      
+  sql:
+    image: microsoft/mssql-server-linux:2017-latest
+    restart: always
+    environment:
+      - SA_PASSWORD=temp#Pwd
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+      
+volumes:
+  src:
