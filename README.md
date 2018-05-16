@@ -19,6 +19,12 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
 ## WorkFlow
 ![WorkFlow](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/workflow.png?raw=true)
 
+## Informations
+- Default User:Pwd (on first login will request to change the password [not implemented yet])
+	- admin@hm_ptz.local:Ch4ng3_Th1s 
+		
+
+
 ## License
 This project is licensed under the terms of the **MIT** license.
 >You can check out the full license [here](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/LICENSE)
