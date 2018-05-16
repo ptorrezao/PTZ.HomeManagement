@@ -41,8 +41,6 @@ namespace PTZ.HomeManagement
             }
 
             host.Run();
-
-            BuildWebHost(args).Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

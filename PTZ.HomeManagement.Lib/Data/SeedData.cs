@@ -17,7 +17,7 @@ namespace PTZ.HomeManagement.Data
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                var adminID = await EnsureUser(serviceProvider, "Ch4ng3_Th1s", "admin@hm_ptz.local");
+                var adminID = await EnsureUser(serviceProvider, "Ch4ng3_Th1s", "admin@hmptz.local");
 
                 await EnsureRole(serviceProvider, Roles.Administrator, adminID);
 
@@ -44,7 +44,7 @@ namespace PTZ.HomeManagement.Data
             var user = await userManager.FindByNameAsync(UserName);
             if (user == null)
             {
-                user = new ApplicationUser { UserName = UserName };
+                user = new ApplicationUser { UserName = UserName, RequirePasswordChange = true };
                 await userManager.CreateAsync(user, testUserPw);
             }
 

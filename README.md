@@ -20,8 +20,8 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
 ![WorkFlow](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/workflow.png?raw=true)
 
 ## Informations
-- Default User:Pwd (on first login will request to change the password [not implemented yet])
-	- admin@hm_ptz.local:Ch4ng3_Th1s 
+- Default User:Pwd (on first login will request to change the password)
+	- admin@hmptz.local:Ch4ng3_Th1s 
 		
 
 

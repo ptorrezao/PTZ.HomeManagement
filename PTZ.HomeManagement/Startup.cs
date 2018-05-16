@@ -41,6 +41,7 @@ namespace PTZ.HomeManagement
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(PresentationActionFilter));
+                options.Filters.Add(typeof(RequiredPasswordChangeActionFilter));
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
 

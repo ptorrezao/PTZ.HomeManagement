@@ -7,5 +7,6 @@ namespace PTZ.HomeManagement.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public bool RequirePasswordChange { get; set; }
     }
 }

@@ -167,6 +167,9 @@ namespace PTZ.HomeManagement.Controllers
                 return View(model);
             }
 
+            user.RequirePasswordChange = false;
+            await _userManager.UpdateAsync(user);
+
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
