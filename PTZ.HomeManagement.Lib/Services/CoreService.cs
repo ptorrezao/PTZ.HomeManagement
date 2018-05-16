@@ -1,10 +1,9 @@
-﻿using PTZ.HomeManagement.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace PTZ.HomeManagement
+namespace PTZ.HomeManagement.Services
 {
     public class CoreService : ICoreService
     {
