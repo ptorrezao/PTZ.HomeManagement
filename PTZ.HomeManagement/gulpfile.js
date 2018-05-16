@@ -62,4 +62,7 @@ gulp.task("Generate_App", function () {
 
     gulp.src('Scripts/app.js')
         .pipe(gulp.dest('wwwroot/lib/'));
+
+    gulp.src('Media/**/*')
+        .pipe(gulp.dest('wwwroot/media/'));
 });

@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="lib\popper\" />
+    <Folder Include="Media\" />
     <Folder Include="Views\Manage\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
