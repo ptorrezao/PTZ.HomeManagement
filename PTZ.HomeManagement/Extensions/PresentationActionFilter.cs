@@ -6,6 +6,8 @@ using PTZ.HomeManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace PTZ.HomeManagement.Extentions
@@ -21,6 +23,8 @@ namespace PTZ.HomeManagement.Extentions
             controller.ViewBag.AppName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
             controller.ViewBag.Title = filterContext.RouteData.Values["Action"];
             controller.ViewBag.GoogleMapKey = "AIzaSyBZ4OWSVpF7Mq7ryLA49FRWxo1o-ZUgzVQ";
+
+            controller.ViewBag.Version = typeof(Startup).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
 
             controller.ViewBag.CurrentAction = filterContext.RouteData.Values["Action"];
             controller.ViewBag.CurrentController = filterContext.RouteData.Values["Controller"];
