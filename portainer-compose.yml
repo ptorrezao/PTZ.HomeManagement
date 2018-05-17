@@ -4,16 +4,23 @@ services:
   homemanagement:
     image: ptorrezao/ptz.homemanagement:development
     restart: always
+    environment:
+      - SQLSERVER_HOST=sql
+      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}
+      - SQLSERVER_USERNAME=sa
+      - SQLSERVER_DB_NAME=${SQLSERVER_DB_NAME}
     ports:
       - "1234:80"
     volumes:
-      - src:/src
+      - src:/app
+    depends_on:
+     - sql
       
   sql:
     image: microsoft/mssql-server-linux:2017-latest
     restart: always
     environment:
-      - SA_PASSWORD=temp#Pwd
+      - SA_PASSWORD=${SQLSERVER_PASSWORD}
       - ACCEPT_EULA=Y
     ports:
       - "1433:1433"

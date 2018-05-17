@@ -2,10 +2,12 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
+using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Services;
 using PTZ.HomeManagement.Utils;
@@ -14,15 +16,18 @@ namespace PTZ.HomeManagement.Controllers
 {
     public class ControlController : Controller
     {
-        readonly ILogger<ControlController> logger;
-        readonly ICoreService core;
+        private readonly ILogger<ControlController> logger;
+        private readonly ICoreService core;
+        private readonly IConfiguration configuration;
 
         public ControlController(
             ILogger<ControlController> log,
-            ICoreService coreSvc)
+            ICoreService coreSvc,
+            IConfiguration configurationSvc)
         {
             logger = log;
             core = coreSvc;
+            configuration = configurationSvc;
         }
 
         public IActionResult Index()
@@ -36,6 +41,7 @@ namespace PTZ.HomeManagement.Controllers
             vw.LogEntries = core.GetLastNMessages(10, LogUtils.GetLogFileName());
             vw.TotalMemory = Conversion.ConvertBytesToMegabytes(Process.GetCurrentProcess().WorkingSet64, 2);
             vw.Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            vw.DefaultConnection = ApplicationDbContext.GetConnectionString(configuration);
             return View(vw);
         }
 
