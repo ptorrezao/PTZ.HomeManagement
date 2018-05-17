@@ -2,6 +2,12 @@ FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
 EXPOSE 80
 
+#Preapare Info for Db Connection
+ENV SQLSERVER_HOST=sql
+ENV SQLSERVER_PASSWORD=password
+ENV SQLSERVER_USERNAME=sa
+ENV SQLSERVER_DB_NAME=PTZHomeManagement
+
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
 COPY *.sln ./

@@ -1,4 +1,4 @@
-.dropdown-menu{
+.dropdown-menu {
     visibility: hidden;
     margin: 0;
     padding: 0;
@@ -10,50 +10,52 @@
     @include opacity(0);
     @include box-shadow($dropdown-shadow);
 
-    .show &{
+    .show & {
         @include opacity(1);
         visibility: visible;
-        transform: translate3d(0px, 0px, 0px) !important;
     }
-    .select &{
-       border-radius: $border-radius-bottom;
-       @include box-shadow(none);
-       @include transform-origin($select-coordinates);
-       @include transform-scale(1);
-       @include transition($fast-transition-time, $transition-linear);
-       margin-top: -20px;
+
+    .select & {
+        border-radius: $border-radius-bottom;
+        @include box-shadow(none);
+        @include transform-origin($select-coordinates);
+        @include transform-scale(1);
+        @include transition($fast-transition-time, $transition-linear);
+        margin-top: -20px;
     }
-    .select.show &{
+
+    .select.show & {
         margin-top: -1px;
     }
 
     .dropdown-item {
-       padding: $padding-base-vertical $padding-base-horizontal;
-       color: #333333;
+        padding: $padding-base-vertical $padding-base-horizontal;
+        color: #333333;
 
-       img{
-           margin-top: -3px;
-       }
+        img {
+            margin-top: -3px;
+        }
     }
-    .dropdown-item:focus{
+
+    .dropdown-item:focus {
         outline: 0 !important;
     }
 
-    .btn-group.select &{
+    .btn-group.select & {
         min-width: 100%;
     }
 
-    > li:first-child > a{
-       border-top-left-radius: $border-radius-extreme;
-       border-top-right-radius: $border-radius-extreme;
+    > li:first-child > a {
+        border-top-left-radius: $border-radius-extreme;
+        border-top-right-radius: $border-radius-extreme;
     }
 
-    > li:last-child > a{
+    > li:last-child > a {
         border-bottom-left-radius: $border-radius-extreme;
         border-bottom-right-radius: $border-radius-extreme;
     }
 
-    .select & > li:first-child > a{
+    .select & > li:first-child > a {
         border-radius: 0;
         border-bottom: 0 none;
     }
@@ -67,28 +69,32 @@
     }
 
     &.dropdown-blue > li > a:hover,
-    &.dropdown-blue > li > a:focus{
+    &.dropdown-blue > li > a:focus {
         background-color: $light-blue;
     }
+
     &.dropdown-azure > li > a:hover,
-    &.dropdown-azure > li > a:focus{
+    &.dropdown-azure > li > a:focus {
         background-color: $light-azure;
     }
+
     &.ct-green > li > a:hover,
-    &.ct-green > li > a:focus{
+    &.ct-green > li > a:focus {
         background-color: $light-green;
     }
+
     &.dropdown-orange > li > a:hover,
-    &.dropdown-orange > li > a:focus{
+    &.dropdown-orange > li > a:focus {
         background-color: $light-orange;
     }
+
     &.dropdown-red > li > a:hover,
-    &.dropdown-red > li > a:focus{
+    &.dropdown-red > li > a:focus {
         background-color: $light-red;
     }
 
-    .dropdown-item{
-        i[class*="nc-icon"]{
+    .dropdown-item {
+        i[class*="nc-icon"] {
             font-size: 18px;
             text-align: center;
             line-height: 25px;
@@ -97,31 +103,32 @@
         }
     }
 
-    &.dropdown-menu-right{
+    &.dropdown-menu-right {
         &:before,
-        &:after{
+        &:after {
             right: 12px !important;
             left: auto !important;
         }
     }
-
 }
 
-.dropdown-with-icons{
-    > li > a{
+.dropdown-with-icons {
+    > li > a {
         padding-left: 0px;
         line-height: 28px;
     }
-    i{
+
+    i {
         text-align: center;
         line-height: 28px;
         float: left;
 
-        &[class^="pe-"]{
-             font-size: 24px;
-             width: 46px;
+        &[class^="pe-"] {
+            font-size: 24px;
+            width: 46px;
         }
-        &[class^="fa"]{
+
+        &[class^="fa"] {
             font-size: 14px;
             width: 38px;
         }
@@ -129,9 +136,10 @@
 }
 
 //fix bug for the select items in btn-group
-.btn-group.select{
+.btn-group.select {
     overflow: hidden;
 }
-.btn-group.select.show{
+
+.btn-group.select.show {
     overflow: visible;
 }
