@@ -1,5 +1,5 @@
 ﻿@model StatusViewModel
-
+@inject IViewLocalizer localizer
 <div class="row">
     <div class="col-lg-3 col-sm-6">
         <div class="card card-stats">
@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-7">
                         <div class="numbers">
-                            <p class="card-category">Machine/Container Name</p>
+                            <p class="card-category">@localizer["MachineName"]</p>
                             <h4 class="card-title">@Model.MachineName</h4>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-7">
                         <div class="numbers">
-                            <p class="card-category">Memory Usage</p>
+                            <p class="card-category">@localizer["MemoryUsage"]</p>
                             <h4 class="card-title">@Model.TotalMemory MB</h4>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-7">
                         <div class="numbers">
-                            <p class="card-category">Enviroment</p>
+                            <p class="card-category">@localizer["Enviroment"]</p>
                             <h4 class="card-title">@Model.Environment</h4>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-7">
                         <div class="numbers">
-                            <p class="card-category">OS Version</p>
+                            <p class="card-category">@localizer["OSVersion"]</p>
                             <h4 class="card-title">@System.Environment.OSVersion</h4>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-3 col-sm-6">
+    <div class="col-lg-6 col-sm-12">
         <div class="card card-stats">
             <div class="card-body ">
                 <div class="row">
@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-7">
                         <div class="numbers">
-                            <p class="card-category">Default Connection</p>
+                            <p class="card-category">@localizer["DefaultConnection"]</p>
                             <h4 class="card-title">@Model.DefaultConnection</h4>
                         </div>
                     </div>
@@ -105,14 +105,14 @@
             <div class="col-md-12">
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">Logs</h4>
-                        <p class="card-category">Last @Model.LogEntries.Count entries.</p>
+                        <h4 class="card-title">@localizer["Logs_Title"]</h4>
+                        <p class="card-category">@localizer["Logs_SubTitle", Model.LogEntries.Count]</p>
                     </div>
                     <div class="card-body table-full-width table-responsive">
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Message</th>
+                                    <th>@localizer["Logs_Message"]</th>
                                 </tr>
                             </thead>
                             <tbody>

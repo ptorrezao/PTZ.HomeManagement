@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -38,12 +39,16 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(PresentationActionFilter));
                 options.Filters.Add(typeof(RequiredPasswordChangeActionFilter));
                 options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            })
+            .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+            .AddDataAnnotationsLocalization();
 
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(ApplicationDbContext.GetConnectionString(Configuration)));
@@ -51,7 +56,6 @@ namespace PTZ.HomeManagement
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -74,6 +78,8 @@ namespace PTZ.HomeManagement
                 app.UseStatusCodePagesWithReExecute("/Control/Error", "?statusCode={0}");
             }
 
+            PrepareLocalization(app);
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -81,6 +87,24 @@ namespace PTZ.HomeManagement
             PrepareRoutes(app);
 
             PrepareLoggers(loggerFactory);
+        }
+
+        private static void PrepareLocalization(IApplicationBuilder app)
+        {
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("pt-PT")
+            };
+
+            var requestLocationOptions = new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures, 
+            };
+
+            app.UseRequestLocalization(requestLocationOptions);
         }
 
         private static void PrepareRoutes(IApplicationBuilder app)

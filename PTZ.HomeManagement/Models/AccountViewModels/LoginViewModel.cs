@@ -16,7 +16,7 @@ namespace PTZ.HomeManagement.Models.AccountViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "RadioButton_Remember_Me")]
         public bool RememberMe { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿<head>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+<head>
     <meta charset="utf-8">
     <link rel="apple-touch-icon" sizes="76x76" href="~/lib/lbd/media/apple-icon.png">
     <link rel="icon" type="image/png" href="~/lib/lbd/media/favicon.ico">
@@ -19,20 +21,16 @@
                     @ViewBag.AppName
                 </a>
             </div>
-
-
             <div class="collapse navbar-collapse justify-content-end" id="navbar">
                 <ul class="navbar-nav">
                     <li class="nav-item  active ">
-                        <a href="@Url.Action("Register")" class="nav-link">Register</a>
+                        <a href="@Url.Action("Register")" class="nav-link">@localizer["Login_Link_Register"]</a>
                     </li>
                     <li class="nav-item ">
-                        <a href="@Url.Action("Login")" class="nav-link">Login</a>
+                        <a href="@Url.Action("Login")" class="nav-link">@localizer["Login_Link_Login"]</a>
                     </li>
                 </ul>
             </div>
-
-
         </div>
     </nav>
     <div class="full-page register-page section-image" data-color="black" data-image="/media/bg1.jpg">
