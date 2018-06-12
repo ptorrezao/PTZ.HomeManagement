@@ -120,6 +120,9 @@
   <data name="Email_Placeholder" xml:space="preserve">
     <value>O seu email</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Recuperar Password</value>
+  </data>
   <data name="Login_Button" xml:space="preserve">
     <value>Entrar</value>
   </data>

@@ -58,28 +58,36 @@ namespace PTZ.HomeManagement.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    if (user != null)
+                    {
+                        if (!await _userManager.IsEmailConfirmedAsync(user))
+                        {
+                            ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
+                            return View(model);
+                        }
+                        else if (result.Succeeded)
+                        {
+                            _logger.LogInformation("User logged in.");
+                            return RedirectToLocal(returnUrl);
+                        }
+                        else if (result.RequiresTwoFactor)
+                        {
+                            return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
+                        }
+                        else if (result.IsLockedOut)
+                        {
+                            _logger.LogWarning("User account locked out.");
+                            return RedirectToAction(nameof(Lockout));
+                        }
+                    }
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToAction(nameof(Lockout));
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form

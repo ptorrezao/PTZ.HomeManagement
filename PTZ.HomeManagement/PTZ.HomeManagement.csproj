@@ -29,6 +29,7 @@
   <ItemGroup>
     <Folder Include="lib\popper\" />
     <Folder Include="Media\" />
+    <Folder Include="Resources\Views\Manage\" />
     <Folder Include="Views\Manage\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -39,14 +40,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PTZ.HomeManagement.Lib\PTZ.HomeManagement.Lib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Resources\Views\Manage\ChangePassword.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ChangePassword.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +61,36 @@
     <EmbeddedResource Update="Resources\Models\ManageViewModels\ChangePasswordViewModel.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ResetPasswordConfirmation.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ResetPasswordConfirmation.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ForgotPasswordConfirmation.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ForgotPasswordConfirmation.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ResetPassword.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ResetPassword.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ConfirmEmail.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ConfirmEmail.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ForgotPassword.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account\ForgotPassword.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Account\Register.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -76,10 +99,6 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Control\Status.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Views\Manage\ChangePassword.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ChangePassword.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Shared\_Login.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -39,6 +39,9 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
+
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddMvc(options =>
