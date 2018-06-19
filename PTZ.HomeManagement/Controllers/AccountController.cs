@@ -74,16 +74,16 @@ namespace PTZ.HomeManagement.Controllers
                             _logger.LogInformation("User logged in.");
                             return RedirectToLocal(returnUrl);
                         }
-                        else if (result.RequiresTwoFactor)
-                        {
-                            return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                        }
-                        else if (result.IsLockedOut)
-                        {
-                            _logger.LogWarning("User account locked out.");
-                            return RedirectToAction(nameof(Lockout));
-                        }
                     }
+                }
+                else if (result.RequiresTwoFactor)
+                {
+                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
+                }
+                else if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToAction(nameof(Lockout));
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

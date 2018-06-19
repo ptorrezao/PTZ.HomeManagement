@@ -8,16 +8,19 @@ namespace PTZ.HomeManagement.Models.ManageViewModels
 {
     public class IndexViewModel
     {
+        [Display(Name = "Username")]
         public string Username { get; set; }
 
+        [Display(Name = "IsEmailConfirmed")]
         public bool IsEmailConfirmed { get; set; }
 
         [Required]
         [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Phone]
-        [Display(Name = "Phone number")]
+        [Display(Name = "PhoneNumber")]
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }

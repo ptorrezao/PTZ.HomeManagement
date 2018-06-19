@@ -521,7 +521,7 @@ namespace PTZ.HomeManagement.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("WebApplication5"),
+                _urlEncoder.Encode("PTZ.HomeManagement"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

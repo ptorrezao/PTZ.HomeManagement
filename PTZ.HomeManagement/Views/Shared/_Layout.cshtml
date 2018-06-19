@@ -30,6 +30,7 @@
             <div class="content">
                 <div class="container-fluid">
                     @RenderBody()
+
                 </div>
             </div>
             @Html.Partial("_Footer")
@@ -43,8 +44,10 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.GoogleMapKey"></script>
     <script type="text/javascript" src="~/lib/chartist/js/chartist.min.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap-notify/js/bootstrap-notify.js"></script>
+    <script type="text/javascript" src="~/lib/qrcode/qrcode.js"></script>
     <script type="text/javascript" src="~/lib/lbd/js/lbd.js"></script>
     <script type="text/javascript" src="~/lib/app.js" asp-append-version="true"></script>
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
