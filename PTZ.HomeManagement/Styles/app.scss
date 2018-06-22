@@ -8,3 +8,7 @@ button.nav-link {
     right: 5px;
     z-index: 999;
 }
+.navbar .navbar-nav .nav-item .nav-link [class^="fa"] {
+    font-size: 12pt;
+}
+
