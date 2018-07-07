@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,10 +40,11 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
-
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.AddAutoMapper();
 
             services.AddMvc(options =>
             {

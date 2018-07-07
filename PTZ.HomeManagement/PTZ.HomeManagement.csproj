@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
     <PackageReference Include="NLog" Version="4.5.4" />
@@ -45,12 +46,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Controllers\ManageController - Copy.en-US,.Designer.cs">
+      <DependentUpon>ManageController.en-US,.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Resources\Controllers\ManageController - Copy.en-US,.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ManageController.en-US.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Controllers\ManageController.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ManageController - Copy.en-US,.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Models\AccountViewModels\LoginWith2faViewModel.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
