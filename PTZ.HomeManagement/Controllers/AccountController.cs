@@ -121,7 +121,7 @@ namespace PTZ.HomeManagement.Controllers
             {
                 return View(model);
             }
-
+          
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
