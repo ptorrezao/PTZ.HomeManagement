@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/lbd/css/index.css" />
     <link rel="stylesheet" href="~/lib/app.css" asp-append-version="true" />
+    <script type="text/javascript" src="~/lib/jquery/js/jquery.3.2.1.min.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -38,7 +39,6 @@
         </div>
     </div>
     <div class="version badge badge-danger">v:@ViewBag.Version</div>
-    <script type="text/javascript" src="~/lib/jquery/js/jquery.3.2.1.min.js"></script>
     <script type="text/javascript" src="~/lib/popper/js/popper.min.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap-switch/js/bootstrap-switch.js"></script>
@@ -50,6 +50,6 @@
     <script type="text/javascript" src="~/lib/lbd/js/lbd.js"></script>
     <script type="text/javascript" src="~/lib/app.js" asp-append-version="true"></script>
     @RenderSection("scripts", required: false)
-
+    @Html.RenderScripts()
 </body>
 </html>

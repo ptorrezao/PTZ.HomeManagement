@@ -1,0 +1,67 @@
+﻿@model BarChartViewModel
+@inject IViewLocalizer localizer
+
+@{
+    var name = Guid.NewGuid().ToString().Replace("-", "");
+    var type = (string)ViewData["Type"];
+    var chosenType = string.IsNullOrEmpty(type) ? "bar" : type;
+}
+<div class="col-lg-8 col-md-6 col-xs-6">
+    <div class="card ">
+        <div class="card-header ">
+            <h4 class="card-title">@localizer["Total_Assets"]</h4>
+            <p class="card-category">@localizer["Total_Assets_SubTitle"]</p>
+        </div>
+        <div class="card-body ">
+            <canvas id="@name"></canvas>
+
+        </div>
+        <div class="card-footer">
+            <hr>
+            <div class="stats">
+
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Script(
+@<script type="text/javascript">
+         $(document).ready(function () {
+             new Chart($("#@name"), config_@name);
+         });
+
+        var config_@name = {
+             type: '@chosenType',
+             data: {
+                 labels:   @Html.Raw(Json.Serialize(Model.Movements.GroupBy(x => x.Day).Select(z => z.Max(x => x.Day.ToShortDateString())))),
+                 datasets: [@foreach (var a in Model.Movements.GroupBy(w => w.Bank))
+                 {
+                     <text>
+                     {
+                         label: '@a.Key.ToString()',
+                         data:  @Html.Raw(Json.Serialize(a.GroupBy(x => x.Day).Select(z => z.Sum(x => x.Amount)))),
+                         backgroundColor: "@a.Key.GetColor()",
+                         borderColor: "@a.Key.GetColor()",
+                         lineTension: 0.1,
+                     },
+                     </text>
+                 }]
+             }, options: {
+                 scales: {
+                     xAxes: [{
+                         stacked: true
+                     }],
+                     yAxes: [{
+                         stacked: true
+                     }]
+                 },
+                 plugins: {
+                     filler: {
+                         propagate: true
+                     }
+                 }
+             }
+         };
+
+
+</script>)
