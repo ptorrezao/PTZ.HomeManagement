@@ -18,23 +18,31 @@ namespace PTZ.HomeManagement.Extentions.TagHelpers
         [HtmlAttributeName("tld-icon")]
         public string icon { get; set; }
 
+        [HtmlAttributeName("tld-initials")]
+        public string initials { get; set; }
+
         public async override void Process(TagHelperContext context, TagHelperOutput output)
         {
             base.Process(context, output);
 
+            var childContent = await output.GetChildContentAsync();
+            string content = childContent.GetContent();
+
             var _icon = "";
             if (!string.IsNullOrEmpty(icon))
             {
-                _icon = "nc-icon " + icon;
+                _icon = $"<i class='nc-icon {icon}'></i><p>{content}</p>";
+            }
+            else
+            {
+                _icon = $"<span class='sidebar-mini'>{initials}</span><span class='sidebar-normal'>{content}</span>";
             }
 
-            var childContent = await output.GetChildContentAsync();
-            string content = childContent.GetContent();
             output.TagName = "li";
             var hrefAttr = output.Attributes.FirstOrDefault(a => a.Name == "href");
             if (hrefAttr != null)
             {
-                output.Content.SetHtmlContent($@"<a class='nav-link' href='{hrefAttr.Value}'><i class='{_icon}'></i><p>{content}</p></a>");
+                output.Content.SetHtmlContent($@"<a class='nav-link' href='{hrefAttr.Value}'>{_icon}</a>");
                 output.Attributes.Remove(hrefAttr);
             }
             else

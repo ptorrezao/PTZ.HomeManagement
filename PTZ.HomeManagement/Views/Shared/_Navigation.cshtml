@@ -2,6 +2,35 @@
 @inject IViewLocalizer localizer
 <ul class="nav">
     <nav-item asp-controller="Control" asp-action="Index" tld-icon="nc-chart-pie-35">@localizer["Index_Page"]</nav-item>
-    <nav-item asp-controller="Control" asp-action="Status" tld-icon="nc-settings-gear-64">@localizer["Status_Page"]</nav-item>
-    <nav-item asp-controller="MyFinance" asp-action="Dashboard" tld-icon="nc-settings-gear-64">@localizer["Dashboard_Page"]</nav-item>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#MyFinance" aria-expanded="false">
+            <i class="nc-icon nc-money-coins"></i>
+            <p>
+                @localizer["Dashboard_Page"]
+                <b class="caret"></b>
+            </p>
+        </a>
+        <div class="collapse " id="MyFinance" style="">
+            <ul class="nav">
+                <nav-item asp-controller="MyFinance" asp-action="Dashboard" tld-initials="DS">@localizer["Dashboard_Page"]</nav-item>
+                <nav-item asp-controller="MyFinance" asp-action="ListAccounts" tld-initials="C">@localizer["Accounts_Page"]</nav-item>
+                <nav-item asp-controller="MyFinance" asp-action="Movements" tld-initials="M">@localizer["Movements_Page"]</nav-item>
+                <nav-item asp-controller="MyFinance" asp-action="Categories" tld-initials="M">@localizer["Categories_Page"]</nav-item>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#System" aria-expanded="false">
+            <i class="nc-icon nc-settings-gear-64"></i>
+            <p>
+                @localizer["System_Page"]
+                <b class="caret"></b>
+            </p>
+        </a>
+        <div class="collapse " id="System" style="">
+            <ul class="nav">
+                <nav-item asp-controller="Control" asp-action="Status" tld-initials="E">@localizer["Status_Page"]</nav-item>
+            </ul>
+        </div>
+    </li>
 </ul>

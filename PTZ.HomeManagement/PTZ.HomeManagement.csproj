@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="lib\chartjs\" />
+    <Folder Include="lib\datatables\" />
     <Folder Include="lib\popper\" />
     <Folder Include="Media\" />
     <Folder Include="Views\Manage\" />
@@ -67,6 +68,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Controllers\ControlController.pt-PT.resx">
+      <LastGenOutput>ManageController - Copy.en-US,.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Controllers\ControlController.en-US.resx">
+      <LastGenOutput>ManageController - Copy.en-US,.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Controllers\ManageController.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ManageController - Copy.en-US,.Designer.cs</LastGenOutput>

@@ -52,7 +52,10 @@ namespace PTZ.HomeManagement.Controllers
 
         public IActionResult ListAccounts()
         {
-            return View();
+            AccountListViewModel lvm = new AccountListViewModel();
+            lvm.Items.Add(new AccountListItemViewModel() { Id = 1, Name = "CGD" });
+            lvm.Items.Add(new AccountListItemViewModel() { Id = 2, Name = "BPI" });
+            return View(lvm);
         }
 
         public IActionResult AddAccount()
