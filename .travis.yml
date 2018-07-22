@@ -12,7 +12,8 @@ before_script:
   - chmod a+x ./deploy.sh
 
 script:
-  - ./build.sh
+  - ./build.sh $SONAR_TOKEN
+
 
 deploy:
   - provider: script
