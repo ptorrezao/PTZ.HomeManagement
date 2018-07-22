@@ -19,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Travis", "Travis", "{FE58DC
 		.travis.yml = .travis.yml
 		build.sh = build.sh
 		deploy.sh = deploy.sh
-		sonar-project.properties = sonar-project.properties
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.Lib", "PTZ.HomeManagement.Lib\PTZ.HomeManagement.Lib.csproj", "{3EBE5903-13B8-4CBB-AFB3-8CD826019D95}"
@@ -35,9 +34,7 @@ Global
 		{F491DD1F-D14D-4ED2-809F-609EE8075F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F491DD1F-D14D-4ED2-809F-609EE8075F61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70B9F108-2C51-44C9-883E-6AA7C6753B07}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3EBE5903-13B8-4CBB-AFB3-8CD826019D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3EBE5903-13B8-4CBB-AFB3-8CD826019D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EBE5903-13B8-4CBB-AFB3-8CD826019D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
