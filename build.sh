@@ -2,7 +2,7 @@
 set -ev
 
 chmod +x SonarScanner.MSBuild/sonar-scanner-3.2.0.1227/bin/sonar-scanner
-dotnet SonarScanner.MSBuild/SonarScanner.MSBuild.dll begin /k:"PTZ.HZ" /d:sonar.organization="ptorrezao-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login=$1
+dotnet SonarScanner.MSBuild/SonarScanner.MSBuild.dll begin /k:"PTZ.HZ" /d:sonar.organization="ptorrezao-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions="PTZ.HomeManagement/lib/**" /d:sonar.login=$1
 dotnet restore PTZ.HomeManagement.sln
 dotnet build PTZ.HomeManagement.sln
 dotnet SonarScanner.MSBuild/SonarScanner.MSBuild.dll  end /d:sonar.login=$1
