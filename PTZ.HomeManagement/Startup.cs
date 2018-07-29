@@ -54,10 +54,7 @@ namespace PTZ.HomeManagement
                 options.Filters.Add(new AuthorizeFilter(policy));
             })
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization(options =>
-            {
-                options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(ModulesNames));
-            });
+            .AddDataAnnotationsLocalization();
 
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(ApplicationDbContext.GetConnectionString(Configuration)));

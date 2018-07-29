@@ -117,22 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accounts_Page" xml:space="preserve">
-    <value>Bank Accounts</value>
+  <data name="Add" xml:space="preserve">
+    <value>Add Bank Account</value>
   </data>
-  <data name="Categories_Page" xml:space="preserve">
-    <value>Categories</value>
+  <data name="AddButton" xml:space="preserve">
+    <value>Save</value>
   </data>
-  <data name="Dashboard_Page" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="AddReturnButton" xml:space="preserve">
+    <value>Return</value>
   </data>
-  <data name="Index_Page" xml:space="preserve">
-    <value>Index</value>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit Bank Account</value>
   </data>
-  <data name="Movements_Page" xml:space="preserve">
-    <value>Movements</value>
+  <data name="EditButton" xml:space="preserve">
+    <value>Save</value>
   </data>
-  <data name="Status_Page" xml:space="preserve">
-    <value>Status</value>
+  <data name="EditReturnButton" xml:space="preserve">
+    <value>Return</value>
   </data>
 </root>

@@ -117,22 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accounts_Page" xml:space="preserve">
-    <value>Bank Accounts</value>
+  <data name="Id" xml:space="preserve">
+    <value>Identificador</value>
   </data>
-  <data name="Categories_Page" xml:space="preserve">
-    <value>Categories</value>
-  </data>
-  <data name="Dashboard_Page" xml:space="preserve">
-    <value>Dashboard</value>
-  </data>
-  <data name="Index_Page" xml:space="preserve">
-    <value>Index</value>
-  </data>
-  <data name="Movements_Page" xml:space="preserve">
-    <value>Movements</value>
-  </data>
-  <data name="Status_Page" xml:space="preserve">
-    <value>Status</value>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
   </data>
 </root>

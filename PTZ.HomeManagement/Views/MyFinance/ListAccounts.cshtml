@@ -29,7 +29,7 @@
                             <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td class="no-sort">
-                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="EditAccount" asp-route-id="@item.Id">@localizer["Edit"]</a> &nbsp;
+                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditAccount" asp-route-id="@item.Id">@localizer["Edit"]</a> &nbsp;
                                 <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteAccount" asp-route-id="@item.Id">@localizer["Delete"]</a>
                             </td>
                         </tr>
@@ -38,7 +38,7 @@
             </table>
         </div>
         <div class="card-footer">
-            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddAccount">
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditAccount">
                 <span class="btn-label">
                     <i class="fa fa-plus"></i>
                 </span>

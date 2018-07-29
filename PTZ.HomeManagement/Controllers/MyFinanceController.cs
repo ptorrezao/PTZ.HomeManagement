@@ -58,20 +58,39 @@ namespace PTZ.HomeManagement.Controllers
             return View(lvm);
         }
 
-        public IActionResult AddAccount()
+        public IActionResult AddOrEditAccount(int? id)
+        {
+            AccountViewModel lvm = new AccountViewModel();
+            lvm.Id = id ?? 0;
+            return View(lvm);
+        }
+
+        [HttpPost]
+        public IActionResult AddOrEditAccount(AccountViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                return Redirect(nameof(ListAccounts));
+            }
+
+            return View(lvm);
+        }
+
+        public IActionResult DeleteAccount(int id)
         {
             AccountViewModel lvm = new AccountViewModel();
             return View(lvm);
         }
 
-        public IActionResult EditAccount()
+        [HttpPost]
+        public IActionResult DeleteAccount(AccountViewModel lvm)
         {
-            return View();
-        }
+            if (ModelState.IsValid)
+            {
+                return Redirect(nameof(ListAccounts));
+            }
 
-        public IActionResult DeleteAccount()
-        {
-            return View();
+            return View(lvm);
         }
 
         public IActionResult ListMovements()
