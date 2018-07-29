@@ -11,9 +11,10 @@ using System;
 namespace PTZ.HomeManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180729153441_Bank Accounts Added")]
+    partial class BankAccountsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,18 +187,10 @@ namespace PTZ.HomeManagement.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Abbreviation")
-                        .IsRequired()
-                        .HasMaxLength(3);
-
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("BankAccounts");
                 });
@@ -245,13 +238,6 @@ namespace PTZ.HomeManagement.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PTZ.HomeManagement.Models.MyFinance.BankAccount", b =>
-                {
-                    b.HasOne("PTZ.HomeManagement.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
                 });
 #pragma warning restore 612, 618
         }

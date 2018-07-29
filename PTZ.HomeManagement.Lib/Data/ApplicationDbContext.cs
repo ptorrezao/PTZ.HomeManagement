@@ -2,12 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.Models.MyFinance;
 using System;
 
 namespace PTZ.HomeManagement.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<BankAccount> BankAccounts { get; set; }
+
         public static string GetConnectionString(IConfiguration Configuration)
         {
             var hostname = Environment.GetEnvironmentVariable("SQLSERVER_HOST");

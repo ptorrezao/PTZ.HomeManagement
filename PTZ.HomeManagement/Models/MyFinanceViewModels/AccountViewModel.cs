@@ -13,5 +13,8 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
 
         [DisplayName("Name")]
         public string Name { get; set; }
+
+        [DisplayName("Abbreviation")]
+        public string Abbreviation { get; set; }
     }
 }

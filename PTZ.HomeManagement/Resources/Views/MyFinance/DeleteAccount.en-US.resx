@@ -117,13 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Abbreviation" xml:space="preserve">
-    <value>Abbreviation</value>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure that you want delete this bank account?</value>
   </data>
-  <data name="Id" xml:space="preserve">
-    <value>Identificador</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete Bank Account</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Nome</value>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ReturnButton" xml:space="preserve">
+    <value>Return</value>
   </data>
 </root>

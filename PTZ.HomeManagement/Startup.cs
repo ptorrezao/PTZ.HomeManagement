@@ -67,6 +67,7 @@ namespace PTZ.HomeManagement
 
             services.AddTransient<ICoreService, CoreService>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IMyFinanceService, MyFinanceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

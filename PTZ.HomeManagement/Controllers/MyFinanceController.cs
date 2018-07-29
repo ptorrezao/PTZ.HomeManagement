@@ -1,6 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.Models.MyFinance;
 using PTZ.HomeManagement.Models.MyFinanceViewModels;
 using PTZ.HomeManagement.Models.MyFinanceViewModels.Enums;
+using PTZ.HomeManagement.Services;
+using PTZ.HomeManagement.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +16,17 @@ namespace PTZ.HomeManagement.Controllers
 {
     public class MyFinanceController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMyFinanceService _myFinanceService;
+
+        public MyFinanceController(
+            IMyFinanceService myFinanceService,
+            UserManager<ApplicationUser> userManager)
+        {
+            _myFinanceService = myFinanceService;
+            _userManager = userManager;
+        }
+
         public IActionResult Dashboard()
         {
             DashboardViewModel vm = new DashboardViewModel();
@@ -50,19 +67,16 @@ namespace PTZ.HomeManagement.Controllers
             return View(vm);
         }
 
-        public IActionResult ListAccounts()
+        public  IActionResult ListAccounts()
         {
-            AccountListViewModel lvm = new AccountListViewModel();
-            lvm.Items.Add(new AccountListItemViewModel() { Id = 1, Name = "CGD" });
-            lvm.Items.Add(new AccountListItemViewModel() { Id = 2, Name = "BPI" });
-            return View(lvm);
+            List<BankAccount> bankAccounts = _myFinanceService.GetBankAccounts(User.GetUserId());
+            return View(Mapper.Map<AccountListViewModel>(bankAccounts));
         }
 
         public IActionResult AddOrEditAccount(int? id)
         {
-            AccountViewModel lvm = new AccountViewModel();
-            lvm.Id = id ?? 0;
-            return View(lvm);
+            BankAccount bankAccount = id.HasValue ? _myFinanceService.GetBankAccount(User.GetUserId(), id.Value) : _myFinanceService.GetBankAccountDefault(User.GetUserId());
+            return View(Mapper.Map<AccountViewModel>(bankAccount));
         }
 
         [HttpPost]
@@ -70,7 +84,9 @@ namespace PTZ.HomeManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                return Redirect(nameof(ListAccounts));
+                _myFinanceService.SaveBankAccount(User.GetUserId(), Mapper.Map<BankAccount>(lvm));
+
+                return RedirectToAction(nameof(ListAccounts));
             }
 
             return View(lvm);
@@ -78,8 +94,8 @@ namespace PTZ.HomeManagement.Controllers
 
         public IActionResult DeleteAccount(int id)
         {
-            AccountViewModel lvm = new AccountViewModel();
-            return View(lvm);
+            BankAccount bankAccount =  _myFinanceService.GetBankAccount(User.GetUserId(), id);
+            return View(Mapper.Map<AccountViewModel>(bankAccount));
         }
 
         [HttpPost]
@@ -87,7 +103,9 @@ namespace PTZ.HomeManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                return Redirect(nameof(ListAccounts));
+                _myFinanceService.DeleteBankAccount(User.GetUserId(), Mapper.Map<BankAccount>(lvm));
+
+                return RedirectToAction(nameof(ListAccounts));
             }
 
             return View(lvm);
