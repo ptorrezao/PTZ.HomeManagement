@@ -60,7 +60,8 @@ namespace PTZ.HomeManagement.Controllers
 
         public IActionResult AddAccount()
         {
-            return View();
+            AccountViewModel lvm = new AccountViewModel();
+            return View(lvm);
         }
 
         public IActionResult EditAccount()
