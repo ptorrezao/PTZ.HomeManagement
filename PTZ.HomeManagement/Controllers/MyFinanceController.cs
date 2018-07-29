@@ -16,7 +16,6 @@ namespace PTZ.HomeManagement.Controllers
 {
     public class MyFinanceController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMyFinanceService _myFinanceService;
 
         public MyFinanceController(
@@ -24,7 +23,6 @@ namespace PTZ.HomeManagement.Controllers
             UserManager<ApplicationUser> userManager)
         {
             _myFinanceService = myFinanceService;
-            _userManager = userManager;
         }
 
         public IActionResult Dashboard()
