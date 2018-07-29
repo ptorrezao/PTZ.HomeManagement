@@ -22,7 +22,7 @@ namespace PTZ.HomeManagement.Controllers
         private readonly ILogger<ControlController> logger;
         private readonly ICoreService core;
         private readonly IConfiguration configuration;
-        private IStringLocalizer<ControlController> _localizer;
+        private readonly IStringLocalizer<ControlController> _localizer;
 
         public ControlController(
             ILogger<ControlController> log,

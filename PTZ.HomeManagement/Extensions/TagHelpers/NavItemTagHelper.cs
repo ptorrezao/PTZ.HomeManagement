@@ -48,27 +48,11 @@ namespace PTZ.HomeManagement.Extentions.TagHelpers
             else
                 output.Content.SetHtmlContent(content);
 
-            MakeNavItem(output);
+            MakeActive(output, "nav-item");
 
             if (ShouldBeActive())
             {
                 MakeActive(output);
-            }
-        }
-
-        private static void MakeNavItem(TagHelperOutput output)
-        {
-            var classAttr = output.Attributes.FirstOrDefault(a => a.Name == "class");
-            if (classAttr == null)
-            {
-                classAttr = new TagHelperAttribute("class", "nav-item");
-                output.Attributes.Add(classAttr);
-            }
-            else if (classAttr.Value == null || classAttr.Value.ToString().IndexOf("nav-item") < 0)
-            {
-                output.Attributes.SetAttribute("class", classAttr.Value == null
-                    ? "nav-item"
-                    : classAttr.Value.ToString() + " nav-item");
             }
         }
 
@@ -98,19 +82,19 @@ namespace PTZ.HomeManagement.Extentions.TagHelpers
             return true;
         }
 
-        private void MakeActive(TagHelperOutput output)
+        private void MakeActive(TagHelperOutput output, string @class = "active")
         {
             var classAttr = output.Attributes.FirstOrDefault(a => a.Name == "class");
             if (classAttr == null)
             {
-                classAttr = new TagHelperAttribute("class", "active");
+                classAttr = new TagHelperAttribute("class", @class);
                 output.Attributes.Add(classAttr);
             }
-            else if (classAttr.Value == null || classAttr.Value.ToString().IndexOf("active") < 0)
+            else if (classAttr.Value == null || classAttr.Value.ToString().IndexOf(@class) < 0)
             {
                 output.Attributes.SetAttribute("class", classAttr.Value == null
-                    ? "active"
-                    : classAttr.Value.ToString() + " active");
+                    ? @class
+                    : classAttr.Value.ToString() + " " + @class);
             }
         }
 

@@ -49,7 +49,7 @@ namespace PTZ.HomeManagement
 
             services.AddMvc(options =>
             {
-                options.Filters.Add(typeof(PresentationActionFilter));
+                options.Filters.Add(typeof(PresentationActionFilterAttribute));
                 options.Filters.Add(typeof(RequiredPasswordChangeActionFilterAttribute));
                 options.Filters.Add(new AuthorizeFilter(policy));
             })
