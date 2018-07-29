@@ -17,7 +17,6 @@ namespace PTZ.HomeManagement.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IStringLocalizer<AccountController> _localizer;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
@@ -32,7 +31,6 @@ namespace PTZ.HomeManagement.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
-            _localizer = localizer;
         }
 
 

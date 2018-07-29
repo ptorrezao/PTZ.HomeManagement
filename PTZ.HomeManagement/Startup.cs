@@ -50,7 +50,7 @@ namespace PTZ.HomeManagement
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(PresentationActionFilter));
-                options.Filters.Add(typeof(RequiredPasswordChangeActionFilter));
+                options.Filters.Add(typeof(RequiredPasswordChangeActionFilterAttribute));
                 options.Filters.Add(new AuthorizeFilter(policy));
             })
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
