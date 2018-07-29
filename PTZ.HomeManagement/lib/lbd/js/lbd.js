@@ -429,7 +429,6 @@ demo = {
         //   fullWidth: true
         // };
         var optionsSales = {
-            lineSmooth: false,
             low: 0,
             high: 800,
             showArea: true,

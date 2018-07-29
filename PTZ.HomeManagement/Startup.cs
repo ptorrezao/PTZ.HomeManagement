@@ -20,6 +20,7 @@ using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Extentions;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Services;
+using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement
 {
@@ -53,7 +54,10 @@ namespace PTZ.HomeManagement
                 options.Filters.Add(new AuthorizeFilter(policy));
             })
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization();
+            .AddDataAnnotationsLocalization(options =>
+            {
+                options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(ModulesNames));
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(ApplicationDbContext.GetConnectionString(Configuration)));
@@ -106,7 +110,7 @@ namespace PTZ.HomeManagement
             {
                 DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US"),
                 SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures, 
+                SupportedUICultures = supportedCultures,
             };
 
             app.UseRequestLocalization(requestLocationOptions);

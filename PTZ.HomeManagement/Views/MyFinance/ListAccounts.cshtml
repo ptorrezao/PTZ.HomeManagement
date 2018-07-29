@@ -1,9 +1,13 @@
 ﻿@inject IViewLocalizer localizer
 @model AccountListViewModel
+
+@{
+    ViewBag.Title= ModulesNames.MyFinance;
+}
 <div class="col-md-12">
     <div class="card strpied-tabled-with-hover">
         <div class="card-header ">
-            <h4 class="card-title">Striped Table with Hover</h4>
+            <h4 class="card-title">@localizer["Title"]</h4>
             <p class="card-category text-right">
 
             </p>
@@ -15,7 +19,7 @@
                     <tr>
                         <th>@Html.DisplayNameFor(x => x.Items.First().Id)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().Name)</th>
-                        <th></th>
+                        <th class="no-sort"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +28,10 @@
                         <tr>
                             <td>@item.Id</td>
                             <td>@item.Name</td>
-                            <td class="no-sort"><a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="EditAccount" asp-route-id="@item.Id">@localizer["Edit"]</a> &nbsp; <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteAccount" asp-route-id="@item.Id">@localizer["Delete"]</a></td>
+                            <td class="no-sort">
+                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="EditAccount" asp-route-id="@item.Id">@localizer["Edit"]</a> &nbsp;
+                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteAccount" asp-route-id="@item.Id">@localizer["Delete"]</a>
+                            </td>
                         </tr>
                     }
                 </tbody>

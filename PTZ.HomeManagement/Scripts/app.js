@@ -11,6 +11,10 @@
             [10, 25, 50, "All"]
         ],
         responsive: true,
+        columnDefs: [
+            { targets: "no-sort", orderable: false },
+            { targets: "hiddenCols", visible: false },
+        ]
     });
 });
 
