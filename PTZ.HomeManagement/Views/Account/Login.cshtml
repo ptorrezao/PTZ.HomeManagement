@@ -1,6 +1,8 @@
 ﻿@model LoginViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = localizer["Login_Title"];
     Layout = "_Login";
     ViewBag.HaveTitle = false;
 }
@@ -8,18 +10,18 @@
     <div class="col-md-5 col-centered">
         <div class="card card-login">
             <div class="card-header ">
-                <h3 class="header text-center">Log in</h3>
+                <h3 class="header text-center">@localizer["Login_Title"]</h3>
             </div>
             <div class="card-body ">
                 <div class="card-body">
                     <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group">
-                            <input asp-for="Email" class="form-control" placeholder="Your Email" />
+                            <input asp-for="Email" class="form-control" placeholder="@localizer["Email_Placeholder"]" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input asp-for="Password" class="form-control" placeholder="Your Password" />
+                            <input asp-for="Password" class="form-control" placeholder="@localizer["Password_Placeholder"]" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -31,12 +33,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-warning btn-fill">Log in</button>
+                            <button type="submit" class="btn btn-warning btn-fill">@localizer["Login_Button"]</button>
                         </div>
                         <div class="form-group">
-                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="btn btn-warning btn-sm">Register as a new user?</a>
+                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="btn btn-warning btn-sm">@localizer["Register_NewUser"]</a>
+                            <a asp-action="ForgotPassword" asp-route-returnurl="@ViewData["ReturnUrl"]" class="btn btn-warning btn-sm">@localizer["ForgotPassword"]</a>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -44,8 +46,6 @@
     </div>
     @Html.Partial("_ExternalLogins")
 </div>
-
-
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

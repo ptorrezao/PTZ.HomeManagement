@@ -159,6 +159,8 @@ namespace PTZ.HomeManagement.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<bool>("RequirePasswordChange");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -177,6 +179,27 @@ namespace PTZ.HomeManagement.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.Models.MyFinance.BankAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Abbreviation")
+                        .IsRequired()
+                        .HasMaxLength(3);
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("BankAccounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -222,6 +245,13 @@ namespace PTZ.HomeManagement.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.Models.MyFinance.BankAccount", b =>
+                {
+                    b.HasOne("PTZ.HomeManagement.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
                 });
 #pragma warning restore 612, 618
         }

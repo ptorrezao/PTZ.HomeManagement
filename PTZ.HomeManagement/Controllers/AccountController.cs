@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Models.AccountViewModels;
@@ -23,7 +24,8 @@ namespace PTZ.HomeManagement.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IStringLocalizer<AccountController> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -54,28 +56,36 @@ namespace PTZ.HomeManagement.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    if (user != null)
+                    {
+                        if (!await _userManager.IsEmailConfirmedAsync(user))
+                        {
+                            ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
+                            return View(model);
+                        }
+                        else if (result.Succeeded)
+                        {
+                            _logger.LogInformation("User logged in.");
+                            return RedirectToLocal(returnUrl);
+                        }
+                    }
                 }
-                if (result.RequiresTwoFactor)
+                else if (result.RequiresTwoFactor)
                 {
                     return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
                 }
-                if (result.IsLockedOut)
+                else if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToAction(nameof(Lockout));
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form
@@ -94,7 +104,7 @@ namespace PTZ.HomeManagement.Controllers
                 throw new ApplicationException($"Unable to load two-factor authentication user.");
             }
 
-            var model = new LoginWith2faViewModel { RememberMe = rememberMe };
+            var model = new LoginWith2FaViewModel { RememberMe = rememberMe };
             ViewData["ReturnUrl"] = returnUrl;
 
             return View(model);
@@ -103,13 +113,13 @@ namespace PTZ.HomeManagement.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
+        public async Task<IActionResult> LoginWith2fa(LoginWith2FaViewModel model, bool rememberMe, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
+          
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {

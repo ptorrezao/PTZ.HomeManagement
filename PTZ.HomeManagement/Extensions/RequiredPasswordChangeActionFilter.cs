@@ -11,21 +11,20 @@ using System.Threading.Tasks;
 
 namespace PTZ.HomeManagement.Extentions
 {
-    public class RequiredPasswordChangeActionFilter : ActionFilterAttribute
+    public class RequiredPasswordChangeActionFilterAttribute : ActionFilterAttribute
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public RequiredPasswordChangeActionFilter(UserManager<ApplicationUser> userManager)
+        public RequiredPasswordChangeActionFilterAttribute(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var controller = filterContext.RouteData.Values["Controller"];
-            var action = filterContext.RouteData.Values["Action"];
+            var action = context.RouteData.Values["Action"];
 
-            string username = filterContext.HttpContext.User.Identity.Name;
+            string username = context.HttpContext.User.Identity.Name;
             if (action.ToString() != nameof(ManageController.ChangePassword))
             {
                 if (!string.IsNullOrEmpty(username))
@@ -34,9 +33,7 @@ namespace PTZ.HomeManagement.Extentions
 
                     if (user.RequirePasswordChange)
                     {
-                        RouteValueDictionary routeValues = new RouteValueDictionary(filterContext.RouteData.Values);
-
-                        filterContext.Result = new RedirectToRouteResult(
+                        context.Result = new RedirectToRouteResult(
                             new RouteValueDictionary
                             {
                                 { "controller", nameof(ManageController).Replace("Controller","") },

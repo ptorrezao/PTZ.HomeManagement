@@ -1,0 +1,11 @@
+﻿@model DashboardViewModel
+@inject IViewLocalizer localizer
+@{
+    ViewBag.Title = ModulesNames.MyFinance;
+    //ViewData.AddActivePage(ManageNavPages.Index);
+}
+
+<div class="row">
+    @Html.DisplayFor(x => x.DoughnutChart, new { Type = "pie" })
+    @Html.DisplayFor(x => x.BarChart, new { Type = "bar" })
+</div>

@@ -2,12 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.Models.MyFinance;
 using System;
 
 namespace PTZ.HomeManagement.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<BankAccount> BankAccounts { get; set; }
+
         public static string GetConnectionString(IConfiguration Configuration)
         {
             var hostname = Environment.GetEnvironmentVariable("SQLSERVER_HOST");
@@ -30,14 +33,6 @@ namespace PTZ.HomeManagement.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-        }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
     }
 }

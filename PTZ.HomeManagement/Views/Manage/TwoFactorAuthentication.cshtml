@@ -1,49 +1,129 @@
 @model TwoFactorAuthenticationViewModel
+@inject IViewLocalizer localizer
 @{
-    ViewData["Title"] = "Two-factor authentication";
+    ViewData["Title"] = localizer["Title"];
     //ViewData.AddActivePage(ManageNavPages.TwoFactorAuthentication);
 }
 
-<h4>@ViewData["Title"]</h4>
-@if (Model.Is2faEnabled)
-{
-    if (Model.RecoveryCodesLeft == 0)
+<div class="row">
+    @if (Model.Is2faEnabled)
     {
-        <div class="alert alert-danger">
-            <strong>You have no recovery codes left.</strong>
-            <p>You must <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
-        </div>
-    }
-    else if (Model.RecoveryCodesLeft == 1)
-    {
-        <div class="alert alert-danger">
-            <strong>You have 1 recovery code left.</strong>
-            <p>You can <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
-        </div>
-    }
-    else if (Model.RecoveryCodesLeft <= 3)
-    {
-        <div class="alert alert-warning">
-            <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
-            <p>You should <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+        <div class="col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewBag.Title</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecoveryCodesLeft == 0)
+                    {
+                        <div class="alert alert-danger">
+                            <strong>@localizer["NoRecoveryCodeLeft"]</strong>
+                            <p>You must <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                        </div>
+                    }
+                    else if (Model.RecoveryCodesLeft == 1)
+                    {
+                        <div class="alert alert-danger">
+                            <strong>@localizer["OneRecoveryCodeLeft"]</strong>
+                            <p>You can <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                        </div>
+                    }
+                    else if (Model.RecoveryCodesLeft <= 3)
+                    {
+                        <div class="alert alert-warning">
+                            <strong>@localizer["NRecoveryCodeLeft", Model.RecoveryCodesLeft]</strong>
+                            <p>You should <a asp-action="GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                        </div>
+                    }
+
+                    <a class="btn btn-danger btn-sm btn-fill" data-toggle="modal" data-target="#Disabling2F" href="#">@localizer["Disable2FA"]</a>
+                    <a class="btn btn-warning btn-sm btn-fill" data-toggle="modal" data-target="#ResetCodes" href="#">@localizer["ResetRecoveryCodes"]</a>
+                </div>
+            </div>
         </div>
     }
 
-    <a asp-action="Disable2faWarning" class="btn btn-default">Disable 2FA</a>
-    <a asp-action="GenerateRecoveryCodesWarning" class="btn btn-default">Reset recovery codes</a>
-}
+    <div class="col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">@localizer["AuthenticatorApp"]</h4>
+            </div>
+            <div class="card-body">
+                @if (!Model.HasAuthenticator)
+                {
+                    <a asp-action="EnableAuthenticator" class="btn btn-default btn-sm">@localizer["AddAuthenticatorApp"]</a>
+                }
+                else
+                {
+                    <a asp-action="EnableAuthenticator" class="btn btn-primary btn-fill btn-sm">@localizer["ConfigureAuthenticatorApp"]</a>
+                    <a class="btn btn-warning btn-sm btn-fill" data-toggle="modal" data-target="#ResetAuthenticatorKey" href="#">@localizer["ResetAuthenticatorKey"]</a>
+                }
+            </div>
+        </div>
+    </div>
 
-<h5>Authenticator app</h5>
-@if (!Model.HasAuthenticator)
-{
-    <a asp-action="EnableAuthenticator" class="btn btn-default">Add authenticator app</a>
-}
-else
-{
-    <a asp-action="EnableAuthenticator" class="btn btn-default">Configure authenticator app</a>
-    <a asp-action="ResetAuthenticatorWarning" class="btn btn-default">Reset authenticator key</a>
-}
-
+</div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+
+<div class="modal fade modal-mini modal-primary" id="Disabling2F" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <form asp-action="Disable2fa" asp-controller="Manage" method="post" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                @localizer["Disabling2F"]
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link btn-simple" data-dismiss="modal">@localizer["Back"]</button>
+                <button class="btn btn-danger btn-fill" type="submit">@localizer["Disable2FA"]</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade modal-mini modal-primary" id="ResetCodes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <form asp-action="GenerateRecoveryCodes" asp-controller="Manage" method="post" class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    <strong> @localizer["GenerateRecoveryCodesTitle"]</strong>
+                </p>
+                <p>
+                    @localizer["LoseAccount"]
+                </p>
+                <p>
+                    @localizer["GenerateRecoveryCodesDontChangeKey"]
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link btn-simple" data-dismiss="modal">@localizer["Back"]</button>
+                <button class="btn btn-warning btn-fill" type="submit">@localizer["GenerateRecoveryCodes"]</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade modal-mini modal-primary" id="ResetAuthenticatorKey" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <form asp-action="ResetAuthenticator" asp-controller="Manage" method="post" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p>
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+
+                    <strong> @localizer["AuthenticatorAppWillNotWork"]</strong>
+                </p>
+                <p>
+                    @localizer["ThisProcessdisables2FA"]
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link btn-simple" data-dismiss="modal">@localizer["Back"]</button>
+                <button class="btn btn-warning btn-fill" type="submit">@localizer["ResetAuthenticatorKey"]</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+

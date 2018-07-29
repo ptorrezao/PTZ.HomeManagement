@@ -23,15 +23,17 @@ namespace PTZ.HomeManagement.Data
 
                 await EnsureRole(serviceProvider, Roles.User);
 
-                SeedDB(context, adminID);
+                SeedDB(context);
             }
         }
 
 
-        private static void SeedDB(ApplicationDbContext context, string adminID)
+        private static void SeedDB(ApplicationDbContext context)
         {
             if (context.Roles.Any())
             {
+                Console.WriteLine("DB has been seeded");
+
                 return; // DB has been seeded
             }
         }

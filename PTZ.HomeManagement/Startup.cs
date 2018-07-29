@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +20,7 @@ using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Extentions;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Services;
+using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement
 {
@@ -38,12 +41,20 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.AddAutoMapper();
+
             services.AddMvc(options =>
             {
-                options.Filters.Add(typeof(PresentationActionFilter));
-                options.Filters.Add(typeof(RequiredPasswordChangeActionFilter));
+                options.Filters.Add(typeof(PresentationActionFilterAttribute));
+                options.Filters.Add(typeof(RequiredPasswordChangeActionFilterAttribute));
                 options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            })
+            .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+            .AddDataAnnotationsLocalization();
 
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(ApplicationDbContext.GetConnectionString(Configuration)));
@@ -52,11 +63,11 @@ namespace PTZ.HomeManagement
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<ICoreService, CoreService>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IMyFinanceService, MyFinanceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +85,8 @@ namespace PTZ.HomeManagement
                 app.UseStatusCodePagesWithReExecute("/Control/Error", "?statusCode={0}");
             }
 
+            PrepareLocalization(app);
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -81,6 +94,24 @@ namespace PTZ.HomeManagement
             PrepareRoutes(app);
 
             PrepareLoggers(loggerFactory);
+        }
+
+        private static void PrepareLocalization(IApplicationBuilder app)
+        {
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("pt-PT")
+            };
+
+            var requestLocationOptions = new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+            };
+
+            app.UseRequestLocalization(requestLocationOptions);
         }
 
         private static void PrepareRoutes(IApplicationBuilder app)

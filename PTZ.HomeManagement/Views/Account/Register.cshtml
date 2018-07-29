@@ -1,6 +1,8 @@
-﻿@model RegisterViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+@model RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = localizer["Register_Title"];
     Layout = "_Login";
     ViewBag.HaveTitle = true;
 }
@@ -14,8 +16,8 @@
                 </div>
             </div>
             <div class="media-body">
-                <h4>Title</h4>
-                <p>Here you can write a feature description for your dashboard, let the users know what is the value that you give them.</p>
+                <h4>@localizer["Register_FeatureDescription_Title"]</h4>
+                <p>@localizer["Register_FeatureDescription_Detail"]</p>
             </div>
         </div>
     </div>
@@ -23,17 +25,17 @@
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <input asp-for="Email" class="form-control" placeholder="Your Email" />
+                <input asp-for="Email" class="form-control" placeholder="@localizer["Register_Email_Placeholder"]" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Password" class="form-control" placeholder="Your Password" />
+                <input asp-for="Password" class="form-control" placeholder="@localizer["Register_Password_Placeholder"]" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Your Password" />
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="@localizer["Register_ConfirmPassword_Placeholder"]" />
             </div>
-            <button type="submit" class="btn btn-fill btn-neutral btn-wd">Create Free Account</button>
+            <button type="submit" class="btn btn-fill btn-neutral btn-wd">@localizer["Register_CreateAccount_Button"]</button>
         </form>
     </div>
 </div>

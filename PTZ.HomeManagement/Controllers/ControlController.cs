@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
@@ -19,20 +22,55 @@ namespace PTZ.HomeManagement.Controllers
         private readonly ILogger<ControlController> logger;
         private readonly ICoreService core;
         private readonly IConfiguration configuration;
+        private readonly IStringLocalizer<ControlController> _localizer;
 
         public ControlController(
             ILogger<ControlController> log,
             ICoreService coreSvc,
-            IConfiguration configurationSvc)
+            IConfiguration configurationSvc,
+            IStringLocalizer<ControlController> localizer)
         {
             logger = log;
             core = coreSvc;
             configuration = configurationSvc;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        public string DatatablesLanguage()
+        {
+            var DataTableLanguage = new
+            {
+                sEmptyTable = _localizer["sEmptyTable"].ToString(),
+                sProcessing = _localizer["sProcessing"].ToString(),
+                sLengthMenu = _localizer["sLengthMenu"].ToString(),
+                sZeroRecords = _localizer["sZeroRecords"].ToString(),
+                sInfo = _localizer["sInfo"].ToString(),
+                sInfoEmpty = _localizer["sInfoEmpty"].ToString(),
+                sInfoFiltered = _localizer["sInfoFiltered"].ToString(),
+                sInfoPostFix = _localizer["sInfoPostFix"].ToString(),
+                sSearch = _localizer["sSearch"].ToString(),
+                sUrl = "",
+                oPaginate = new
+                {
+                    sFirst = "|«",
+                    sPrevious = "«",
+                    sNext = "»",
+                    sLast = "»|"
+                },
+                oAria = new
+                {
+                    sSortAscending = _localizer["sSortAscending"].ToString(),
+                    sSortDescending = _localizer["sSortDescending"].ToString()
+                }
+            };
+            string output = JsonConvert.SerializeObject(DataTableLanguage);
+            return output;
         }
 
         public IActionResult Status()
