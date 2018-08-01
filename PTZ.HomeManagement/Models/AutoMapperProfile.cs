@@ -23,6 +23,12 @@ namespace PTZ.HomeManagement.Models
 
             CreateMap<BankAccount, AccountViewModel>();
             CreateMap<AccountViewModel, BankAccount>();
+
+            CreateMap<BankAccount, AccountMovementListViewModel>();
+            CreateMap<BankAccountMovement, AccountMovementListItemViewModel>();
+
+            CreateMap<BankAccountMovement, AccountMovementViewModel>();
+            CreateMap<AccountMovementViewModel, BankAccountMovement>();
         }
     }
 }

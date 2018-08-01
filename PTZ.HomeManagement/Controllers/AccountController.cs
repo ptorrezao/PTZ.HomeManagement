@@ -101,7 +101,7 @@ namespace PTZ.HomeManagement.Controllers
 
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ArgumentException($"Unable to load two-factor authentication user.");
             }
 
             var model = new LoginWith2FaViewModel { RememberMe = rememberMe };
@@ -123,7 +123,7 @@ namespace PTZ.HomeManagement.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ArgumentException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             var authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
@@ -156,7 +156,7 @@ namespace PTZ.HomeManagement.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ArgumentException($"Unable to load two-factor authentication user.");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -177,7 +177,7 @@ namespace PTZ.HomeManagement.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ArgumentException($"Unable to load two-factor authentication user.");
             }
 
             var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
@@ -313,7 +313,7 @@ namespace PTZ.HomeManagement.Controllers
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    throw new ApplicationException("Error loading external login information during confirmation.");
+                    throw new ArgumentException("Error loading external login information during confirmation.");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
@@ -345,7 +345,7 @@ namespace PTZ.HomeManagement.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+                throw new ArgumentException($"Unable to load user with ID '{userId}'.");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
@@ -398,7 +398,7 @@ namespace PTZ.HomeManagement.Controllers
         {
             if (code == null)
             {
-                throw new ApplicationException("A code must be supplied for password reset.");
+                throw new ArgumentException("A code must be supplied for password reset.");
             }
             var model = new ResetPasswordViewModel { Code = code };
             return View(model);

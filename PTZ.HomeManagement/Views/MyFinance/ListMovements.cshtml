@@ -1,0 +1,60 @@
+﻿@inject IViewLocalizer localizer
+@model AccountMovementListViewModel
+
+@{
+    ViewBag.Title = ModulesNames.MyFinance;
+}
+<div class="col-md-12">
+    <div class="card strpied-tabled-with-hover">
+        <div class="card-header ">
+            <h4 class="card-title">@localizer["Title"] - @Model.Name</h4>
+            <p class="card-category text-right">
+
+            </p>
+        </div>
+        <div class="card-body table-full-width table-responsive">
+
+            <table class="table table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().MovementDate)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().ValueDate)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Description)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Amount)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().TotalBalanceAfterMovement)</th>
+                        <th class="no-sort"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (AccountMovementListItemViewModel item in Model.Items)
+                    {
+                    <tr>
+                        <td>@item.MovementDate.ToShortDateString()</td>
+                        <td>@item.ValueDate.ToShortDateString()</td>
+                        <td>@item.Description</td>
+                        <td>@item.Amount</td>
+                        <td>@item.TotalBalanceAfterMovement</td>
+                        <td class="no-sort">
+                            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Edit"]</a> &nbsp;
+                            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Delete"]</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline">
+                <span class="btn-label">
+                    <i class="fa fa-arrow-left"></i>
+                </span>@localizer["ReturnButton"]
+            </a> &nbsp;
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-bankAccountId="@Model.Id">
+                <span class="btn-label">
+                    <i class="fa fa-plus"></i>
+                </span>
+                @localizer["Add"]
+            </a>
+        </div>
+    </div>
+</div>

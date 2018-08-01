@@ -110,6 +110,18 @@
     <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountListItemViewModel.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountMovementListItemViewModel.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountMovementListItemViewModel.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountMovementViewModel.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountMovementViewModel.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountViewModel.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -185,6 +197,15 @@
     <EmbeddedResource Update="Resources\Views\Manage\ChangePassword.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\AddOrEditMovement.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\DeleteMovement.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\DeleteMovement.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\MyFinance\DeleteAccount.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -195,6 +216,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\MyFinance\AddOrEditAccount.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\AddOrEditMovement.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\ListMovements.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\ListMovements.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\MyFinance\ListAccounts.en-US.resx">

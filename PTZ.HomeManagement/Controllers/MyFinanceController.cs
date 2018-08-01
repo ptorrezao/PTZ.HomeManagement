@@ -109,10 +109,56 @@ namespace PTZ.HomeManagement.Controllers
             return View(lvm);
         }
 
-        public IActionResult ListMovements()
+        public IActionResult ListMovements(int bankAccountId)
         {
-            return View();
+            BankAccount bankAccount = _myFinanceService.GetBankAccount(User.GetUserId(), bankAccountId);
+            List<BankAccountMovement> movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccountId);
+
+            AccountMovementListViewModel lvm = Mapper.Map<AccountMovementListViewModel>(bankAccount);
+            lvm.Items = Mapper.Map<List<AccountMovementListItemViewModel>>(movements);
+            return View(lvm);
         }
+
+        public IActionResult AddOrEditMovement(int bankAccountId, int? id)
+        {
+            BankAccountMovement movement = id.HasValue ? _myFinanceService.GetBankAccountMovement(User.GetUserId(), bankAccountId,  id.Value) : _myFinanceService.GetBankAccountMovementDefault(User.GetUserId(), bankAccountId);
+
+            return View(Mapper.Map<AccountMovementViewModel>(movement));
+        }
+
+        [HttpPost]
+        public IActionResult AddOrEditMovement(int bankAccountId, AccountMovementViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _myFinanceService.SaveBankAccountMovement(User.GetUserId(), bankAccountId, Mapper.Map<BankAccountMovement>(lvm));
+
+                return RedirectToAction(nameof(ListMovements), new { bankAccountId = bankAccountId }); ;
+            }
+
+            return View(lvm);
+        }
+
+
+        public IActionResult DeleteMovement(int bankAccountId, int? id)
+        {
+            BankAccountMovement movement = _myFinanceService.GetBankAccountMovement(User.GetUserId(), bankAccountId, id.Value);
+            return View(Mapper.Map<AccountMovementViewModel>(movement));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteMovement(int bankAccountId, AccountMovementViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _myFinanceService.DeleteBankAccountMovement(User.GetUserId(), bankAccountId, Mapper.Map<BankAccountMovement>(lvm));
+
+                return RedirectToAction(nameof(ListMovements), new { bankAccountId = bankAccountId });
+            }
+
+            return View(lvm);
+        }
+        
 
         public IActionResult ImportMovements()
         {

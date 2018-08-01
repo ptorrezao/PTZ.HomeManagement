@@ -25,21 +25,18 @@ namespace PTZ.HomeManagement.Extentions
             var action = context.RouteData.Values["Action"];
 
             string username = context.HttpContext.User.Identity.Name;
-            if (action.ToString() != nameof(ManageController.ChangePassword))
+            if (action.ToString() != nameof(ManageController.ChangePassword) && !string.IsNullOrEmpty(username))
             {
-                if (!string.IsNullOrEmpty(username))
-                {
-                    var user = _userManager.Users.FirstOrDefault(x => x.UserName == username);
+                var user = _userManager.Users.FirstOrDefault(x => x.UserName == username);
 
-                    if (user.RequirePasswordChange)
-                    {
-                        context.Result = new RedirectToRouteResult(
-                            new RouteValueDictionary
-                            {
+                if (user.RequirePasswordChange)
+                {
+                    context.Result = new RedirectToRouteResult(
+                        new RouteValueDictionary
+                        {
                                 { "controller", nameof(ManageController).Replace("Controller","") },
                                 { "action", nameof(ManageController.ChangePassword) },
-                            });
-                    }
+                        });
                 }
             }
         }

@@ -10,6 +10,7 @@ namespace PTZ.HomeManagement.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<BankAccountMovement> BankAccountMovements { get; set; }
 
         public static string GetConnectionString(IConfiguration Configuration)
         {
