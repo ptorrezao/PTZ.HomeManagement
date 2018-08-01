@@ -36,6 +36,8 @@ namespace PTZ.HomeManagement.Data
 
                 return; // DB has been seeded
             }
+
+            Console.WriteLine("DB is now seeded");
         }
 
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider,
