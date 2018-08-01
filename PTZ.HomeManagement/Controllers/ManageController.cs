@@ -79,7 +79,7 @@ namespace PTZ.HomeManagement.Controllers
                 IdentityResult setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
                 if (!setEmailResult.Succeeded)
                 {
-                    throw new ApplicationException(_localizer["Unexpected_Error_Occurred_Setting_Email", user.Id]);
+                    throw new ArgumentException(_localizer["Unexpected_Error_Occurred_Setting_Email", user.Id]);
                 }
             }
 
@@ -89,7 +89,7 @@ namespace PTZ.HomeManagement.Controllers
                 IdentityResult setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    throw new ApplicationException(_localizer["Unexpected_Error_Occurred_Setting_PhoneNumber", user.Id]);
+                    throw new ArgumentException(_localizer["Unexpected_Error_Occurred_Setting_PhoneNumber", user.Id]);
                 }
             }
 
@@ -235,13 +235,13 @@ namespace PTZ.HomeManagement.Controllers
             ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync(user.Id);
             if (info == null)
             {
-                throw new ApplicationException(_localizer["Unexpected_Error_Occurred_LoadingExternalLogin", user.Id]);
+                throw new ArgumentException(_localizer["Unexpected_Error_Occurred_LoadingExternalLogin", user.Id]);
             }
 
             IdentityResult result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                throw new ApplicationException(_localizer["Unexpected_Error_Occurred_AddingExternalLogin", user.Id]);
+                throw new ArgumentException(_localizer["Unexpected_Error_Occurred_AddingExternalLogin", user.Id]);
             }
 
             // Clear the existing external cookie to ensure a clean login process
@@ -262,7 +262,7 @@ namespace PTZ.HomeManagement.Controllers
             if (!result.Succeeded)
             {
                 {
-                    throw new ApplicationException(_localizer["Unexpected_Error_Occurred_RemovingExternalLogin", user.Id]);
+                    throw new ArgumentException(_localizer["Unexpected_Error_Occurred_RemovingExternalLogin", user.Id]);
                 }
             }
 
@@ -293,7 +293,7 @@ namespace PTZ.HomeManagement.Controllers
 
             if (!user.TwoFactorEnabled)
             {
-                throw new ApplicationException(_localizer["Unexpected_Error_Occurred_Desabiling2FA", user.Id]);
+                throw new ArgumentException(_localizer["Unexpected_Error_Occurred_Desabiling2FA", user.Id]);
             }
 
             return View(nameof(Disable2fa));
@@ -308,7 +308,7 @@ namespace PTZ.HomeManagement.Controllers
             IdentityResult disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
             if (!disable2faResult.Succeeded)
             {
-                throw new ApplicationException(_localizer["Unexpected_Error_Occurred_Desabiling2FA", user.Id]);
+                throw new ArgumentException(_localizer["Unexpected_Error_Occurred_Desabiling2FA", user.Id]);
             }
 
             _logger.LogInformation(_localizer["UserDisabled", user.Id]);
@@ -397,7 +397,7 @@ namespace PTZ.HomeManagement.Controllers
 
             if (!user.TwoFactorEnabled)
             {
-                throw new ApplicationException(_localizer["CannotGenerateRecoveryCodes", user.Id]);
+                throw new ArgumentException(_localizer["CannotGenerateRecoveryCodes", user.Id]);
             }
 
             return View(nameof(GenerateRecoveryCodes));
@@ -411,7 +411,7 @@ namespace PTZ.HomeManagement.Controllers
 
             if (!user.TwoFactorEnabled)
             {
-                throw new ApplicationException(_localizer["CannotGenerateRecoveryCodes", user.Id]);
+                throw new ArgumentException(_localizer["CannotGenerateRecoveryCodes", user.Id]);
             }
 
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
@@ -476,7 +476,7 @@ namespace PTZ.HomeManagement.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException(_localizer["UnableToLoadUser", _userManager.GetUserId(User)]);
+                throw new ArgumentException(_localizer["UnableToLoadUser", _userManager.GetUserId(User)]);
             }
 
             return user;

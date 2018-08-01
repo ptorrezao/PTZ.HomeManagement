@@ -24,7 +24,7 @@ namespace PTZ.HomeManagement.Utils
                 Target target = LogManager.Configuration.FindTargetByName(targetName);
                 if (target == null)
                 {
-                    throw new ArgumentNullException("Could not find target named: " + targetName);
+                    throw new ArgumentException("Could not find target named: " + targetName);
                 }
 
                 FileTarget fileTarget = null;
@@ -42,7 +42,7 @@ namespace PTZ.HomeManagement.Utils
 
                 if (fileTarget == null)
                 {
-                    throw new ArgumentNullException("Could not find target named: " + targetName);
+                    throw new ArgumentException("Could not find target named: " + targetName);
                 }
 
                 var logEventInfo = new LogEventInfo { TimeStamp = DateTime.Now };
@@ -50,7 +50,7 @@ namespace PTZ.HomeManagement.Utils
             }
             else
             {
-                throw new ArgumentNullException("LogManager contains no Configuration or there are no named targets");
+                throw new ArgumentException("LogManager contains no Configuration or there are no named targets");
             }
 
             return fileName;
