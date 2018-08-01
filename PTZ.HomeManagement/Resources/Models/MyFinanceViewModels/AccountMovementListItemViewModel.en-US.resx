@@ -117,19 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add" xml:space="preserve">
-    <value>Adicionar Conta</value>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Eliminar</value>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Editar</value>
+  <data name="Id" xml:space="preserve">
+    <value>Identificador</value>
   </data>
-  <data name="ListMovements" xml:space="preserve">
-    <value>Movimentos</value>
+  <data name="MovementDate" xml:space="preserve">
+    <value>Movement Date</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>Contas</value>
+  <data name="TotalBalanceAfterMovement" xml:space="preserve">
+    <value>Total Balance After Mov.</value>
+  </data>
+  <data name="ValueDate" xml:space="preserve">
+    <value>Value Date</value>
   </data>
 </root>

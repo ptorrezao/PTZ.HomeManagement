@@ -11,9 +11,10 @@ using System;
 namespace PTZ.HomeManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180731220706_BankAccountMovement")]
+    partial class BankAccountMovement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,7 +224,7 @@ namespace PTZ.HomeManagement.Migrations
 
                     b.HasIndex("BankAccountId");
 
-                    b.ToTable("BankAccountMovements");
+                    b.ToTable("BankAccountMovement");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

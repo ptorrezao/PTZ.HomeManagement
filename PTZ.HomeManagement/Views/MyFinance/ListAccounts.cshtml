@@ -32,7 +32,8 @@
                             <td>@item.Abbreviation</td>
                             <td class="no-sort">
                                 <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditAccount" asp-route-id="@item.Id">@localizer["Edit"]</a> &nbsp;
-                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteAccount" asp-route-id="@item.Id">@localizer["Delete"]</a>
+                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteAccount" asp-route-id="@item.Id">@localizer["Delete"]</a> &nbsp;
+                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="ListMovements" asp-route-bankAccountId="@item.Id">@localizer["ListMovements"]</a>
                             </td>
                         </tr>
                     }

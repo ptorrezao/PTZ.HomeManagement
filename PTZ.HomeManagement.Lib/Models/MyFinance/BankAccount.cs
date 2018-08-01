@@ -17,5 +17,7 @@ namespace PTZ.HomeManagement.Models.MyFinance
         public string Abbreviation { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public virtual List<BankAccountMovement> Movements { get; set; }
     }
 }

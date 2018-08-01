@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add" xml:space="preserve">
-    <value>Adicionar Conta</value>
+    <value>Add Movement</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Eliminar</value>
+    <value>Delete</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Editar</value>
+    <value>Edit</value>
   </data>
-  <data name="ListMovements" xml:space="preserve">
-    <value>Movimentos</value>
+  <data name="ReturnButton" xml:space="preserve">
+    <value>Return</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Contas</value>
+    <value>Movements</value>
   </data>
 </root>
