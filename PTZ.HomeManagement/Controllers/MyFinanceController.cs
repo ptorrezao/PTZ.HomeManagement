@@ -65,7 +65,7 @@ namespace PTZ.HomeManagement.Controllers
             return View(vm);
         }
 
-        public  IActionResult ListAccounts()
+        public IActionResult ListAccounts()
         {
             List<BankAccount> bankAccounts = _myFinanceService.GetBankAccounts(User.GetUserId());
             return View(Mapper.Map<AccountListViewModel>(bankAccounts));
@@ -92,7 +92,7 @@ namespace PTZ.HomeManagement.Controllers
 
         public IActionResult DeleteAccount(int id)
         {
-            BankAccount bankAccount =  _myFinanceService.GetBankAccount(User.GetUserId(), id);
+            BankAccount bankAccount = _myFinanceService.GetBankAccount(User.GetUserId(), id);
             return View(Mapper.Map<AccountViewModel>(bankAccount));
         }
 
@@ -121,7 +121,7 @@ namespace PTZ.HomeManagement.Controllers
 
         public IActionResult AddOrEditMovement(int bankAccountId, int? id)
         {
-            BankAccountMovement movement = id.HasValue ? _myFinanceService.GetBankAccountMovement(User.GetUserId(), bankAccountId,  id.Value) : _myFinanceService.GetBankAccountMovementDefault(User.GetUserId(), bankAccountId);
+            BankAccountMovement movement = id.HasValue ? _myFinanceService.GetBankAccountMovement(User.GetUserId(), bankAccountId, id.Value) : _myFinanceService.GetBankAccountMovementDefault(User.GetUserId(), bankAccountId);
 
             return View(Mapper.Map<AccountMovementViewModel>(movement));
         }
@@ -133,7 +133,7 @@ namespace PTZ.HomeManagement.Controllers
             {
                 _myFinanceService.SaveBankAccountMovement(User.GetUserId(), bankAccountId, Mapper.Map<BankAccountMovement>(lvm));
 
-                return RedirectToAction(nameof(ListMovements), new { bankAccountId = bankAccountId }); ;
+                return RedirectToAction(nameof(ListMovements), new { bankAccountId });
             }
 
             return View(lvm);
@@ -153,12 +153,12 @@ namespace PTZ.HomeManagement.Controllers
             {
                 _myFinanceService.DeleteBankAccountMovement(User.GetUserId(), bankAccountId, Mapper.Map<BankAccountMovement>(lvm));
 
-                return RedirectToAction(nameof(ListMovements), new { bankAccountId = bankAccountId });
+                return RedirectToAction(nameof(ListMovements), new { bankAccountId });
             }
 
             return View(lvm);
         }
-        
+
 
         public IActionResult ImportMovements()
         {
