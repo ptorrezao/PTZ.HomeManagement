@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Models.MyFinance;
@@ -7,11 +8,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace PTZ.HomeManagement.Services
+namespace PTZ.HomeManagement.Services.MyFinance
 {
     public class MyFinanceService : IMyFinanceService
     {
         private readonly ApplicationDbContext context;
+        private BankAccountMovementImportFactory factory;
 
         public MyFinanceService(ApplicationDbContext context)
         {
@@ -84,11 +86,44 @@ namespace PTZ.HomeManagement.Services
                 context.SaveChanges();
             }
         }
+        public List<BankAccountMovement> SaveBankAccountMovements(string userId, int bankAccountId, List<BankAccountMovement> list)
+        {
+            if (context.BankAccounts.Any(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId))
+            {
+                foreach (var bankAccountMovement in list)
+                {
+                    bankAccountMovement.BankAccount = context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
+                    context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
+                }
+
+                context.SaveChanges();
+            }
+
+            return list;
+        }
         public void DeleteBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement)
         {
-            var elementsToRemove = context.BankAccountMovements.Where(x => x.BankAccount.Id == bankAccountId && x.BankAccount.ApplicationUser.Id == userId && x.Id== bankAccountMovement.Id);
+            var elementsToRemove = context.BankAccountMovements.Where(x => x.BankAccount.Id == bankAccountId && x.BankAccount.ApplicationUser.Id == userId && x.Id == bankAccountMovement.Id);
             context.BankAccountMovements.RemoveRange(elementsToRemove);
             context.SaveChanges();
+        }
+
+        public List<BankAccountMovement> ImportBankAccountMovement(string userId, int bankAccountId, BankAccountMovementImportType importType, IFormFile file)
+        {
+            factory = factory ?? new BankAccountMovementImportFactory();
+
+            BankAccountMovementImport import = factory.GetBankAccountMovementImport(importType);
+            List<BankAccountMovement> lines = import.GetBankAccountMovements(file);
+            List<BankAccountMovement> linesToRemove = new List<BankAccountMovement>();
+            foreach (var item in lines)
+            {
+                if (context.BankAccountMovements.Any(x => x.GetHashCode() == item.GetHashCode()))
+                {
+                    linesToRemove.Add(item);
+                }
+            }
+            lines.RemoveAll(x => linesToRemove.Any(q => q.GetHashCode() == x.GetHashCode()));
+            return this.SaveBankAccountMovements(userId, bankAccountId, lines);
         }
     }
 }
