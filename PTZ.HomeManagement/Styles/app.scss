@@ -87,3 +87,57 @@ div.dataTables_wrapper div.dataTables_length select {
     padding: 7px 13px;
 }
 
+.bootstrap-select {
+    margin-top: 5px;
+}
+.bootstrap-select .dropdown-menu.inner li a {
+    display: block;
+    padding: 8px 16px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    outline: none;
+    font-size: 14px;
+}
+
+.bootstrap-select .dropdown-menu.inner li.disabled a:hover,
+.bootstrap-select .dropdown-menu.inner li.disabled a:focus {
+    background-color: transparent;
+}
+
+.bootstrap-select .dropdown-menu.inner li a:hover {
+    background-color: #F5F5F5 !important;
+    color: #333333 !important;
+    opacity: 1;
+    text-decoration: none;
+}
+
+.bootstrap-select .dropdown-menu.open {
+    overflow: visible !important;
+    display: none;
+    visibility: hidden;
+}
+
+.bootstrap-select .dropdown-menu.open.show {
+    display: block;
+    visibility: visible;
+}
+
+.bootstrap-select .dropdown-menu.open[x-placement="top-start"] {
+    top: 0px !important;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}

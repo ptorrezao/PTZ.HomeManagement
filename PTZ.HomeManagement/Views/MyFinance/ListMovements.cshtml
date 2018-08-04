@@ -14,7 +14,7 @@
         </div>
         <div class="card-body table-full-width table-responsive">
 
-            <table class="table table-striped dataTable">
+            <table class="table table-striped dataTable no-sort">
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(x => x.Items.First().MovementDate)</th>
@@ -28,17 +28,17 @@
                 <tbody>
                     @foreach (AccountMovementListItemViewModel item in Model.Items)
                     {
-                    <tr>
-                        <td>@item.MovementDate.ToShortDateString()</td>
-                        <td>@item.ValueDate.ToShortDateString()</td>
-                        <td>@item.Description</td>
-                        <td>@item.Amount</td>
-                        <td>@item.TotalBalanceAfterMovement</td>
-                        <td class="no-sort">
-                            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Edit"]</a> &nbsp;
-                            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Delete"]</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td >@item.MovementDate.ToShortDateString()</td>
+                            <td >@item.ValueDate.ToShortDateString()</td>
+                            <td>@item.Description</td>
+                            <td>@item.Amount</td>
+                            <td>@item.TotalBalanceAfterMovement</td>
+                            <td class="no-sort">
+                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Edit"]</a> &nbsp;
+                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Delete"]</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -49,6 +49,12 @@
                     <i class="fa fa-arrow-left"></i>
                 </span>@localizer["ReturnButton"]
             </a> &nbsp;
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="ImportMovements" asp-route-bankAccountId="@Model.Id">
+                <span class="btn-label">
+                    <i class="fa fa-upload"></i>
+                </span>
+                @localizer["ImportMovements"]
+            </a>
             <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-bankAccountId="@Model.Id">
                 <span class="btn-label">
                     <i class="fa fa-plus"></i>
