@@ -82,8 +82,9 @@ namespace PTZ.HomeManagement
             }
             else
             {
-                app.UseExceptionHandler("/Control/Error");
-                app.UseStatusCodePagesWithReExecute("/Control/Error", "?statusCode={0}");
+                var errorManagement = string.Format("/{0}/{1}", "Control", nameof(Controllers.ControlController.Error));
+                app.UseExceptionHandler(errorManagement);
+                app.UseStatusCodePagesWithReExecute(errorManagement, "?statusCode={0}");
             }
 
             PrepareLocalization(app);

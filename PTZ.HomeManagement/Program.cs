@@ -16,6 +16,11 @@ namespace PTZ.HomeManagement
 {
     public class Program
     {
+        protected Program()
+        {
+            Program.Main(null);
+        }
+
         public static void Main(string[] args)
         {
             var host = BuildWebHost(args);
