@@ -17,7 +17,6 @@
             <div class="card-body">
                 <form method="post">
                     <div asp-validation-summary="All" class="text-danger"></div>
-
                     @if (isEdit)
                     {
                         <div class="row">
@@ -29,9 +28,9 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label asp-for="Abbreviation"></label>
-                                    <input asp-for="Abbreviation" class="form-control" />
-                                    <span asp-validation-for="Abbreviation" class="text-danger"></span>
+                                    <label asp-for="Bank"></label>
+                                    <select asp-for="Bank" asp-items="Model.AvailableBanks" class="btn-group selectpicker form-control"></select>
+                                    <span asp-validation-for="Bank" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -50,9 +49,9 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label asp-for="Abbreviation"></label>
-                                    <input asp-for="Abbreviation" class="form-control" />
-                                    <span asp-validation-for="Abbreviation" class="text-danger"></span>
+                                    <label asp-for="Bank"></label>
+                                    <select asp-for="Bank" asp-items="Model.AvailableBanks" class="btn-group selectpicker"></select>
+                                    <span asp-validation-for="Bank" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-9">
@@ -64,6 +63,23 @@
                             </div>
                         </div>
                     }
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="AccountType"></label>
+                                <select asp-for="AccountType" asp-items="Model.AvailableAccountType" class="btn-group selectpicker form-control"></select>
+                                <span asp-validation-for="Bank" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label asp-for="IBAN"></label>
+                                <input asp-for="IBAN" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="pull-right">
                         <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline">

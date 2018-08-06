@@ -1,5 +1,4 @@
-﻿using PTZ.HomeManagement.Models.MyFinanceViewModels.Enums;
-using System;
+﻿using System;
 
 namespace PTZ.HomeManagement.Models.MyFinanceViewModels
 {

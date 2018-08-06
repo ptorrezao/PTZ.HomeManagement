@@ -26,7 +26,7 @@ namespace PTZ.HomeManagement.Services.MyFinance
                     string[] words = line.Split(';');
                     if (!string.IsNullOrEmpty(words[0].Replace(" ", "")))
                     {
-                        decimal amount = !string.IsNullOrEmpty(words[3]) ? -decimal.Parse(words[3]) : decimal.Parse(words[4]);
+                        decimal amount = !string.IsNullOrEmpty(words[3].Replace(".", "")) ? -decimal.Parse(words[3].Replace(".", "")) : decimal.Parse(words[4].Replace(".", ""));
 
                         list.Add(new BankAccountMovement()
                         {
@@ -34,7 +34,7 @@ namespace PTZ.HomeManagement.Services.MyFinance
                             ValueDate = DateTime.Parse(words[1]),
                             Description = words[2],
                             Amount = amount,
-                            TotalBalanceAfterMovement = decimal.Parse(words[5]),
+                            TotalBalanceAfterMovement = decimal.Parse(words[6].Replace(".", "")),
                         });
                     }
                 }

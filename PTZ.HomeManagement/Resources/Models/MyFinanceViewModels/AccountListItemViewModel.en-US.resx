@@ -120,6 +120,12 @@
   <data name="Abbreviation" xml:space="preserve">
     <value>Abbreviation</value>
   </data>
+  <data name="Bank" xml:space="preserve">
+    <value>Bank</value>
+  </data>
+  <data name="IBAN" xml:space="preserve">
+    <value>IBAN</value>
+  </data>
   <data name="Id" xml:space="preserve">
     <value>Identificador</value>
   </data>

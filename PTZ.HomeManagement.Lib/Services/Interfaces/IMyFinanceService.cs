@@ -9,6 +9,7 @@ namespace PTZ.HomeManagement.Services.MyFinance
 {
     public interface IMyFinanceService
     {
+
         BankAccount GetBankAccountDefault(string userId);
         BankAccountMovement GetBankAccountMovementDefault(string userId, int bankAccountId);
 
@@ -18,6 +19,7 @@ namespace PTZ.HomeManagement.Services.MyFinance
         void DeleteBankAccount(string userId, BankAccount bankAccount);
 
         BankAccountMovement GetBankAccountMovement(string userId, int bankAccountId, int movementId);
+        List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, DateTime startDate, DateTime endDate);
         List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified);
         void SaveBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement);
         List<BankAccountMovement> SaveBankAccountMovements(string userId, int bankAccountId, List<BankAccountMovement> list);
