@@ -16,6 +16,8 @@
             { targets: "hiddenCols", visible: false }
         ]
     });
+
+    $(".nav-item.active").closest("div").before().collapse('show');
 });
 
 var demo = {

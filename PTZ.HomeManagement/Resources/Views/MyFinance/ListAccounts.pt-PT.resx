@@ -126,6 +126,9 @@
   <data name="Edit" xml:space="preserve">
     <value>Editar</value>
   </data>
+  <data name="ImportMovements" xml:space="preserve">
+    <value>Importar Movimentos</value>
+  </data>
   <data name="ListMovements" xml:space="preserve">
     <value>Movimentos</value>
   </data>

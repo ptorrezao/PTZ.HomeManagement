@@ -160,7 +160,7 @@ namespace PTZ.HomeManagement.Controllers
                         AssetType = bankAccount.AccountType,
                         AccountNumber = bankAccount.IBAN,
                         AccountTitle = bankAccount.Name,
-                        Bank = bankAccount.Bank
+                        Bank = bankAccount.Bank,
                     });
                 }
             });

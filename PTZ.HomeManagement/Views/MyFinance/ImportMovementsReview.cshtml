@@ -9,7 +9,14 @@
         <div class="card-header ">
             <h4 class="card-title">@localizer["Title"] - @Model.ImportType</h4>
             <p class="card-category text-right">
-
+                @if (Model.Items.Count == 0)
+                {
+                    @localizer["EveryRowWasAlreadyImported"]
+                }
+                else
+                {
+                    @localizer["SomeRowsMayBeExcludedDueToAlreadyBePresent"]
+                }
             </p>
         </div>
         <div class="card-body table-full-width table-responsive">
@@ -43,13 +50,6 @@
                     <i class="fa fa-arrow-left"></i>
                 </span>@localizer["ReturnButton"]
             </a> &nbsp;
-            <a class="te
-            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-bankAccountId="@Model.BankAccountId">
-                <span class="btn-label">
-                    <i class="fa fa-plus"></i>
-                </span>
-                @localizer["Add"]
-            </a>
         </div>
     </div>
 </div>

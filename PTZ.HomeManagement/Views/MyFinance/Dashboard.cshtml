@@ -7,5 +7,5 @@
 
 <div class="row">
     @Html.DisplayFor(x => x.DoughnutChart, new { Type = "pie" })
-    @Html.DisplayFor(x => x.BarChart, new { Type = "bar" })
+    @Html.DisplayFor(x => x.BarChart, new { Type = "line", YStacked = false })
 </div>
