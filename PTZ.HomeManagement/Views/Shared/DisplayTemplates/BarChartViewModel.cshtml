@@ -4,6 +4,7 @@
 @{
     var name = Guid.NewGuid().ToString().Replace("-", "");
     var type = (string)ViewData["Type"];
+    var ystacked = (bool?)ViewData["YStacked"] ?? false;
     var chosenType = string.IsNullOrEmpty(type) ? "bar" : type;
 }
 <div class="col-lg-8 col-md-6 col-xs-6">
@@ -15,12 +16,6 @@
         <div class="card-body ">
             <canvas id="@name"></canvas>
 
-        </div>
-        <div class="card-footer">
-            <hr>
-            <div class="stats">
-
-            </div>
         </div>
     </div>
 </div>
@@ -52,7 +47,7 @@
                          stacked: true
                      }],
                      yAxes: [{
-                         stacked: true
+                         stacked: @ystacked.ToString().ToLower()
                      }]
                  },
                  plugins: {

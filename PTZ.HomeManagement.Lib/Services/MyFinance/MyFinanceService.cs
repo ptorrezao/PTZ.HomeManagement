@@ -20,6 +20,7 @@ namespace PTZ.HomeManagement.Services.MyFinance
             this.context = context;
         }
 
+
         public BankAccount GetBankAccountDefault(string userId)
         {
             ApplicationUser user = context.Users.FirstOrDefault(x => x.Id == userId);
@@ -43,11 +44,28 @@ namespace PTZ.HomeManagement.Services.MyFinance
 
         public BankAccount GetBankAccount(string userId, int bankAccountId)
         {
-            return context.BankAccounts.FirstOrDefault(x => x.ApplicationUser.Id == userId && x.Id == bankAccountId);
+            BankAccount account = context.BankAccounts.FirstOrDefault(x => x.ApplicationUser.Id == userId && x.Id == bankAccountId);
+
+            var lastMovement = context.BankAccountMovements.Where(x => x.BankAccount.Id == account.Id).LastOrDefault();
+            if (lastMovement != default(BankAccountMovement))
+            {
+                account.CurrentBalance = lastMovement.TotalBalanceAfterMovement;
+            }
+
+            return account;
         }
         public List<BankAccount> GetBankAccounts(string userId)
         {
-            return context.BankAccounts.Where(x => x.ApplicationUser.Id == userId).ToList();
+            List<BankAccount> accounts = context.BankAccounts.Where(x => x.ApplicationUser.Id == userId).ToList();
+            accounts.ForEach(account =>
+            {
+                var lastMovement = context.BankAccountMovements.Where(x => x.BankAccount.Id == account.Id).OrderByDescending(x => x.MovementDate).FirstOrDefault();
+                if (lastMovement != default(BankAccountMovement))
+                {
+                    account.CurrentBalance = lastMovement.TotalBalanceAfterMovement;
+                }
+            });
+            return accounts;
         }
         public void SaveBankAccount(string userId, BankAccount bankAccount)
         {
@@ -76,6 +94,16 @@ namespace PTZ.HomeManagement.Services.MyFinance
                 default:
                     return list.OrderByDescending(x => x.MovementDate).ToList();
             }
+        }
+        public List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, DateTime startDate, DateTime endDate)
+        {
+            var list = context.BankAccountMovements.Where(x =>
+                    x.BankAccount.ApplicationUser.Id == userId &&
+                    x.BankAccount.Id == bankAccountId &&
+                    x.MovementDate >= startDate &&
+                    x.MovementDate <= endDate).ToList();
+
+            return list;
         }
         public void SaveBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement)
         {

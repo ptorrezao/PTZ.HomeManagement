@@ -27,14 +27,14 @@
                         </div>
                         <div class="col-md-10">
                             <div class="form-group">
-                                <label asp-for="Abbreviation"></label>
-                                <input asp-for="Abbreviation" class="form-control" disabled />
-                                <span asp-validation-for="Abbreviation" class="text-danger"></span>
+                                <label asp-for="Bank"></label>
+                                <select asp-for="Bank" asp-items="Model.AvailableBanks" class="btn-group selectpicker form-control" disabled></select>
+                                <span asp-validation-for="Bank" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 col-md-12">
                             <div class="form-group">
                                 <label asp-for="Name"></label>
                                 <input asp-for="Name" class="form-control" disabled />
@@ -42,7 +42,22 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="AccountType"></label>
+                                <select asp-for="AccountType" asp-items="Model.AvailableAccountType" class="btn-group selectpicker form-control" disabled></select>
+                                <span asp-validation-for="Bank" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label asp-for="IBAN"></label>
+                                <input asp-for="IBAN" class="form-control" disabled />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="pull-right">
                         <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline">

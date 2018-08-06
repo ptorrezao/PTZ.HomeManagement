@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using PTZ.HomeManagement.Models.MyFinance;
+using System.ComponentModel;
 
 namespace PTZ.HomeManagement.Models.MyFinanceViewModels
 {
@@ -10,7 +11,13 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         [DisplayName("Name")]
         public string Name { get; set; }
 
-        [DisplayName("Abbreviation")]
-        public string Abbreviation { get; set; }
+        [DisplayName("Bank")]
+        public Bank Bank { get; set; }
+
+        [DisplayName("IBAN")]
+        public string IBAN { get; set; }
+
+        [DisplayName("AccountType")]
+        public AssetType AccountType { get; set; }
     }
 }

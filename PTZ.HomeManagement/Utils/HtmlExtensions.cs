@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Razor;
-using PTZ.HomeManagement.Models.MyFinanceViewModels.Enums;
+using PTZ.HomeManagement.Models.MyFinance;
 
 namespace PTZ.HomeManagement.Utils
 {

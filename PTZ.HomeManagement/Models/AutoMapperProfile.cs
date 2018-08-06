@@ -29,6 +29,12 @@ namespace PTZ.HomeManagement.Models
 
             CreateMap<BankAccountMovement, AccountMovementViewModel>();
             CreateMap<AccountMovementViewModel, BankAccountMovement>();
+
+            CreateMap<BankAccount, DashboardAccountViewModel>()
+               .ForMember(vm => vm.Amount, opt => opt.MapFrom(u => u.CurrentBalance))
+               .ForMember(vm => vm.AssetType, opt => opt.MapFrom(u => u.AccountType))
+               .ForMember(vm => vm.AccountNumber, opt => opt.MapFrom(u => u.IBAN))
+               .ForMember(vm => vm.AccountTitle, opt => opt.MapFrom(u => u.Name));
         }
     }
 }

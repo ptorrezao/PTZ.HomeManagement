@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Abbreviation" xml:space="preserve">
-    <value>Abbreviation</value>
+  <data name="AccountType" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
+  <data name="Bank" xml:space="preserve">
+    <value>Bank</value>
+  </data>
+  <data name="IBAN" xml:space="preserve">
+    <value>IBAN</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Identificador</value>

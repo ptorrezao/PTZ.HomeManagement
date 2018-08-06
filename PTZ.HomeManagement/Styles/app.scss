@@ -87,9 +87,6 @@ div.dataTables_wrapper div.dataTables_length select {
     padding: 7px 13px;
 }
 
-.bootstrap-select {
-    margin-top: 5px;
-}
 .bootstrap-select .dropdown-menu.inner li a {
     display: block;
     padding: 8px 16px;
@@ -140,4 +137,9 @@ div.dataTables_wrapper div.dataTables_length select {
     left: 0;
     top: 0;
     opacity: 0;
+}
+
+
+@media (min-width: 1200px) .container {
+    max-width: 100%;
 }
