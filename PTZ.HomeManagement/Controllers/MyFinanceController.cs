@@ -128,13 +128,14 @@ namespace PTZ.HomeManagement.Controllers
         }
         #endregion
 
+        #region Dashboard
         public IActionResult Dashboard()
         {
             DashboardViewModel vm = new DashboardViewModel();
             List<BankAccount> bankAccounts = _myFinanceService.GetBankAccounts(User.GetUserId());
             int graphLenght = 30;
             int graphLenghtIntoFuture = 2;
-           
+
             bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
             {
                 decimal lastKnownValue = 0;
@@ -166,7 +167,8 @@ namespace PTZ.HomeManagement.Controllers
             });
 
             return View(vm);
-        }
+        } 
+        #endregion
 
         #region ImportMovements
         public IActionResult ImportMovements(int bankAccountId)
