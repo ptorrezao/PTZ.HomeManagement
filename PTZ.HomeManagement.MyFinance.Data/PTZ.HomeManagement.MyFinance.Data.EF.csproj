@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180808004708_Initial.cs" />
+    <Compile Remove="Migrations\20180808005043_Initial.cs" />
+    <Compile Remove="Migrations\20180808005300_Initial.cs" />
+    <Compile Remove="Migrations\20180808010915_Initial.cs" />
+    <Compile Remove="Migrations\20180808011339_Initial.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Core\PTZ.HomeManagement.MyFinance.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Data.Core\PTZ.HomeManagement.MyFinance.Data.Core.csproj" />
+  </ItemGroup>
+
+</Project>

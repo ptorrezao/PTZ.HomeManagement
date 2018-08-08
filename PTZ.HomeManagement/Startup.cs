@@ -19,8 +19,9 @@ using NLog.Web;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Extentions;
 using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.MyFinance;
+using PTZ.HomeManagement.MyFinance.Data;
 using PTZ.HomeManagement.Services;
-using PTZ.HomeManagement.Services.MyFinance;
 using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement
@@ -57,8 +58,8 @@ namespace PTZ.HomeManagement
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-             options.UseSqlServer(ApplicationDbContext.GetConnectionString(Configuration)));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+            services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -68,6 +69,8 @@ namespace PTZ.HomeManagement
 
             services.AddTransient<ICoreService, CoreService>();
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
         }
 
@@ -92,6 +95,11 @@ namespace PTZ.HomeManagement
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<AutoMapperProfile>();
+            });
 
             PrepareRoutes(app);
 

@@ -79,7 +79,7 @@ namespace PTZ.HomeManagement.Controllers
             vw.LogEntries = core.GetLastNMessages(10, LogUtils.GetLogFileName());
             vw.TotalMemory = Conversion.ConvertBytesToMegabytes(Process.GetCurrentProcess().WorkingSet64, 2);
             vw.Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            vw.DefaultConnection = ApplicationDbContext.GetConnectionString(configuration);
+            vw.DefaultConnection = DatabaseUtils.GetConnectionString(configuration);
             return View(vw);
         }
 

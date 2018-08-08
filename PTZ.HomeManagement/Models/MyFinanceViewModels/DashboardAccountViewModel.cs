@@ -1,4 +1,4 @@
-﻿using PTZ.HomeManagement.Models.MyFinance;
+﻿using PTZ.HomeManagement.MyFinance;
 
 namespace PTZ.HomeManagement.Models.MyFinanceViewModels
 {

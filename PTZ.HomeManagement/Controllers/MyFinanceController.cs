@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using PTZ.HomeManagement.Models;
-using PTZ.HomeManagement.Models.MyFinance;
 using PTZ.HomeManagement.Models.MyFinanceViewModels;
-using PTZ.HomeManagement.Services.MyFinance;
+using PTZ.HomeManagement.MyFinance;
+using PTZ.HomeManagement.MyFinance.Models;
 using PTZ.HomeManagement.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 
 namespace PTZ.HomeManagement.Controllers
 {
@@ -128,13 +125,14 @@ namespace PTZ.HomeManagement.Controllers
         }
         #endregion
 
+        #region Dashboard
         public IActionResult Dashboard()
         {
             DashboardViewModel vm = new DashboardViewModel();
             List<BankAccount> bankAccounts = _myFinanceService.GetBankAccounts(User.GetUserId());
             int graphLenght = 30;
             int graphLenghtIntoFuture = 2;
-           
+
             bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
             {
                 decimal lastKnownValue = 0;
@@ -166,7 +164,8 @@ namespace PTZ.HomeManagement.Controllers
             });
 
             return View(vm);
-        }
+        } 
+        #endregion
 
         #region ImportMovements
         public IActionResult ImportMovements(int bankAccountId)

@@ -18,13 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Chart.js" Version="2.7.2" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
-    <PackageReference Include="NLog" Version="4.5.4" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="NLog" Version="4.5.8" />
     <PackageReference Include="NLog.Targets.ElasticSearch" Version="5.0.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.5.4" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +45,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PTZ.HomeManagement.Lib\PTZ.HomeManagement.Lib.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.Core.Data.EF\PTZ.HomeManagement.Core.Data.EF.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.Core.Services\PTZ.HomeManagement.Core.Services.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Data\PTZ.HomeManagement.MyFinance.Data.EF.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Services\PTZ.HomeManagement.MyFinance.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

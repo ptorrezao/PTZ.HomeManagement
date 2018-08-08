@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PTZ.HomeManagement.Models.MyFinance;
+using PTZ.HomeManagement.MyFinance;
 using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement.Models.MyFinanceViewModels
