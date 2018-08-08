@@ -9,8 +9,6 @@ var gulp = require("gulp"),
     uglify = require("gulp-uglify"),
     merge = require("merge-stream"),
     gulpSequence = require('gulp-sequence'),
-    del = require("del"),
-    fs = require("fs"),
     sass = require("gulp-sass"),
     bundleconfig = require("./bundleconfig.json");
 

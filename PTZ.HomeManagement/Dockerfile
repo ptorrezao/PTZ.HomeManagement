@@ -14,7 +14,13 @@ COPY *.sln ./
 COPY PTZ.HomeManagement/PTZ.HomeManagement.csproj PTZ.HomeManagement/
 RUN dotnet restore
 COPY . .
+
+
 WORKDIR /src/PTZ.HomeManagement
+RUN npm install
+RUN npm install gulp
+RUN gulp -b "PTZ.HomeManagement" Generate_App
+RUN gulp -b "PTZ.HomeManagement" Generate_LBD
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish

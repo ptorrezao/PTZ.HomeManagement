@@ -96,11 +96,6 @@ namespace PTZ.HomeManagement
 
             app.UseAuthentication();
 
-            Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<AutoMapperProfile>();
-            });
-
             PrepareRoutes(app);
 
             PrepareLoggers(loggerFactory);
