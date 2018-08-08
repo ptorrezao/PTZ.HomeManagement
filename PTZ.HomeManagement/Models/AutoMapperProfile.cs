@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PTZ.HomeManagement.Models.ManageViewModels;
-using PTZ.HomeManagement.Models.MyFinance;
 using PTZ.HomeManagement.Models.MyFinanceViewModels;
+using PTZ.HomeManagement.MyFinance.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

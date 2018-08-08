@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>PTZ.HomeManagement.MyFinance</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="microsoft.aspnetcore.http.features" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PTZ.HomeManagement.Core.Data.EF\PTZ.HomeManagement.Core.Data.EF.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Core\PTZ.HomeManagement.MyFinance.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Data.Core\PTZ.HomeManagement.MyFinance.Data.Core.csproj" />
+  </ItemGroup>
+
+</Project>

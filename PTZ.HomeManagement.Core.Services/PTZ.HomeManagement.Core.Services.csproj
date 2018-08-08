@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>PTZ.HomeManagement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
+  </ItemGroup>
+
+</Project>
