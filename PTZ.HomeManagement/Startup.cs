@@ -105,13 +105,13 @@ namespace PTZ.HomeManagement
         {
             var supportedCultures = new[]
             {
+                new CultureInfo("pt-PT"),
                 new CultureInfo("en-US"),
-                new CultureInfo("pt-PT")
             };
 
             var requestLocationOptions = new RequestLocalizationOptions()
             {
-                DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US"),
+                DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("pt-PT"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures,
             };
