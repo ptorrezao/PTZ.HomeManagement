@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using PTZ.HomeManagement.MyFinance;
 using PTZ.HomeManagement.MyFinance.Models;
 
-namespace PTZ.HomeManagement.Services.MyFinance
+namespace PTZ.HomeManagement.MyFinance
 {
     public interface IMyFinanceService
     {

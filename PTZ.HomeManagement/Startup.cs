@@ -19,9 +19,9 @@ using NLog.Web;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Extentions;
 using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.MyFinance;
 using PTZ.HomeManagement.MyFinance.Data;
 using PTZ.HomeManagement.Services;
-using PTZ.HomeManagement.Services.MyFinance;
 using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement
@@ -70,7 +70,7 @@ namespace PTZ.HomeManagement
             services.AddTransient<ICoreService, CoreService>();
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddTransient<IMyFinanceRepository, MyFinanceRepository>();
+            services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
         }
 

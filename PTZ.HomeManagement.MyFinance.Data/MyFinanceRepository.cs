@@ -8,11 +8,11 @@ using PTZ.HomeManagement.MyFinance.Models;
 
 namespace PTZ.HomeManagement.MyFinance.Data
 {
-    public class MyFinanceRepository : IMyFinanceRepository
+    public class MyFinanceRepositoryEF : IMyFinanceRepository
     {
         private readonly MyFinanceDbContext context;
 
-        public MyFinanceRepository(IServiceProvider serviceProvider)
+        public MyFinanceRepositoryEF(IServiceProvider serviceProvider)
         {
             this.context = new MyFinanceDbContext(serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>());
         }

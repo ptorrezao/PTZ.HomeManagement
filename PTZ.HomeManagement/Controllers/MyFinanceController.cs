@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Models.MyFinanceViewModels;
+using PTZ.HomeManagement.MyFinance;
 using PTZ.HomeManagement.MyFinance.Models;
-using PTZ.HomeManagement.Services.MyFinance;
 using PTZ.HomeManagement.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 
 namespace PTZ.HomeManagement.Controllers
 {

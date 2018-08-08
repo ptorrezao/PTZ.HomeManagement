@@ -9,7 +9,7 @@ using PTZ.HomeManagement.MyFinance.Data;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.MyFinance;
 
-namespace PTZ.HomeManagement.Services.MyFinance
+namespace PTZ.HomeManagement.MyFinance
 {
     public class MyFinanceService : IMyFinanceService
     {
