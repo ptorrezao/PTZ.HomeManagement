@@ -37,7 +37,6 @@
     <Folder Include="lib\popper\" />
     <Folder Include="Media\" />
     <Folder Include="Views\Manage\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,12 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PTZ.HomeManagement.Core.Data.EF\PTZ.HomeManagement.Core.Data.EF.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.Core.Services\PTZ.HomeManagement.Core.Services.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Core\PTZ.HomeManagement.MyFinance.Core.csproj" />
-    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Data.Core\PTZ.HomeManagement.MyFinance.Data.Core.csproj" />
-    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Data\PTZ.HomeManagement.MyFinance.Data.EF.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Services\PTZ.HomeManagement.MyFinance.Services.csproj" />
   </ItemGroup>
 

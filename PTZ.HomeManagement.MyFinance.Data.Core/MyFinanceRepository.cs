@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PTZ.HomeManagement.MyFinance.Enums;
 using PTZ.HomeManagement.MyFinance.Models;
 
 namespace PTZ.HomeManagement.MyFinance.Data
@@ -75,7 +76,8 @@ namespace PTZ.HomeManagement.MyFinance.Data
 
         public void SaveBankAccount(string userId, BankAccount bankAccount)
         {
-            this.context.Entry(bankAccount).State = bankAccount.Id == 0 ? EntityState.Added : EntityState.Modified;
+            ContextState contextState = bankAccount.Id == 0 ? ContextState.Added : ContextState.Modified;
+            this.context.Entry(bankAccount).State = this.context.GetContextState(contextState);
         }
 
         public List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, DateTime startDate, DateTime endDate)
@@ -97,7 +99,9 @@ namespace PTZ.HomeManagement.MyFinance.Data
         public void SaveBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement)
         {
             bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
-            this.context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
+
+            ContextState contextState = bankAccountMovement.Id == 0 ? ContextState.Added : ContextState.Modified;
+            this.context.Entry(bankAccountMovement).State = this.context.GetContextState(contextState);
         }
 
         public void SaveBankAccountMovements(string userId, int bankAccountId, List<BankAccountMovement> list)
@@ -105,7 +109,8 @@ namespace PTZ.HomeManagement.MyFinance.Data
             foreach (var bankAccountMovement in list)
             {
                 bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
-                this.context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
+                ContextState contextState = bankAccountMovement.Id == 0 ? ContextState.Added : ContextState.Modified;
+                this.context.Entry(bankAccountMovement).State = this.context.GetContextState(contextState);
             }
         }
 

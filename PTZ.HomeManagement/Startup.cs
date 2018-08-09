@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Extentions;
 using PTZ.HomeManagement.Models;
@@ -58,8 +59,18 @@ namespace PTZ.HomeManagement
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization();
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
-            services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+            bool useSQLite = true;
+            if (useSQLite)
+            {
+                string connectionString = "Data Source=ptzhz.db";
+                services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+                services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlite(connectionString));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+                services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+            }
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -70,8 +81,12 @@ namespace PTZ.HomeManagement
             services.AddTransient<ICoreService, CoreService>();
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddTransient<IApplicationRepository, ApplicationDbRepository>();
+
             services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
