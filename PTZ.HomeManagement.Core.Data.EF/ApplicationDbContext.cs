@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Utils;
 using System;

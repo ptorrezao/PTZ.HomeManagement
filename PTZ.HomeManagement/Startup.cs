@@ -16,7 +16,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Data;
+using PTZ.HomeManagement.Enums;
 using PTZ.HomeManagement.Extentions;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.MyFinance;
@@ -58,8 +60,7 @@ namespace PTZ.HomeManagement
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization();
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
-            services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+            SetDBContexts(services);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -70,8 +71,33 @@ namespace PTZ.HomeManagement
             services.AddTransient<ICoreService, CoreService>();
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddTransient<IApplicationRepository, ApplicationDbRepository>();
+
             services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
+
+
+        }
+
+        private void SetDBContexts(IServiceCollection services)
+        {
+            string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
+            DatabaseType dbType;
+            Enum.TryParse<DatabaseType>(envVar, out dbType);
+
+            switch (dbType)
+            {
+                case DatabaseType.SqlServer:
+                    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+                    services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+                    break;
+                default:
+                    string dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
+                    string connectionString = string.Format("Data Source={0}", dbName);
+                    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+                    services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlite(connectionString));
+                    break;
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

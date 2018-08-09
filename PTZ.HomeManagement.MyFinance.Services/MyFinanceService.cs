@@ -6,29 +6,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PTZ.HomeManagement.MyFinance.Data;
-using PTZ.HomeManagement.Data;
-using PTZ.HomeManagement.MyFinance;
+using PTZ.HomeManagement.Core.Data;
 
 namespace PTZ.HomeManagement.MyFinance
 {
     public class MyFinanceService : IMyFinanceService
     {
         private readonly IMyFinanceRepository myFinanceRepo;
-        private readonly ApplicationDbContext dbContext;
+        private readonly IApplicationRepository appRepo;
 
         private BankAccountMovementImportFactory factory;
 
         public MyFinanceService(IMyFinanceRepository repo,
-            ApplicationDbContext dbContext)
+            IApplicationRepository dbContext)
         {
             this.myFinanceRepo = repo;
-            this.dbContext = dbContext;
+            this.appRepo = dbContext;
         }
 
         public BankAccount GetBankAccountDefault(string userId)
         {
-            ApplicationUser user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
-
+            ApplicationUser user = appRepo.GetUsers(userId);
             return new BankAccount()
             {
                 ApplicationUser = user,
@@ -56,7 +54,7 @@ namespace PTZ.HomeManagement.MyFinance
         }
         public void SaveBankAccount(string userId, BankAccount bankAccount)
         {
-            bankAccount.ApplicationUser = dbContext.Users.Single(x => x.Id == userId);
+            bankAccount.ApplicationUser = appRepo.GetUsers(userId);
             myFinanceRepo.SaveBankAccount(userId, bankAccount);
             myFinanceRepo.CommitChanges();
         }

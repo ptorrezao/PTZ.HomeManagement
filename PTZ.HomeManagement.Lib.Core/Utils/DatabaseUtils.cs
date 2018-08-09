@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Configuration;
 
 namespace PTZ.HomeManagement.Utils
@@ -12,7 +10,7 @@ namespace PTZ.HomeManagement.Utils
             var hostname = Environment.GetEnvironmentVariable("SQLSERVER_HOST");
             var dbpassword = Environment.GetEnvironmentVariable("SQLSERVER_PASSWORD");
             var dbUser = Environment.GetEnvironmentVariable("SQLSERVER_USERNAME") ?? "sa";
-            var dbName = Environment.GetEnvironmentVariable("SQLSERVER_DB_NAME") ?? "PTZHomeManagement";
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
 
             var connString = "";
             if (string.IsNullOrEmpty(hostname))
