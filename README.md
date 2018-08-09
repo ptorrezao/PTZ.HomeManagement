@@ -26,8 +26,14 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
 - Default User:Pwd (on first login will request to change the password)
 	- admin@hmptz.local:Ch4ng3_Th1s 
 		
-
-
+## DBMS (via ORM)
+	-SQL Server -> [Microsoft SQL Server EF Core Database Provider](https://github.com/aspnet/EntityFrameworkCore)
+	-SQL Lite -> [SQLite EF Core Database Provider](https://github.com/aspnet/EntityFrameworkCore)
+### Configuration of DBMS (via Enviroment Variable [Case Sensitive])
+	DB_NAME = (e.g. PTZHZ.bd or PTZHomeManagement)
+	DB_TYPE = 
+		SQLLite 
+		SqlServer 
 ## License
 This project is licensed under the terms of the **MIT** license.
 >You can check out the full license [here](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/LICENSE)

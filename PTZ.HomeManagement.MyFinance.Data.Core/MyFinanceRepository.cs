@@ -16,6 +16,12 @@ namespace PTZ.HomeManagement.MyFinance.Data
         public MyFinanceRepositoryEF(IServiceProvider serviceProvider)
         {
             this.context = new MyFinanceDbContext(serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>());
+            var lastAppliedMigration = this.context.Database.GetAppliedMigrations().LastOrDefault();
+            var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
+            if (lastAppliedMigration != lastDefinedMigration)
+            {
+                this.context.Database.Migrate();
+            }
         }
 
         public void CommitChanges()
