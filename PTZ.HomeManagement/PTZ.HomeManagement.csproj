@@ -14,13 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="PTZHomeManagement" />
     <None Remove="Sass.js" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
     <PackageReference Include="Chart.js" Version="2.7.2" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
     <PackageReference Include="NLog" Version="4.5.4" />
     <PackageReference Include="NLog.Targets.ElasticSearch" Version="5.0.0" />
