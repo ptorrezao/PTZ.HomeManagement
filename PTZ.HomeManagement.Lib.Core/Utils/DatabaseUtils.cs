@@ -8,20 +8,23 @@ namespace PTZ.HomeManagement.Utils
     {
         public static string GetConnectionString(IConfiguration configuration, DatabaseType databaseType)
         {
-            var hostname = Environment.GetEnvironmentVariable("DB_HOST");
+            var hostname = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
             var dbpassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
-            var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "sa";
+            var dbUser = Environment.GetEnvironmentVariable("DB_USER");
             var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
-
+            var port = 0;
             var connString = "";
             switch (databaseType)
             {
                 case DatabaseType.SqlServer:
-                    connString = string.IsNullOrEmpty(hostname) ? configuration.GetConnectionString("DefaultConnection") : $"Data Source={hostname};Initial Catalog={dbName};User ID={dbUser};Password={dbpassword};";
+                    dbUser = dbUser ?? "sa";
+                    connString = $"Data Source={hostname};Initial Catalog={dbName};User ID={dbUser};Password={dbpassword};";
                     break;
                 case DatabaseType.PostgreSQL:
-                case DatabaseType.CockroachDB:
-                    connString = $"Host={hostname};Database={dbName};Username={dbUser};Password={dbpassword}";
+                    dbUser = dbUser ?? "postgres";
+                    dbpassword = dbpassword ?? "Filipe#88";
+                    port = 5432;
+                    connString = $"Host={hostname};Port={port};Username={dbUser};Database={dbName};Password={dbpassword}";
                     break;
                 case DatabaseType.SQLLite:
                     connString = $"{dbName}";
@@ -31,6 +34,11 @@ namespace PTZ.HomeManagement.Utils
             }
 
             return connString;
+        }
+
+        public static string GetDefaultDb()
+        {
+            return DatabaseType.PostgreSQL.ToString();
         }
     }
 }

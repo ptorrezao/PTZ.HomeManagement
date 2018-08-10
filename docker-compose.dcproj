@@ -21,7 +21,7 @@
     <None Include="portainer-compose.sqlserver.yml">
       <DependentUpon>portainer-compose.yml</DependentUpon>
     </None>
-    <None Include="portainer-compose.cockroachdb.yml">
+    <None Include="portainer-compose.PostgreSQL.yml">
       <DependentUpon>portainer-compose.yml</DependentUpon>
     </None>
     <None Include="portainer-compose.yml" />

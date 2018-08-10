@@ -8,7 +8,6 @@ namespace PTZ.HomeManagement.Enums
     {
         SQLLite = 0,
         SqlServer = 1,
-        PostgreSQL = 2,
-        CockroachDB = 3
+        PostgreSQL = 2
     }
 }

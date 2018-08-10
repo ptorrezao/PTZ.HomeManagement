@@ -81,11 +81,10 @@ namespace PTZ.HomeManagement
         {
             string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
             DatabaseType dbType;
-            Enum.TryParse<DatabaseType>(envVar, out dbType);
+            Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
             switch (dbType)
             {
-                case DatabaseType.CockroachDB:
                 case DatabaseType.PostgreSQL:
                     services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
                     services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
