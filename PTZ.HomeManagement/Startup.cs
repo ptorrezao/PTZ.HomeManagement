@@ -132,7 +132,6 @@ namespace PTZ.HomeManagement
             var supportedCultures = new[]
             {
                 new CultureInfo("pt-PT"),
-                new CultureInfo("en-US"),
             };
 
             var requestLocationOptions = new RequestLocalizationOptions()
