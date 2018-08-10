@@ -7,6 +7,8 @@ namespace PTZ.HomeManagement.Enums
     public enum DatabaseType
     {
         SQLLite = 0,
-        SqlServer = 1
+        SqlServer = 1,
+        PostgreSQL = 2,
+        CockroachDB = 3
     }
 }

@@ -75,8 +75,6 @@ namespace PTZ.HomeManagement
 
             services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
-
-
         }
 
         private void SetDBContexts(IServiceCollection services)
@@ -87,9 +85,14 @@ namespace PTZ.HomeManagement
 
             switch (dbType)
             {
+                case DatabaseType.CockroachDB:
+                case DatabaseType.PostgreSQL:
+                    services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
+                    services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
+                    break;
                 case DatabaseType.SqlServer:
-                    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
-                    services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration)));
+                    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration, dbType)));
+                    services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration, dbType)));
                     break;
                 default:
                     string dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
