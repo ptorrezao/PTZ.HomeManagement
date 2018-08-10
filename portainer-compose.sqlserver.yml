@@ -1,0 +1,40 @@
+version: '3.3'
+
+services:
+  PTZHMA:
+    image: ptorrezao/ptz.homemanagement:${TAG}
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENVIROMENT}
+      - SQLSERVER_HOST=${DB_HOST}
+      - SQLSERVER_USERNAME=${DB_USER}
+      - SQLSERVER_PASSWORD=${DB_PASSWORD}
+      - SQLSERVER_DB_NAME=${DB_NAME}
+      - DB_TYPE=SqlServer
+    deploy:
+      labels:
+       - traefik.backend=PTZHMA
+       - traefik.frontend.rule=Host:${DOMAINS}
+       - traefik.port=80
+    networks:
+       - proxy
+    volumes:
+      - PTZHM_src:/app
+    depends_on:
+     - sql
+  
+  sql:
+    image: microsoft/mssql-server-linux:latest
+    restart: always
+    environment:
+      - SA_PASSWORD=${DB_PASSWORD}
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+      
+volumes:
+  PTZHM_src:
+
+networks:
+  proxy:
+    external: true

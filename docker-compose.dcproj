@@ -15,7 +15,12 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-    <None Include="docker-compose.ci.build.yml" />
+    <None Include="docker-compose.ci.build.yml" >
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="portainer-compose.sqlserver.yml">
+      <DependentUpon>portainer-compose.yml</DependentUpon>
+    </None>
     <None Include="portainer-compose.yml" />
   </ItemGroup>
 </Project>
