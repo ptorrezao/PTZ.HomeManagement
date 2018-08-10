@@ -73,7 +73,7 @@ namespace PTZ.HomeManagement.Controllers
 
             ApplicationUser user = await GetUserAsync();
 
-            string email = user.Email;
+            string email = user.Email ?? user.UserName;
             if (model.Email != email)
             {
                 IdentityResult setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
@@ -111,7 +111,7 @@ namespace PTZ.HomeManagement.Controllers
 
             string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             string callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-            string email = user.Email;
+            string email = user.Email ?? user.UserName;
             await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
             StatusMessage = _localizer["VerificationEmailSent"];
@@ -282,7 +282,7 @@ namespace PTZ.HomeManagement.Controllers
                 Is2faEnabled = user.TwoFactorEnabled,
                 RecoveryCodesLeft = await _userManager.CountRecoveryCodesAsync(user),
             };
-            
+
             return View(model);
         }
 
@@ -468,7 +468,7 @@ namespace PTZ.HomeManagement.Controllers
             }
 
             model.SharedKey = FormatKey(unformattedKey);
-            model.AuthenticatorUri = GenerateQrCodeUri(user.Email, unformattedKey);
+            model.AuthenticatorUri = GenerateQrCodeUri(user.Email ?? user.UserName, unformattedKey);
         }
 
         private async Task<ApplicationUser> GetUserAsync()
