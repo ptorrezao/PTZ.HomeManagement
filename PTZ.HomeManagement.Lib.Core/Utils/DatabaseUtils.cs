@@ -7,9 +7,9 @@ namespace PTZ.HomeManagement.Utils
     {
         public static string GetConnectionString(IConfiguration configuration)
         {
-            var hostname = Environment.GetEnvironmentVariable("SQLSERVER_HOST");
-            var dbpassword = Environment.GetEnvironmentVariable("SQLSERVER_PASSWORD");
-            var dbUser = Environment.GetEnvironmentVariable("SQLSERVER_USERNAME") ?? "sa";
+            var hostname = Environment.GetEnvironmentVariable("DB_HOST");
+            var dbpassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "sa";
             var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
 
             var connString = "";
