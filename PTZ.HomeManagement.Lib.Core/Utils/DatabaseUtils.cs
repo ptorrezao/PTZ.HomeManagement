@@ -24,6 +24,8 @@ namespace PTZ.HomeManagement.Utils
                     connString = $"Host={hostname};Database={dbName};Username={dbUser};Password={dbpassword}";
                     break;
                 case DatabaseType.SQLLite:
+                    connString = $"{dbName}";
+                    break;
                 default:
                     break;
             }
