@@ -24,7 +24,8 @@ deploy:
   - provider: script
     script: ./deploy.sh $TRAVIS_BRANCH $DOCKER_USERNAME $DOCKER_PASSWORD
     skip_cleanup: true
-    on: development
+    on: 
+      all_branches: true
   - provider: script
     script: ./deploy.sh latest $DOCKER_USERNAME $DOCKER_PASSWORD
     skip_cleanup: true
