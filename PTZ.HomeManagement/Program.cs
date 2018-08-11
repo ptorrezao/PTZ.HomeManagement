@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using PTZ.HomeManagement.Data;
+using Sentry;
 
 namespace PTZ.HomeManagement
 {
@@ -34,6 +35,7 @@ namespace PTZ.HomeManagement
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     context.Database.EnsureCreated();
                     SeedData.Initialize(services).Wait();
+
                 }
                 catch (Exception ex)
                 {
@@ -45,10 +47,41 @@ namespace PTZ.HomeManagement
             host.Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseNLog()
-                .Build();
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var webHost = WebHost.CreateDefaultBuilder(args)
+                   .UseStartup<Startup>()
+                   .UseNLog();
+
+            string sentryDSN = Environment.GetEnvironmentVariable("Sentry_DSN");
+
+            if (!string.IsNullOrEmpty(sentryDSN))
+            {
+                bool sentryIncludeRequestPayload = true;
+                bool sentryIncludeActivityData = true;
+                LogLevel sentryMinimumBreadcrumbLevel;
+                LogLevel sentryMinimumEventLevel;
+
+                bool.TryParse(Environment.GetEnvironmentVariable("Sentry_IncludeRequestPayload") ?? bool.TrueString, out sentryIncludeRequestPayload);
+                bool.TryParse(Environment.GetEnvironmentVariable("Sentry_IncludeActivityData") ?? bool.TrueString, out sentryIncludeActivityData);
+                Enum.TryParse(Environment.GetEnvironmentVariable("Sentry_MinimumBreadcrumbLevel") ?? LogLevel.Error.ToString(), out sentryMinimumBreadcrumbLevel);
+                Enum.TryParse(Environment.GetEnvironmentVariable("Sentry_MinimumEventLevel") ?? LogLevel.Error.ToString(), out sentryMinimumEventLevel);
+
+                webHost.UseSentry(opt =>
+                {
+                    opt.Dsn = sentryDSN;
+                    opt.IncludeRequestPayload = sentryIncludeRequestPayload;
+                    opt.IncludeActivityData = sentryIncludeActivityData;
+                    opt.Logging = new Sentry.AspNetCore.LoggingOptions()
+                    {
+                        MinimumBreadcrumbLevel = sentryMinimumBreadcrumbLevel,
+                        MinimumEventLevel = sentryMinimumEventLevel
+                    };
+                });
+            }
+
+
+            return webHost.Build();
+        }
     }
 }

@@ -10,7 +10,11 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
-      - DB_TYPE=CockroachDB
+      - Sentry_DSN=${DB_NAME}
+      - Sentry_IncludeRequestPayload=${Sentry_IncludeRequestPayload} #true or false
+      - Sentry_IncludeActivityData=${Sentry_IncludeActivityData} #true or false
+      - Sentry_MinimumBreadcrumbLevel=${Sentry_MinimumBreadcrumbLevel} #Trace, Debug, Information, Warning, Error, Critical or None
+      - Sentry_MinimumEventLevel=${Sentry_MinimumEventLevel #Trace, Debug, Information, Warning, Error, Critical or None
     deploy:
       labels:
        - traefik.backend=PTZHMA
