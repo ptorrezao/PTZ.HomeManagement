@@ -167,6 +167,7 @@ namespace PTZ.HomeManagement
         private static void PrepareLoggers(ILoggerFactory loggerFactory)
         {
             loggerFactory.AddNLog();
+            loggerFactory.AddConsole();
         }
     }
 }

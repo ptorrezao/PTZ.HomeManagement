@@ -59,18 +59,18 @@ namespace PTZ.HomeManagement
 
             if (!string.IsNullOrEmpty(sentryDSN))
             {
-                bool sentryIncludeRequestPayload = true;
-                bool sentryIncludeActivityData = true;
-                LogLevel sentryMinimumBreadcrumbLevel;
-                LogLevel sentryMinimumEventLevel;
-
-                CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeRequestPayload", true, out sentryIncludeRequestPayload);
-                CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeActivityData", true, out sentryIncludeActivityData);
-                CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumBreadcrumbLevel", LogLevel.Error, out sentryMinimumBreadcrumbLevel);
-                CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumEventLevel", LogLevel.Error, out sentryMinimumEventLevel);
-
                 webHost.UseSentry(opt =>
                 {
+                    bool sentryIncludeRequestPayload = true;
+                    bool sentryIncludeActivityData = true;
+                    LogLevel sentryMinimumBreadcrumbLevel;
+                    LogLevel sentryMinimumEventLevel;
+
+                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeRequestPayload", true, out sentryIncludeRequestPayload);
+                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeActivityData", true, out sentryIncludeActivityData);
+                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumBreadcrumbLevel", LogLevel.Error, out sentryMinimumBreadcrumbLevel);
+                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumEventLevel", LogLevel.Error, out sentryMinimumEventLevel);
+
                     opt.Dsn = sentryDSN;
                     opt.IncludeRequestPayload = sentryIncludeRequestPayload;
                     opt.IncludeActivityData = sentryIncludeActivityData;
@@ -79,11 +79,12 @@ namespace PTZ.HomeManagement
                         MinimumBreadcrumbLevel = sentryMinimumBreadcrumbLevel,
                         MinimumEventLevel = sentryMinimumEventLevel
                     };
+
                 });
             }
 
             return webHost.Build();
         }
-    
+
     }
 }

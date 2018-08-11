@@ -27,6 +27,7 @@
     <PackageReference Include="NLog.Targets.ElasticSearch" Version="5.0.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.5.4" />
     <PackageReference Include="Sentry.AspNetCore" Version="0.0.1-preview5" />
+    <PackageReference Include="Sentry.Extensions.Logging" Version="0.0.1-preview5" />
   </ItemGroup>
 
   <ItemGroup>
