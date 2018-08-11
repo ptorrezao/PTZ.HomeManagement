@@ -25,6 +25,7 @@ using PTZ.HomeManagement.MyFinance;
 using PTZ.HomeManagement.MyFinance.Data;
 using PTZ.HomeManagement.Services;
 using PTZ.HomeManagement.Utils;
+using Sentry.Extensibility;
 
 namespace PTZ.HomeManagement
 {
@@ -76,6 +77,9 @@ namespace PTZ.HomeManagement
 
             services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
+
+            services.AddSingleton<ISentryEventExceptionProcessor, CustomSentryEventExceptionProcessor>();
+            services.AddTransient<ISentryEventProcessor, CustomSentryEventEventProcessor>();
         }
 
         private void SetCorrectProvider(DbContextOptionsBuilder options)
