@@ -87,7 +87,7 @@ namespace PTZ.HomeManagement
             {
                 case DatabaseType.PostgreSQL:
                     services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
-                    services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
+                    services.AddDbContext<MyFinanceDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
                     break;
                 case DatabaseType.SqlServer:
                     services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration, dbType)));
