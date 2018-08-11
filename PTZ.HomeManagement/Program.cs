@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using PTZ.HomeManagement.Data;
+using PTZ.HomeManagement.Utils;
 using Sentry;
 
 namespace PTZ.HomeManagement
@@ -53,7 +54,8 @@ namespace PTZ.HomeManagement
                    .UseStartup<Startup>()
                    .UseNLog();
 
-            string sentryDSN = Environment.GetEnvironmentVariable("Sentry_DSN");
+            string sentryDSN;
+            CoreUtils.GetConfigFromEnviromentVariable("Sentry_DSN", string.Empty, out sentryDSN);
 
             if (!string.IsNullOrEmpty(sentryDSN))
             {
@@ -62,10 +64,10 @@ namespace PTZ.HomeManagement
                 LogLevel sentryMinimumBreadcrumbLevel;
                 LogLevel sentryMinimumEventLevel;
 
-                bool.TryParse(Environment.GetEnvironmentVariable("Sentry_IncludeRequestPayload") ?? bool.TrueString, out sentryIncludeRequestPayload);
-                bool.TryParse(Environment.GetEnvironmentVariable("Sentry_IncludeActivityData") ?? bool.TrueString, out sentryIncludeActivityData);
-                Enum.TryParse(Environment.GetEnvironmentVariable("Sentry_MinimumBreadcrumbLevel") ?? LogLevel.Error.ToString(), out sentryMinimumBreadcrumbLevel);
-                Enum.TryParse(Environment.GetEnvironmentVariable("Sentry_MinimumEventLevel") ?? LogLevel.Error.ToString(), out sentryMinimumEventLevel);
+                CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeRequestPayload", true, out sentryIncludeRequestPayload);
+                CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeActivityData", true, out sentryIncludeActivityData);
+                CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumBreadcrumbLevel", LogLevel.Error, out sentryMinimumBreadcrumbLevel);
+                CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumEventLevel", LogLevel.Error, out sentryMinimumEventLevel);
 
                 webHost.UseSentry(opt =>
                 {
@@ -80,8 +82,8 @@ namespace PTZ.HomeManagement
                 });
             }
 
-
             return webHost.Build();
         }
+    
     }
 }
