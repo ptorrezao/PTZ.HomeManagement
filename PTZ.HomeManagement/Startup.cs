@@ -46,7 +46,13 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
-            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.Configure<EmailSettings>(x=>
+            {
+                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "";
+                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "";
+                x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "";
+                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "";
+            });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 

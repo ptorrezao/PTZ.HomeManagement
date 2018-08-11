@@ -15,6 +15,10 @@ services:
       - Sentry_IncludeActivityData=${Sentry_IncludeActivityData} #true or false
       - Sentry_MinimumBreadcrumbLevel=${Sentry_MinimumBreadcrumbLevel} #Trace, Debug, Information, Warning, Error, Critical or None
       - Sentry_MinimumEventLevel=${Sentry_MinimumEventLevel #Trace, Debug, Information, Warning, Error, Critical or None
+      - MailGun_ApiKey=${MailGun_ApiKey}
+      - MailGun_ApiBaseUri=${MailGun_ApiBaseUri}
+      - MailGun_RequestUri=${MailGun_RequestUri}
+      - MailGun_From=${MailGun_From}
     deploy:
       labels:
        - traefik.backend=PTZHMA
