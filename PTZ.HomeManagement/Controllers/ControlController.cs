@@ -11,6 +11,7 @@ using NLog;
 using NLog.Targets;
 using NLog.Targets.Wrappers;
 using PTZ.HomeManagement.Data;
+using PTZ.HomeManagement.Enums;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Services;
 using PTZ.HomeManagement.Utils;
@@ -79,7 +80,12 @@ namespace PTZ.HomeManagement.Controllers
             vw.LogEntries = core.GetLastNMessages(10, LogUtils.GetLogFileName());
             vw.TotalMemory = Conversion.ConvertBytesToMegabytes(Process.GetCurrentProcess().WorkingSet64, 2);
             vw.Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            vw.DefaultConnection = DatabaseUtils.GetConnectionString(configuration);
+
+            string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
+            DatabaseType dbType;
+            Enum.TryParse<DatabaseType>(envVar, out dbType);
+
+            vw.DefaultConnection = DatabaseUtils.GetConnectionString(configuration, dbType);
             return View(vw);
         }
 
