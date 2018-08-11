@@ -38,7 +38,7 @@ namespace PTZ.HomeManagement.Utils
 
         public static string GetDefaultDb()
         {
-            return DatabaseType.PostgreSQL.ToString();
+            return DatabaseType.SQLLite.ToString();
         }
     }
 }
