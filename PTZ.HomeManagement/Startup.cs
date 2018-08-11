@@ -60,7 +60,8 @@ namespace PTZ.HomeManagement
             .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization();
 
-            SetDBContexts(services);
+            services.AddDbContext<ApplicationDbContext>(options => this.SetCorrectProvider(options));
+            services.AddDbContext<MyFinanceDbContext>(options => this.SetCorrectProvider(options));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -77,27 +78,24 @@ namespace PTZ.HomeManagement
             services.AddTransient<IMyFinanceService, MyFinanceService>();
         }
 
-        private void SetDBContexts(IServiceCollection services)
+        private void SetCorrectProvider(DbContextOptionsBuilder options)
         {
             string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
             DatabaseType dbType;
             Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
+            string connectionString = DatabaseUtils.GetConnectionString(Configuration, dbType);
+
             switch (dbType)
             {
-                case DatabaseType.PostgreSQL:
-                    services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
-                    services.AddDbContext<MyFinanceDbContext>(options => options.UseNpgsql(DatabaseUtils.GetConnectionString(Configuration, dbType)));
-                    break;
                 case DatabaseType.SqlServer:
-                    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration, dbType)));
-                    services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlServer(DatabaseUtils.GetConnectionString(Configuration, dbType)));
+                    options.UseSqlServer(connectionString);
+                    break;
+                case DatabaseType.PostgreSQL:
+                    options.UseNpgsql(connectionString);
                     break;
                 default:
-                    string dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
-                    string connectionString = string.Format("Data Source={0}", dbName);
-                    services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
-                    services.AddDbContext<MyFinanceDbContext>(options => options.UseSqlite(connectionString));
+                    options.UseSqlite(connectionString);
                     break;
             }
         }
