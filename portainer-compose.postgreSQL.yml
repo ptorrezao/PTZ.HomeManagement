@@ -10,11 +10,12 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME}
+      - DB_TYPE=PostgreSQL
       - Sentry_DSN=${Sentry_DSN}
-      - Sentry_IncludeRequestPayload=${Sentry_IncludeRequestPayload} #true or false
-      - Sentry_IncludeActivityData=${Sentry_IncludeActivityData} #true or false
-      - Sentry_MinimumBreadcrumbLevel=${Sentry_MinimumBreadcrumbLevel} #Trace, Debug, Information, Warning, Error, Critical or None
-      - Sentry_MinimumEventLevel=${Sentry_MinimumEventLevel #Trace, Debug, Information, Warning, Error, Critical or None
+      - Sentry_IncludeRequestPayload=${Sentry_IncludeRequestPayload} 
+      - Sentry_IncludeActivityData=${Sentry_IncludeActivityData} 
+      - Sentry_MinimumBreadcrumbLevel=${Sentry_MinimumBreadcrumbLevel} 
+      - Sentry_MinimumEventLevel=${Sentry_MinimumEventLevel}
       - MailGun_ApiKey=${MailGun_ApiKey}
       - MailGun_ApiBaseUri=${MailGun_ApiBaseUri}
       - MailGun_RequestUri=${MailGun_RequestUri}
@@ -34,6 +35,8 @@ services:
   db:
     image: postgres
     restart: always
+    networks:
+       - proxy
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USER}
@@ -43,8 +46,6 @@ services:
   adminer:
     image: adminer
     restart: always
-    ports:
-      - 8080:8080
     networks:
        - proxy
     deploy:
