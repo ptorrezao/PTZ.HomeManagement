@@ -21,14 +21,13 @@ services:
       - MailGun_RequestUri=${MailGun_RequestUri}
       - MailGun_From=${MailGun_From}
     deploy:
+      replicas: 1
       labels:
        - traefik.backend=PTZHMA
-       - traefik.frontend.rule=Host:ptzhma.${TOP_DOMAIN}
+       - traefik.frontend.rule=Host:ptzhma.${TOP_DOMAIN},${TOP_DOMAIN}
        - traefik.port=80
     networks:
        - proxy
-    volumes:
-      - PTZHM_src:/app
     depends_on:
      - db
   
@@ -37,6 +36,11 @@ services:
     restart: always
     networks:
        - proxy
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USER}
@@ -48,14 +52,16 @@ services:
     restart: always
     networks:
        - proxy
+    depends_on:
+     - db
     deploy:
+      replicas: 0
       labels:
        - traefik.backend=Adminer
        - traefik.frontend.rule=Host:adminer.${TOP_DOMAIN}
        - traefik.port=8080
       
 volumes:
-  PTZHM_src:
   DB_src:
 
 networks:
