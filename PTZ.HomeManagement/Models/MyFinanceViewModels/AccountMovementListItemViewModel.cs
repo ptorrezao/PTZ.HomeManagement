@@ -6,7 +6,7 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
     public class AccountMovementListItemViewModel
     {
         [DisplayName("Id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [DisplayName("MovementDate")]
         public DateTime MovementDate { get; set; }

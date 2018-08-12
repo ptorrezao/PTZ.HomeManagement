@@ -22,7 +22,7 @@ namespace PTZ.HomeManagement.Utils
                     break;
                 case DatabaseType.PostgreSQL:
                     dbUser = dbUser ?? "postgres";
-                    dbpassword = dbpassword ?? "Filipe#88";
+                    dbpassword = dbpassword ?? "mysecretpassword";
                     port = 5432;
                     connString = $"Host={hostname};Port={port};Username={dbUser};Database={dbName};Password={dbpassword}";
                     break;
@@ -38,7 +38,7 @@ namespace PTZ.HomeManagement.Utils
 
         public static string GetDefaultDb()
         {
-            return DatabaseType.SQLLite.ToString();
+            return DatabaseType.PostgreSQL.ToString();
         }
     }
 }

@@ -10,6 +10,11 @@
     <Compile Remove="Migrations\20180808005300_Initial.cs" />
     <Compile Remove="Migrations\20180808010915_Initial.cs" />
     <Compile Remove="Migrations\20180808011339_Initial.cs" />
+    <Compile Remove="Migrations\20180812104744_Teste.cs" />
+    <Compile Remove="Migrations\20180812105024_AutoIncrement.cs" />
+    <Compile Remove="Migrations\20180812110811_AutoIncrement.cs" />
+    <Compile Remove="Migrations\20180812111024_AutoIncrement.cs" />
+    <Compile Remove="Migrations\20180812111201_AutoIncrement.cs" />
   </ItemGroup>
 
   <ItemGroup>

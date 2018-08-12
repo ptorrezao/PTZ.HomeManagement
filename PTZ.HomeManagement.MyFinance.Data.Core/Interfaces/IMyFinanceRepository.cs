@@ -7,18 +7,18 @@ namespace PTZ.HomeManagement.MyFinance.Data
 {
     public interface IMyFinanceRepository
     {
-        BankAccount GetBankAccount(string userId, int bankAccountId);
+        BankAccount GetBankAccount(string userId, long bankAccountId);
         List<BankAccount> GetBankAccounts(string userId);
         void SaveBankAccount(string userId, BankAccount bankAccount);
         void CommitChanges();
         void DeleteBankAccount(string userId, BankAccount bankAccount);
-        BankAccountMovement GetBankAccountMovement(string userId, int bankAccountId, int movementId);
-        List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified);
-        List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, DateTime startDate, DateTime endDate);
-        bool ExistsBankAccount(int bankAccountId, string userId);
-        void SaveBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement);
-        void SaveBankAccountMovements(string userId, int bankAccountId, List<BankAccountMovement> list);
-        void DeleteBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement);
+        BankAccountMovement GetBankAccountMovement(string userId, long bankAccountId, int movementId);
+        List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified);
+        List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, DateTime startDate, DateTime endDate);
+        bool ExistsBankAccount(long bankAccountId, string userId);
+        void SaveBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement);
+        void SaveBankAccountMovements(string userId, long bankAccountId, List<BankAccountMovement> list);
+        void DeleteBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement);
         bool ExistsBankAccountMovements(BankAccountMovement item);
     }
 }

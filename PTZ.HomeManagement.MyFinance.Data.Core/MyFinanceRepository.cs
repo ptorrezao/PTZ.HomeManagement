@@ -34,7 +34,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
             this.context.BankAccounts.RemoveRange(elementsToRemove);
         }
 
-        public BankAccount GetBankAccount(string userId, int bankAccountId)
+        public BankAccount GetBankAccount(string userId, long bankAccountId)
         {
             BankAccount account = this.context.BankAccounts.FirstOrDefault(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
 
@@ -47,12 +47,12 @@ namespace PTZ.HomeManagement.MyFinance.Data
             return account;
         }
 
-        public BankAccountMovement GetBankAccountMovement(string userId, int bankAccountId, int movementId)
+        public BankAccountMovement GetBankAccountMovement(string userId, long bankAccountId, int movementId)
         {
             return this.context.BankAccountMovements.FirstOrDefault(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId && x.Id == movementId);
         }
 
-        public List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
+        public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
         {
             var list = this.context.BankAccountMovements.Where(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId).Take(qtdOfMovements);
             switch (dateSortOrder)
@@ -84,7 +84,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
             this.context.Entry(bankAccount).State = bankAccount.Id == 0 ? EntityState.Added : EntityState.Modified;
         }
 
-        public List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, DateTime startDate, DateTime endDate)
+        public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, DateTime startDate, DateTime endDate)
         {
             var list = this.context.BankAccountMovements.Where(x =>
                     x.BankAccount.ApplicationUser.Id == userId &&
@@ -95,19 +95,19 @@ namespace PTZ.HomeManagement.MyFinance.Data
             return list;
         }
 
-        public bool ExistsBankAccount(int bankAccountId, string userId)
+        public bool ExistsBankAccount(long bankAccountId, string userId)
         {
             return this.context.BankAccounts.Any(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
         }
 
-        public void SaveBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement)
+        public void SaveBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement)
         {
             bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
 
             this.context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
         }
 
-        public void SaveBankAccountMovements(string userId, int bankAccountId, List<BankAccountMovement> list)
+        public void SaveBankAccountMovements(string userId, long bankAccountId, List<BankAccountMovement> list)
         {
             foreach (var bankAccountMovement in list)
             {
@@ -116,7 +116,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
             }
         }
 
-        public void DeleteBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement)
+        public void DeleteBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement)
         {
             var elementsToRemove = this.context.BankAccountMovements.Where(x => x.BankAccount.Id == bankAccountId && x.BankAccount.ApplicationUser.Id == userId && x.Id == bankAccountMovement.Id);
             this.context.BankAccountMovements.RemoveRange(elementsToRemove);
