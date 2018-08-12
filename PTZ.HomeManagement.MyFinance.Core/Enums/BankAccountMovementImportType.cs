@@ -2,6 +2,7 @@
 {
     public enum BankAccountMovementImportType
     {
-        CGD
+        CGD,
+        BPI
     }
 }
