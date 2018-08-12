@@ -89,6 +89,7 @@ namespace PTZ.HomeManagement.Controllers
             return View(vw);
         }
 
+        [AllowAnonymous]
         public IActionResult Error(int? statusCode = null)
         {
             IExceptionHandlerPathFeature exceptionFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+@inject SignInManager<ApplicationUser> SignInManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,7 +29,10 @@
                         @ViewBag.AppName
                     </a>
                 </div>
-                @Html.Partial("_Navigation")
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @Html.Partial("_Navigation")
+                }
             </div>
         </div>
         <div class="main-panel">
@@ -34,9 +40,9 @@
             <div class="content">
                 <div class="container-fluid">
                     @RenderBody()
-
                 </div>
             </div>
+
             @Html.Partial("_Footer")
         </div>
     </div>

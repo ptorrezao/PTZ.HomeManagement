@@ -8,6 +8,11 @@ ENV SQLSERVER_PASSWORD=password
 ENV SQLSERVER_USERNAME=sa
 ENV DB_NAME=PTZHomeManagement
 ENV DB_TYPE=SQLLite
+ENV Sentry_DSN={YourKeyHere}
+ENV Sentry_IncludeActivityData=True
+ENV Sentry_IncludeRequestPayload=True
+ENV Sentry_MinimumBreadcrumbLevel=Debug
+ENV Sentry_MinimumEventLevel=Debug
 
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src

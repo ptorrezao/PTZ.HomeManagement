@@ -46,7 +46,7 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
-            services.Configure<EmailSettings>(x=>
+            services.Configure<EmailSettings>(x =>
             {
                 x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "";
                 x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "";
@@ -58,15 +58,6 @@ namespace PTZ.HomeManagement
 
             services.AddAutoMapper();
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(PresentationActionFilterAttribute));
-                options.Filters.Add(typeof(RequiredPasswordChangeActionFilterAttribute));
-                options.Filters.Add(new AuthorizeFilter(policy));
-            })
-            .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
-            .AddDataAnnotationsLocalization();
-
             services.AddDbContext<ApplicationDbContext>(options => this.SetCorrectProvider(options));
             services.AddDbContext<MyFinanceDbContext>(options => this.SetCorrectProvider(options));
 
@@ -74,7 +65,10 @@ namespace PTZ.HomeManagement
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddSingleton<ISentryEventExceptionProcessor, CustomSentryEventExceptionProcessor>();
+            services.AddTransient<ISentryEventProcessor, CustomSentryEventEventProcessor>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
 
             services.AddTransient<ICoreService, CoreService>();
             services.AddTransient<IEmailSender, EmailSender>();
@@ -84,8 +78,15 @@ namespace PTZ.HomeManagement
             services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
 
-            services.AddSingleton<ISentryEventExceptionProcessor, CustomSentryEventExceptionProcessor>();
-            services.AddTransient<ISentryEventProcessor, CustomSentryEventEventProcessor>();
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(PresentationActionFilterAttribute));
+                options.Filters.Add(typeof(RequiredPasswordChangeActionFilterAttribute));
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+            .AddDataAnnotationsLocalization();
         }
 
         private void SetCorrectProvider(DbContextOptionsBuilder options)
@@ -167,6 +168,7 @@ namespace PTZ.HomeManagement
         private static void PrepareLoggers(ILoggerFactory loggerFactory)
         {
             loggerFactory.AddNLog();
+            loggerFactory.AddConsole();
         }
     }
 }
