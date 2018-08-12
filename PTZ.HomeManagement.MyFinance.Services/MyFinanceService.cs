@@ -32,7 +32,7 @@ namespace PTZ.HomeManagement.MyFinance
                 ApplicationUser = user,
             };
         }
-        public BankAccountMovement GetBankAccountMovementDefault(string userId, int bankAccountId)
+        public BankAccountMovement GetBankAccountMovementDefault(string userId, long bankAccountId)
         {
             BankAccount bankAccount = myFinanceRepo.GetBankAccount(userId, bankAccountId);
 
@@ -44,7 +44,7 @@ namespace PTZ.HomeManagement.MyFinance
             };
         }
 
-        public BankAccount GetBankAccount(string userId, int bankAccountId)
+        public BankAccount GetBankAccount(string userId, long bankAccountId)
         {
             return myFinanceRepo.GetBankAccount(userId, bankAccountId);
         }
@@ -64,19 +64,19 @@ namespace PTZ.HomeManagement.MyFinance
             myFinanceRepo.CommitChanges();
         }
 
-        public BankAccountMovement GetBankAccountMovement(string userId, int bankAccountId, int movementId)
+        public BankAccountMovement GetBankAccountMovement(string userId, long bankAccountId, int movementId)
         {
             return myFinanceRepo.GetBankAccountMovement(userId, bankAccountId, movementId);
         }
-        public List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
+        public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
         {
             return myFinanceRepo.GetBankAccountMovements(userId, bankAccountId, qtdOfMovements, dateSortOrder);
         }
-        public List<BankAccountMovement> GetBankAccountMovements(string userId, int bankAccountId, DateTime startDate, DateTime endDate)
+        public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, DateTime startDate, DateTime endDate)
         {
             return myFinanceRepo.GetBankAccountMovements(userId, bankAccountId, startDate, endDate);
         }
-        public void SaveBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement)
+        public void SaveBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement)
         {
             if (myFinanceRepo.ExistsBankAccount(bankAccountId, userId))
             {
@@ -84,7 +84,7 @@ namespace PTZ.HomeManagement.MyFinance
                 myFinanceRepo.CommitChanges();
             }
         }
-        public List<BankAccountMovement> SaveBankAccountMovements(string userId, int bankAccountId, List<BankAccountMovement> list)
+        public List<BankAccountMovement> SaveBankAccountMovements(string userId, long bankAccountId, List<BankAccountMovement> list)
         {
             if (myFinanceRepo.ExistsBankAccount(bankAccountId, userId))
             {
@@ -94,14 +94,14 @@ namespace PTZ.HomeManagement.MyFinance
 
             return list;
         }
-        public void DeleteBankAccountMovement(string userId, int bankAccountId, BankAccountMovement bankAccountMovement)
+        public void DeleteBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement)
         {
 
             myFinanceRepo.DeleteBankAccountMovement(userId, bankAccountId, bankAccountMovement);
             myFinanceRepo.CommitChanges();
         }
 
-        public List<BankAccountMovement> ImportBankAccountMovement(string userId, int bankAccountId, BankAccountMovementImportType importType, IFormFile file)
+        public List<BankAccountMovement> ImportBankAccountMovement(string userId, long bankAccountId, BankAccountMovementImportType importType, IFormFile file)
         {
             factory = factory ?? new BankAccountMovementImportFactory();
 

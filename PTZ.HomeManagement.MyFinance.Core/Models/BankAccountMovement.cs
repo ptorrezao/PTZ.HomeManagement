@@ -5,8 +5,7 @@ namespace PTZ.HomeManagement.MyFinance.Models
 {
     public class BankAccountMovement
     {
-        [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public DateTime MovementDate { get; set; }
 

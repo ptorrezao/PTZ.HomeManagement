@@ -17,7 +17,7 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         }
 
         [DisplayName("Id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [DisplayName("Name")]
         public string Name { get; set; }

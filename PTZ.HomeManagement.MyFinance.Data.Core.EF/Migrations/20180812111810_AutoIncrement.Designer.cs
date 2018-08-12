@@ -12,9 +12,10 @@ using System;
 namespace PTZ.HomeManagement.MyFinance.Data.EF.Migrations
 {
     [DbContext(typeof(MyFinanceDbContext))]
-    partial class MyFinanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180812111810_AutoIncrement")]
+    partial class AutoIncrement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
