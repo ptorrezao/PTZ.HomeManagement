@@ -15,8 +15,6 @@ namespace PTZ.HomeManagement.Utils
             SentryEvent sentryEvent)
         {
             sentryEvent.AddBreadcrumb("Processor running on special exception.");
-
-            sentryEvent.SetTag("IsSpecial", "true");
         }
     }
 }

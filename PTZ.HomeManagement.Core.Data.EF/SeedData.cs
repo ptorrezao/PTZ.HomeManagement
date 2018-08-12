@@ -50,6 +50,8 @@ namespace PTZ.HomeManagement.Data
             {
                 user = new ApplicationUser { UserName = UserName, RequirePasswordChange = true };
                 await userManager.CreateAsync(user, testUserPw);
+
+
             }
 
             return user.Id;
@@ -68,7 +70,13 @@ namespace PTZ.HomeManagement.Data
 
             if (!string.IsNullOrEmpty(userId))
             {
-                IR = await EnsureUserOnRole(serviceProvider, userId, role);
+                var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+                var usersInRole = await userManager.GetUsersInRoleAsync(role);
+
+                if (!usersInRole.Any(x => x.Id == userId))
+                {
+                    IR = await EnsureUserOnRole(serviceProvider, userId, role);
+                }
             }
 
             return IR;

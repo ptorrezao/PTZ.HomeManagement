@@ -26,14 +26,24 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
 - Default User:Pwd (on first login will request to change the password)
 	- admin@hmptz.local:Ch4ng3_Th1s 
 		
-## DBMS (via ORM)
-	-SQL Server -> [Microsoft SQL Server EF Core Database Provider](https://github.com/aspnet/EntityFrameworkCore)
-	-SQL Lite -> [SQLite EF Core Database Provider](https://github.com/aspnet/EntityFrameworkCore)
+## DBMS (via ORM EF)
 ### Configuration of DBMS (via Enviroment Variable [Case Sensitive])
-	DB_NAME = (e.g. PTZHZ.bd or PTZHomeManagement)
-	DB_TYPE = 
-		SQLLite 
-		SqlServer 
+	- DB_TYPE = SQLLite, SqlServer or PostgreSQL
+	- DB_HOST=${DB_HOST} well you know..
+	- DB_USER=${DB_USER}
+	- DB_PASSWORD=${DB_PASSWORD}
+	- DB_NAME=${DB_NAME}
+	
+## Logging (Error) (via Enviroment Variable [Case Sensitive])
+### Log erros on Sentry 
+	- Sentry_DSN=${Sentry_DSN}
+	
+## Email (via Enviroment Variable [Case Sensitive])
+### MailGun
+      - MailGun_ApiKey=${MailGun_ApiKey}
+      - MailGun_ApiBaseUri=${MailGun_ApiBaseUri}
+      - MailGun_RequestUri=${MailGun_RequestUri}
+      - MailGun_From=${MailGun_From}
 ## License
 This project is licensed under the terms of the **MIT** license.
 >You can check out the full license [here](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/LICENSE)

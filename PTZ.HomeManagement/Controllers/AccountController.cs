@@ -48,6 +48,14 @@ namespace PTZ.HomeManagement.Controllers
             return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Boom()
+        {
+            // Clear the existing external cookie to ensure a clean login process
+            throw new NotImplementedException("Isto € um teste");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

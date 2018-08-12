@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -61,25 +62,28 @@ namespace PTZ.HomeManagement
             {
                 webHost.UseSentry(opt =>
                 {
-                    bool sentryIncludeRequestPayload = true;
-                    bool sentryIncludeActivityData = true;
-                    LogLevel sentryMinimumBreadcrumbLevel;
-                    LogLevel sentryMinimumEventLevel;
-
-                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeRequestPayload", true, out sentryIncludeRequestPayload);
-                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeActivityData", true, out sentryIncludeActivityData);
-                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumBreadcrumbLevel", LogLevel.Error, out sentryMinimumBreadcrumbLevel);
-                    CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumEventLevel", LogLevel.Error, out sentryMinimumEventLevel);
-
-                    opt.Dsn = sentryDSN;
-                    opt.IncludeRequestPayload = sentryIncludeRequestPayload;
-                    opt.IncludeActivityData = sentryIncludeActivityData;
-                    opt.Logging = new Sentry.AspNetCore.LoggingOptions()
+                    opt.Init(i =>
                     {
-                        MinimumBreadcrumbLevel = sentryMinimumBreadcrumbLevel,
-                        MinimumEventLevel = sentryMinimumEventLevel
-                    };
+                        bool sentryIncludeRequestPayload = true;
+                        bool sentryIncludeActivityData = true;
+                        LogLevel sentryMinimumBreadcrumbLevel;
+                        LogLevel sentryMinimumEventLevel;
 
+                        CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeRequestPayload", true, out sentryIncludeRequestPayload);
+                        CoreUtils.GetConfigFromEnviromentVariable("Sentry_IncludeActivityData", true, out sentryIncludeActivityData);
+                        CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumBreadcrumbLevel", LogLevel.Error, out sentryMinimumBreadcrumbLevel);
+                        CoreUtils.GetConfigFromEnviromentVariable("Sentry_MinimumEventLevel", LogLevel.Error, out sentryMinimumEventLevel);
+                        opt.Dsn = sentryDSN;
+                        opt.IncludeRequestPayload = sentryIncludeRequestPayload;
+                        opt.IncludeActivityData = sentryIncludeActivityData;
+                        opt.Logging = new Sentry.AspNetCore.LoggingOptions()
+                        {
+                            MinimumBreadcrumbLevel = sentryMinimumBreadcrumbLevel,
+                            MinimumEventLevel = sentryMinimumEventLevel,
+                        };
+                        opt.Release = typeof(Startup).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+                        i.AddInAppExclude("Full");
+                    });
                 });
             }
 
