@@ -35,13 +35,13 @@ namespace PTZ.HomeManagement.MyFinance.Imports
                 {
                     row = importStartsAtRow++;
 
-                    object movDate = worksheet.Cells[row, 1].Value;
-                    object valDate = worksheet.Cells[row, 2].Value;
-                    object desc = worksheet.Cells[row, 3].Value;
+                    object movDate = worksheet.Cells[row, 1].Value ?? "";
+                    object valDate = worksheet.Cells[row, 2].Value ?? "";
+                    object desc = worksheet.Cells[row, 3].Value ?? "";
 
-                    if (movDate == null &&
-                        valDate == null && 
-                        desc == null)
+                    if (string.IsNullOrEmpty(movDate.ToString()) &&
+                        string.IsNullOrEmpty(valDate.ToString()) &&
+                         string.IsNullOrEmpty(desc.ToString()))
                     {
                         // By convetion this means there is no more records
                         break;

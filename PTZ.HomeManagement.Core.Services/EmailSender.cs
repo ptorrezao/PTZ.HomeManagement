@@ -16,6 +16,7 @@ namespace PTZ.HomeManagement.Services
     public class EmailSender : IEmailSender
     {
         private readonly EmailSettings _emailSettings;
+        private readonly Email emailSender;
 
         public EmailSender(IOptions<EmailSettings> emailOptions)
         {
@@ -26,6 +27,14 @@ namespace PTZ.HomeManagement.Services
                 _emailSettings.ApiKey// Mailgun API Key
             );
 
+            var razorRenderer = new RazorRenderer();
+
+
+            emailSender = new Email(razorRenderer, sender);
+        }
+
+        private void CheckSettings()
+        {
             if (string.IsNullOrEmpty(_emailSettings.From))
             {
                 throw new EmailSenderException($"Parameter _emailSettings.From can't be null");
@@ -40,15 +49,14 @@ namespace PTZ.HomeManagement.Services
             {
                 throw new EmailSenderException($"Parameter _emailSettings.ApiKey can't be null");
             }
-
-            Email.DefaultRenderer = new RazorRenderer();
-            Email.DefaultSender = sender;
         }
 
         public async Task SendEmailAsync<T>(string template, string subject, string toEmail, T model)
         {
-            var email = Email
-                .From(_emailSettings.From)
+            CheckSettings();
+
+            var email = emailSender
+                .SetFrom(_emailSettings.From)
                 .To(toEmail)
                 .Subject(subject)
                 .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}/Views/Shared/EmailTemplates/{template}.cshtml", model);

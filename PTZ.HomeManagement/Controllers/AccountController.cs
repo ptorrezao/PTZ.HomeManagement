@@ -65,7 +65,7 @@ namespace PTZ.HomeManagement.Controllers
                         if (!await _userManager.IsEmailConfirmedAsync(user))
                         {
                             ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
-                            return View(model);
+                            return RedirectToAction(nameof(ManageController.Index), "Manage");
                         }
                         else if (result.Succeeded)
                         {
