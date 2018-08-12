@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using FluentEmail.Core;
+using FluentEmail.Mailgun;
+using FluentEmail.Razor;
+using Microsoft.Extensions.Options;
 using PTZ.HomeManagement.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -16,27 +20,40 @@ namespace PTZ.HomeManagement.Services
         public EmailSender(IOptions<EmailSettings> emailOptions)
         {
             _emailSettings = emailOptions.Value;
+
+            var sender = new MailgunSender(
+                _emailSettings.Domain, // Mailgun Domain
+                _emailSettings.ApiKey// Mailgun API Key
+            );
+
+            if (string.IsNullOrEmpty(_emailSettings.From))
+            {
+                throw new EmailSenderException($"Parameter _emailSettings.From can't be null");
+            }
+
+            if (string.IsNullOrEmpty(_emailSettings.Domain))
+            {
+                throw new EmailSenderException($"Parameter _emailSettings.Domain can't be null");
+            }
+
+            if (string.IsNullOrEmpty(_emailSettings.ApiKey))
+            {
+                throw new EmailSenderException($"Parameter _emailSettings.ApiKey can't be null");
+            }
+
+            Email.DefaultRenderer = new RazorRenderer();
+            Email.DefaultSender = sender;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync<T>(string template, string subject, string toEmail, T model)
         {
-            if (!string.IsNullOrEmpty(_emailSettings.ApiKey))
-            {
-                using (var client = new HttpClient { BaseAddress = new Uri(_emailSettings.ApiBaseUri) })
-                {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(_emailSettings.ApiKey)));
+            var email = Email
+                .From(_emailSettings.From)
+                .To(toEmail)
+                .Subject(subject)
+                .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}/Views/Shared/EmailTemplates/{template}.cshtml", model);
 
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                    new KeyValuePair<string, string>("from", _emailSettings.From),
-                    new KeyValuePair<string, string>("to", email),
-                    new KeyValuePair<string, string>("subject", subject),
-                    new KeyValuePair<string, string>("html", message)
-                });
-
-                    await client.PostAsync(_emailSettings.RequestUri, content).ConfigureAwait(false);
-                }
-            }
+            await email.SendAsync();
         }
     }
 }

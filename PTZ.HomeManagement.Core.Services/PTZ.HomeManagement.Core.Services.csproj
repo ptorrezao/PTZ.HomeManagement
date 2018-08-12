@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentEmail.Core" Version="2.5.1" />
+    <PackageReference Include="FluentEmail.Mailgun" Version="2.5.1" />
+    <PackageReference Include="FluentEmail.Razor" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
   </ItemGroup>
 
