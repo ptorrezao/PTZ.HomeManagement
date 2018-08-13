@@ -4,13 +4,14 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <AssemblyVersion>0.0.1.1</AssemblyVersion>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="Views\Manage\Disable2fa.cshtml" />
     <Content Remove="Views\Manage\GenerateRecoveryCodes.cshtml" />
     <Content Remove="Views\Manage\ResetAuthenticator.cshtml" />
-    <Content Remove="Views\Shared\EmailTemplates\EmailConfirm.cshtml" />
     <Content Remove="Views\Shared\_Layout - Copy.cshtml" />
   </ItemGroup>
 
@@ -44,7 +45,6 @@
 
   <ItemGroup>
     <None Include="Resources\Views\Account\Login.en-US.resx" />
-    <None Include="Views\Shared\EmailTemplates\EmailConfirm.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +69,12 @@
 
   <ItemGroup>
     <Content Update="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\EmailTemplates\EmailConfirm.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\Shared\EmailTemplates\PasswordRecovery.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Views\Shared\_Version.cshtml">
