@@ -8,6 +8,8 @@
             {
                 case BankAccountMovementImportType.CGD:
                     return new BankAccountMovementImportCgd();
+                case BankAccountMovementImportType.BPI:
+                    return new BankAccountMovementImportBpi();
                 default:
                     return null;
             }

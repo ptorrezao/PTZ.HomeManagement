@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using FluentEmail.Core;
+using FluentEmail.Mailgun;
+using FluentEmail.Razor;
+using Microsoft.Extensions.Options;
 using PTZ.HomeManagement.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,31 +16,52 @@ namespace PTZ.HomeManagement.Services
     public class EmailSender : IEmailSender
     {
         private readonly EmailSettings _emailSettings;
+        private readonly Email emailSender;
 
         public EmailSender(IOptions<EmailSettings> emailOptions)
         {
             _emailSettings = emailOptions.Value;
+
+            var sender = new MailgunSender(
+                _emailSettings.Domain, // Mailgun Domain
+                _emailSettings.ApiKey// Mailgun API Key
+            );
+
+            var razorRenderer = new RazorRenderer();
+
+
+            emailSender = new Email(razorRenderer, sender);
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        private void CheckSettings()
         {
-            if (!string.IsNullOrEmpty(_emailSettings.ApiKey))
+            if (string.IsNullOrEmpty(_emailSettings.From))
             {
-                using (var client = new HttpClient { BaseAddress = new Uri(_emailSettings.ApiBaseUri) })
-                {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(_emailSettings.ApiKey)));
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                    new KeyValuePair<string, string>("from", _emailSettings.From),
-                    new KeyValuePair<string, string>("to", email),
-                    new KeyValuePair<string, string>("subject", subject),
-                    new KeyValuePair<string, string>("html", message)
-                });
-
-                    await client.PostAsync(_emailSettings.RequestUri, content).ConfigureAwait(false);
-                }
+                throw new EmailSenderException($"Parameter _emailSettings.From can't be null");
             }
+
+            if (string.IsNullOrEmpty(_emailSettings.Domain))
+            {
+                throw new EmailSenderException($"Parameter _emailSettings.Domain can't be null");
+            }
+
+            if (string.IsNullOrEmpty(_emailSettings.ApiKey))
+            {
+                throw new EmailSenderException($"Parameter _emailSettings.ApiKey can't be null");
+            }
+        }
+
+        public async Task SendEmailAsync<T>(string template, string subject, string toEmail, T model)
+        {
+            CheckSettings();
+
+            var email = emailSender
+                .SetFrom(_emailSettings.From)
+                .To(toEmail)
+                .Subject(subject)
+                .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}/Views/Shared/EmailTemplates/{template}.cshtml", model);
+
+            await email.SendAsync();
         }
     }
 }

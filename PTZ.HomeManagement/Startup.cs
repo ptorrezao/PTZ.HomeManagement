@@ -52,6 +52,7 @@ namespace PTZ.HomeManagement
                 x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "";
                 x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "";
                 x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "";
+                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? ""; 
             });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");

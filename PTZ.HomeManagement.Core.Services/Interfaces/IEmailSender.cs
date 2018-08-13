@@ -7,6 +7,6 @@ namespace PTZ.HomeManagement.Services
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(string email, string subject, string message);
+        Task SendEmailAsync<T>(string template, string subject, string toEmail, T model);
     }
 }
