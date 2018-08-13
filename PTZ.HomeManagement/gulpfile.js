@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='Generate_App, Generate_LBD' />
+﻿/// <binding eforeBuild='Generate_App, Generate_LBD, CopyEmailTemplates' />
 "use strict";
 
 var gulp = require("gulp"),
@@ -63,4 +63,9 @@ gulp.task("Generate_App", function () {
 
     gulp.src('Media/**/*')
         .pipe(gulp.dest('wwwroot/media/'));
+});
+
+gulp.task("CopyEmailTemplates", function () {
+    gulp.src('Views/Shared/EmailTemplates/*')
+        .pipe(gulp.dest('wwwroot/Views/Shared/EmailTemplates/'));
 });

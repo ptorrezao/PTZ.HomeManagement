@@ -44,6 +44,7 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
       - MailGun_ApiBaseUri=${MailGun_ApiBaseUri}
       - MailGun_RequestUri=${MailGun_RequestUri}
       - MailGun_From=${MailGun_From}
+	  - MailGun_Domain=${MailGun_Domain}
 ## License
 This project is licensed under the terms of the **MIT** license.
 >You can check out the full license [here](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/LICENSE)

@@ -48,14 +48,6 @@ namespace PTZ.HomeManagement.Controllers
             return View();
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Boom()
-        {
-            // Clear the existing external cookie to ensure a clean login process
-            throw new NotImplementedException("Isto € um teste");
-        }
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -73,7 +65,7 @@ namespace PTZ.HomeManagement.Controllers
                         if (!await _userManager.IsEmailConfirmedAsync(user))
                         {
                             ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
-                            return View(model);
+                            return RedirectToAction(nameof(ManageController.Index), "Manage");
                         }
                         else if (result.Succeeded)
                         {
@@ -127,7 +119,7 @@ namespace PTZ.HomeManagement.Controllers
             {
                 return View(model);
             }
-          
+
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
@@ -384,8 +376,7 @@ namespace PTZ.HomeManagement.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailSender.SendEmailResetPasswordAsync(model.Email, callbackUrl);
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
