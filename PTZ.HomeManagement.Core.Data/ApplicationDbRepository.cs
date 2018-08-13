@@ -20,7 +20,7 @@ namespace PTZ.HomeManagement.Core.Data
 
         public ApplicationUser GetUsers(string userId = null)
         {
-            return context.Users.FirstOrDefault(x => !string.IsNullOrEmpty(userId) || x.Id == userId);
+            return context.Users.FirstOrDefault(x => string.IsNullOrEmpty(userId) || x.Id == userId);
         }
     }
 }
