@@ -59,7 +59,7 @@ namespace PTZ.HomeManagement.Services
                 .SetFrom(_emailSettings.From)
                 .To(toEmail)
                 .Subject(subject)
-                .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}/Views/Shared/EmailTemplates/{template}.cshtml", model);
+                .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}/wwwroot/Views/Shared/EmailTemplates/{template}.cshtml", model);
 
             await email.SendAsync();
         }
