@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='Generate_App, Generate_LBD' />
+﻿/// <binding eforeBuild='Generate_App, Generate_LBD, CopyEmailTemplates' />
 "use strict";
 
 var gulp = require("gulp"),
