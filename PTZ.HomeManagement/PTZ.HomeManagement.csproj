@@ -126,6 +126,12 @@
     <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountListItemViewModel.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountMovementReviewListItemViewModel.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountMovementReviewListItemViewModel.pt-PT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountMovementListItemViewModel.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>

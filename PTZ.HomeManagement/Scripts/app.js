@@ -18,6 +18,8 @@
     });
 
     $(".nav-item.active").closest("div").before().collapse('show');
+
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 var demo = {

@@ -18,7 +18,6 @@
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(x => x.Items.First().MovementDate)</th>
-                        <th>@Html.DisplayNameFor(x => x.Items.First().ValueDate)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().Description)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().Amount)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().TotalBalanceAfterMovement)</th>
@@ -29,14 +28,14 @@
                     @foreach (AccountMovementListItemViewModel item in Model.Items)
                     {
                         <tr>
-                            <td >@item.MovementDate.ToShortDateString()</td>
-                            <td >@item.ValueDate.ToShortDateString()</td>
+                            <td data-toggle="tooltip" data-placement="right" title="@Html.DisplayNameFor(x => x.Items.First().ValueDate): @item.ValueDate.ToShortDateString()">@item.MovementDate.ToShortDateString()</td>
                             <td>@item.Description</td>
-                            <td>@item.Amount</td>
-                            <td>@item.TotalBalanceAfterMovement</td>
+                            <td>@item.Amount.ConvertToCurrency("€")</td>
+                            <td>@item.TotalBalanceAfterMovement.ConvertToCurrency("€")</td>
                             <td class="no-sort">
-                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Edit"]</a> &nbsp;
-                                <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id">@localizer["Delete"]</a>
+                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-edit"></i></a> &nbsp;
+                                <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-trash"></i></a> &nbsp;
+
                             </td>
                         </tr>
                     }
@@ -44,23 +43,15 @@
             </table>
         </div>
         <div class="card-footer">
-            <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline">
-                <span class="btn-label">
+            <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
                     <i class="fa fa-arrow-left"></i>
-                </span>@localizer["ReturnButton"]
             </a> &nbsp;
-            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="ImportMovements" asp-route-bankAccountId="@Model.Id">
-                <span class="btn-label">
-                    <i class="fa fa-upload"></i>
-                </span>
-                @localizer["ImportMovements"]
-            </a>
-            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-bankAccountId="@Model.Id">
-                <span class="btn-label">
-                    <i class="fa fa-plus"></i>
-                </span>
-                @localizer["Add"]
-            </a>
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-bankAccountId="@Model.Id" data-toggle="tooltip" data-placement="top" title="@localizer["Add"]">
+                <i class="fa fa-plus"></i>
+            </a>  &nbsp;
+            <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["ImportMovements"]" asp-action="ImportMovements" asp-route-bankAccountId="@Model.Id">
+                <i class="fa fa-file-import"></i>
+            </a> &nbsp;
         </div>
     </div>
 </div>

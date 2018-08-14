@@ -25,7 +25,6 @@
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(x => x.Items.First().MovementDate)</th>
-                        <th>@Html.DisplayNameFor(x => x.Items.First().ValueDate)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().Description)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().Amount)</th>
                         <th class="no-sort"></th>
@@ -35,20 +34,19 @@
                     @foreach (AccountMovementReviewListItemViewModel item in Model.Items)
                     {
                         <tr>
-                            <td>@item.MovementDate.ToShortDateString()</td>
-                            <td>@item.ValueDate.ToShortDateString()</td>
+                            <td data-toggle="tooltip" data-placement="right" title="@Html.DisplayNameFor(x => x.Items.First().ValueDate): @item.ValueDate.ToShortDateString()">@item.MovementDate.ToShortDateString()</td>
                             <td>@item.Description</td>
-                            <td>@item.Amount</td>
+                            <td>@item.Amount.ConvertToCurrency("€")</td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
         <div class="card-footer">
-            <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline">
+            <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
                 <span class="btn-label">
                     <i class="fa fa-arrow-left"></i>
-                </span>@localizer["ReturnButton"]
+                </span>
             </a> &nbsp;
         </div>
     </div>

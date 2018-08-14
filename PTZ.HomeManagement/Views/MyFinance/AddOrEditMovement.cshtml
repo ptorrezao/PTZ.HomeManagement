@@ -19,34 +19,34 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="row">
                         @if (isEdit)
-                        {
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label asp-for="Id"></label>
-                                    <input asp-for="Id" class="form-control" disabled />
-                                </div>
-                            </div>
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label asp-for="Description"></label>
-                                    <input asp-for="Description" class="form-control" />
-                                    <span asp-validation-for="Description" class="text-danger"></span>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label asp-for="Description"></label>
-                                    <input asp-for="Description" class="form-control" />
-                                    <span asp-validation-for="Description" class="text-danger"></span>
-                                </div>
-                            </div>     
-                        }
+        {
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Id"></label>
+                        <input asp-for="Id" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+}
+else
+{
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+}
                     </div>
                     <div class="row">
-                       
+
                     </div>
 
                     <div class="row">
@@ -69,21 +69,24 @@
                                 <label asp-for="ValueDate"></label>
                                 <input asp-for="ValueDate" class="form-control" />
                                 <span asp-validation-for="ValueDate" class="text-danger"></span>
+
+                                <input asp-for="TotalBalanceAfterMovement" hidden class="form-control" />
+
                             </div>
                         </div>
 
                     </div>
 
                     <div class="pull-right">
-                        <a href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=ViewContext.HttpContext.Request.Query["bankAccountId"][0] })" class="btn btn-sm btn-default btn-outline">
+                        <a href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=ViewContext.HttpContext.Request.Query["bankAccountId"][0] })" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@returnButton">
                             <span class="btn-label">
                                 <i class="fa fa-arrow-left"></i>
-                            </span>@returnButton
+                            </span>
                         </a> &nbsp;
-                        <button type="submit" class="btn btn-sm btn-info btn-fill ">
+                        <button type="submit" class="btn btn-sm btn-info btn-fill  " data-toggle="tooltip" data-placement="top" title="@button">
                             <span class="btn-label">
-                                <i class="fa fa-plus"></i>
-                            </span>@button
+                                <i class="fa fa-save"></i>
+                            </span>
                         </button>
                     </div>
                     <div class="clearfix"></div>
