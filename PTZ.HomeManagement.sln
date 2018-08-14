@@ -17,6 +17,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Travis", "Travis", "{FE58DC7B-1D72-46E4-8107-A1485D4F7171}"
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
+		build-test.sh = build-test.sh
 		build.sh = build.sh
 		deploy.sh = deploy.sh
 	EndProjectSection
@@ -37,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.MyFinanc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.Core.Data", "PTZ.HomeManagement.Core.Data\PTZ.HomeManagement.Core.Data.csproj", "{2D0FCD85-B6B5-432E-8B1C-1FE7A8306067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTZ.HomeManagement.MyFinance.Services.Test", "PTZ.HomeManagement.MyFinance.Services.Test\PTZ.HomeManagement.MyFinance.Services.Test.csproj", "{9C087694-7601-4FDB-A5F5-77EB7CF03C57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.MyFinance.Services.Test", "PTZ.HomeManagement.MyFinance.Services.Test\PTZ.HomeManagement.MyFinance.Services.Test.csproj", "{9C087694-7601-4FDB-A5F5-77EB7CF03C57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
