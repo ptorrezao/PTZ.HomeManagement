@@ -17,16 +17,16 @@
                 <form method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <input asp-for="BankAccountId" hidden />
                             <label asp-for="ImportType"></label>
-                            <select asp-for="ImportType" asp-items="Model.AvailableImportTypes" class="btn-group selectpicker"></select>
+                            <select asp-for="ImportType" asp-items="Model.AvailableImportTypes" class="btn-group selectpicker  btn-block"></select>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="upload-btn-wrapper">
-                                <button class="btn btn-info btn-fill ">
+                                <button class="btn btn-info btn-fill btn-block">
                                     <span class="btn-label">
                                         <i class="fa fa-upload"></i>
                                     </span>@selectFile
@@ -36,15 +36,12 @@
                         </div>
                     </div>
                     <div class="pull-right">
-                        <a href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=Model.BankAccountId })" class="btn btn-sm btn-default btn-outline">
-                            <span class="btn-label">
-                                <i class="fa fa-arrow-left"></i>
-                            </span>@returnButton
+                        <a href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=Model.BankAccountId })" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@returnButton">
+                            <i class="fa fa-arrow-left"></i>
                         </a> &nbsp;
-                        <button type="submit" class="btn btn-sm btn-info btn-fill ">
-                            <span class="btn-label">
-                                <i class="fa fa-plus"></i>
-                            </span>@button
+                        <button type="submit" class="btn btn-sm btn-info btn-fill " data-toggle="tooltip" data-placement="top" title="@button">
+                            <i class="fa fa-plus"></i>
+
                         </button>
                     </div>
                     <div class="clearfix"></div>

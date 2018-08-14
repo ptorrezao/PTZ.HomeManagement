@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,8 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         }
 
         public long BankAccountId { get; set; }
+
+        [DisplayName("Tipo de Importação")]
         public BankAccountMovementImportType ImportType { get; set; }
         public IEnumerable<SelectListItem> AvailableImportTypes { get; set; }
         public List<AccountMovementReviewListItemViewModel> Items { get; set; }

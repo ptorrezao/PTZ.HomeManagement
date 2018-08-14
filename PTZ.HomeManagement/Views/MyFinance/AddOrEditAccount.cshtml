@@ -82,15 +82,15 @@
 
 
                     <div class="pull-right">
-                        <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline">
+                        <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@returnButton">
                             <span class="btn-label">
                                 <i class="fa fa-arrow-left"></i>
-                            </span>@returnButton
+                            </span>
                         </a> &nbsp;
-                        <button type="submit" class="btn btn-sm btn-info btn-fill ">
+                        <button type="submit" class="btn btn-sm btn-info btn-fill  " data-toggle="tooltip" data-placement="top" title="@button">
                             <span class="btn-label">
-                                <i class="fa fa-plus"></i>
-                            </span>@button
+                                <i class="fa fa-save"></i>
+                            </span>
                         </button>
                     </div>
                     <div class="clearfix"></div>

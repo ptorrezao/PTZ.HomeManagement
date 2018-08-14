@@ -60,15 +60,15 @@
                     </div>
 
                     <div class="pull-right">
-                        <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline">
+                        <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
                             <span class="btn-label">
                                 <i class="fa fa-arrow-left"></i>
-                            </span>@localizer["ReturnButton"]
+                            </span>
                         </a> &nbsp;
-                        <button type="submit" class="btn btn-sm btn-danger btn-fill ">
+                        <button type="submit" class="btn btn-sm btn-danger btn-fill " data-toggle="tooltip" data-placement="top" title="@localizer["DeleteButton"]">
                             <span class="btn-label">
                                 <i class="fa fa-times"></i>
-                            </span>@localizer["DeleteButton"]
+                            </span>
                         </button>
                     </div>
                     <div class="clearfix"></div>
