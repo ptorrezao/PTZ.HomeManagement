@@ -35,7 +35,18 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 col-md-12">
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label asp-for="Color"></label>
+                                    <div id="colorPicker">
+                                        <a class="color"><div class="colorInner"></div></a>
+                                        <div class="track"></div>
+                                        <ul class="dropdown"><li></li></ul>
+                                        <input asp-for="Color" class="colorInput"  type="hidden" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-11">
                                 <div class="form-group">
                                     <label asp-for="Name"></label>
                                     <input asp-for="Name" class="form-control" />
@@ -54,7 +65,18 @@
                                     <span asp-validation-for="Bank" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label asp-for="Color"></label>
+                                    <div id="colorPicker">
+                                        <a class="color"><div class="colorInner"></div></a>
+                                        <div class="track"></div>
+                                        <ul class="dropdown"><li></li></ul>
+                                        <input asp-for="Color" class="colorInput" type="hidden" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label asp-for="Name"></label>
                                     <input asp-for="Name" class="form-control" />
@@ -102,4 +124,18 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
+
+    <script type="text/javascript">
+        window.onload = function () {
+            // The plain javascript api is very similar to the jquery version with some exceptions.
+            // There is no chaining like in the jquery api. So when you create a instance it
+            // will return all methods and properties.
+            //
+            var $picker = document.getElementById("colorPicker")
+                , picker = tinycolorpicker($picker)
+
+            picker.setColor("@Model.Color");
+        }
+    </script>
 }

@@ -123,6 +123,9 @@
   <data name="Bank" xml:space="preserve">
     <value>Banco</value>
   </data>
+  <data name="Color" xml:space="preserve">
+    <value>Cor</value>
+  </data>
   <data name="IBAN" xml:space="preserve">
     <value>IBAN</value>
   </data>

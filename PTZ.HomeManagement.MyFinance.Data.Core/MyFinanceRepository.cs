@@ -124,7 +124,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
 
         public bool ExistsBankAccountMovements(BankAccountMovement item)
         {
-            return this.context.BankAccountMovements.Any(x => x.GetHashCode() == item.GetHashCode());
+            return this.context.BankAccountMovements.Include(x => x.BankAccount).Any(x => x.GetHashCode() == item.GetHashCode());
         }
     }
 }

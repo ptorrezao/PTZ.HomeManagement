@@ -34,6 +34,7 @@ namespace PTZ.HomeManagement.Models
                .ForMember(vm => vm.Amount, opt => opt.MapFrom(u => u.CurrentBalance))
                .ForMember(vm => vm.AssetType, opt => opt.MapFrom(u => u.AccountType))
                .ForMember(vm => vm.AccountNumber, opt => opt.MapFrom(u => u.IBAN))
+               .ForMember(vm => vm.Color, opt => opt.MapFrom(u => u.Color))
                .ForMember(vm => vm.AccountTitle, opt => opt.MapFrom(u => u.Name));
         }
     }
