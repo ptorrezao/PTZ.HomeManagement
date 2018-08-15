@@ -45,6 +45,14 @@ namespace PTZ.HomeManagement.MyFinance
                 ValueDate = DateTime.Now
             };
         }
+        public Category GetCategoryDefault(string userId)
+        {
+            ApplicationUser user = appRepo.GetUser(userId);
+            return new Category()
+            {
+                ApplicationUser = user,
+            };
+        }
 
         public BankAccount GetBankAccount(string userId, long bankAccountId)
         {
@@ -119,6 +127,28 @@ namespace PTZ.HomeManagement.MyFinance
             }
             lines.RemoveAll(x => linesToRemove.Any(q => q.GetHashCode() == x.GetHashCode()));
             return this.SaveBankAccountMovements(userId, bankAccountId, lines);
+        }
+
+        public List<Category> GetCategories(string userId)
+        {
+            return myFinanceRepo.GetCategories(userId);
+        }
+
+        public Category GetCategory(string userId, long id)
+        {
+            return myFinanceRepo.GetCategory(userId, id);
+        }
+        public void SaveCategory(string userId, Category category)
+        {
+            category.ApplicationUser = appRepo.GetUser(userId);
+            myFinanceRepo.SaveCategory(userId, category);
+            myFinanceRepo.CommitChanges();
+        }
+
+        public void DeleteCategory(string userId, Category category)
+        {
+            myFinanceRepo.DeleteCategory(userId, category);
+            myFinanceRepo.CommitChanges();
         }
     }
 }

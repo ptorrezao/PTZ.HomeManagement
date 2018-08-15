@@ -14,22 +14,19 @@ namespace PTZ.HomeManagement.Core.Data
     {
         private readonly ApplicationDbContext context;
 
-        public ApplicationDbRepository(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbRepository(IServiceProvider serviceProvider)
         {
+            DbContextOptions<ApplicationDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>();
             this.context = new ApplicationDbContext(options);
+
             if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
             {
-                var lastAppliedMigration = this.context.Database.GetAppliedMigrations().LastOrDefault();
                 var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
-                if (lastAppliedMigration != lastDefinedMigration)
+                if (this.context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
                 {
                     this.context.Database.Migrate();
                 }
             }
-        }
-        public ApplicationDbRepository(IServiceProvider serviceProvider) :
-            this(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>())
-        {
         }
 
         public ApplicationUser GetUser(string userId)

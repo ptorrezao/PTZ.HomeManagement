@@ -10,7 +10,8 @@ namespace PTZ.HomeManagement.MyFinance.Data
     {
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<BankAccountMovement> BankAccountMovements { get; set; }
-
+        public DbSet<Category> Categories { get; set; }
+        
         public MyFinanceDbContext(DbContextOptions<MyFinanceDbContext> options)
             : base(options)
         {
@@ -41,6 +42,13 @@ namespace PTZ.HomeManagement.MyFinance.Data
                 b.HasIndex("BankAccountId");
                 b.ToTable("BankAccountMovements");
                 b.HasOne(o => o.BankAccount).WithMany(x => x.Movements).HasForeignKey("BankAccountId");
+            });
+
+            modelBuilder.HasSequence<long>("Category").StartsAt(1).IncrementsBy(1);
+            modelBuilder.Entity<Category>(b =>
+            {
+                b.Property(o => o.Id).HasDefaultValueSql("nextval('\"Category\"')");
+                b.HasKey(o => o.Id);
             });
         }
     }

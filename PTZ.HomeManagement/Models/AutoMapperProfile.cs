@@ -36,6 +36,11 @@ namespace PTZ.HomeManagement.Models
                .ForMember(vm => vm.AccountNumber, opt => opt.MapFrom(u => u.IBAN))
                .ForMember(vm => vm.Color, opt => opt.MapFrom(u => u.Color))
                .ForMember(vm => vm.AccountTitle, opt => opt.MapFrom(u => u.Name));
+
+            CreateMap<Category, CategoryViewModel>();
+            CreateMap<CategoryViewModel, Category>();
+            CreateMap<List<Category>, CategoryListViewModel>()
+            .ForMember(vm => vm.Items, opt => opt.MapFrom(u => Mapper.Map<IList<Category>, IList<CategoryListItemViewModel>>(u)));
         }
     }
 }

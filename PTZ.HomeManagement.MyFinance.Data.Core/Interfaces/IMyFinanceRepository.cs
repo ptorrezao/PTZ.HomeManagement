@@ -20,5 +20,9 @@ namespace PTZ.HomeManagement.MyFinance.Data
         void SaveBankAccountMovements(string userId, long bankAccountId, List<BankAccountMovement> list);
         void DeleteBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement);
         bool ExistsBankAccountMovements(BankAccountMovement item);
+        List<Category> GetCategories(string userId);
+        Category GetCategory(string userId, long id);
+        void SaveCategory(string userId, Category category);
+        void DeleteCategory(string userId, Category category);
     }
 }

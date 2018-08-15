@@ -1,0 +1,49 @@
+﻿@inject IViewLocalizer localizer
+@model CategoryListViewModel
+
+@{
+    ViewBag.Title = ModulesNames.MyFinance;
+}
+
+<div class="col-md-12">
+    <div class="card strpied-tabled-with-hover">
+        <div class="card-header ">
+            <h4 class="card-title">@localizer["Title"]</h4>
+            <p class="card-category text-right">
+
+            </p>
+        </div>
+        <div class="card-body table-full-width table-responsive">
+            <table class="table table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Name)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Description)</th>
+                        <th class="no-sort"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (CategoryListItemViewModel item in Model.Items)
+                    {
+                        <tr>
+                            <td><span class="badge badge-pill badge-secondary" style="background-color: @item.Color;">@item.Name</span></td>
+                            <td>@item.Description</td>
+                            <td class="no-sort">
+                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditCategory" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> &nbsp;
+                                <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteCategory" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a> &nbsp;
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditCategory" data-toggle="tooltip" data-placement="top" title="@localizer["Add"]">
+                <span class="btn-label">
+                    <i class="fa fa-plus"></i>
+                </span>
+            </a>
+        </div>
+
+    </div>
+</div>

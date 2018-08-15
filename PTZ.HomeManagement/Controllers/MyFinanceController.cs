@@ -123,6 +123,26 @@ namespace PTZ.HomeManagement.Controllers
 
             return View(lvm);
         }
+
+        public IActionResult ImportMovements(int bankAccountId)
+        {
+            return View(new AccountMovementImportViewModel(bankAccountId));
+        }
+
+        [HttpPost]
+        public IActionResult ImportMovements(AccountMovementImportViewModel import, IFormFile file)
+        {
+            if (ModelState.IsValid && file.Length > 0)
+            {
+                List<BankAccountMovement> list = _myFinanceService.ImportBankAccountMovement(User.GetUserId(), import.BankAccountId, import.ImportType, file);
+
+                import.Items = Mapper.Map<List<AccountMovementReviewListItemViewModel>>(list);
+
+                return View("ImportMovementsReview", import);
+            }
+
+            return RedirectToAction(nameof(ImportMovements), new { import.BankAccountId });
+        }
         #endregion
 
         #region Dashboard
@@ -164,28 +184,52 @@ namespace PTZ.HomeManagement.Controllers
             });
 
             return View(vm);
-        } 
+        }
         #endregion
 
-        #region ImportMovements
-        public IActionResult ImportMovements(int bankAccountId)
+        #region Categories
+        public IActionResult ListCategories()
         {
-            return View(new AccountMovementImportViewModel(bankAccountId));
+            List<Category> categories = _myFinanceService.GetCategories(User.GetUserId());
+            return View(Mapper.Map<CategoryListViewModel>(categories));
+        }
+
+        public IActionResult AddOrEditCategory(int? id)
+        {
+            Category category = id.HasValue ? _myFinanceService.GetCategory(User.GetUserId(), id.Value) : _myFinanceService.GetCategoryDefault(User.GetUserId());
+            return View(Mapper.Map<CategoryViewModel>(category));
         }
 
         [HttpPost]
-        public IActionResult ImportMovements(AccountMovementImportViewModel import, IFormFile file)
+        public IActionResult AddOrEditCategory(CategoryViewModel lvm)
         {
-            if (ModelState.IsValid && file.Length > 0)
+            if (ModelState.IsValid)
             {
-                List<BankAccountMovement> list = _myFinanceService.ImportBankAccountMovement(User.GetUserId(), import.BankAccountId, import.ImportType, file);
+                _myFinanceService.SaveCategory(User.GetUserId(), Mapper.Map<Category>(lvm));
 
-                import.Items = Mapper.Map<List<AccountMovementReviewListItemViewModel>>(list);
-
-                return View("ImportMovementsReview", import);
+                return RedirectToAction(nameof(ListCategories));
             }
 
-            return RedirectToAction(nameof(ImportMovements), new { import.BankAccountId });
+            return View(lvm);
+        }
+
+        public IActionResult DeleteCategory(int id)
+        {
+            Category category = _myFinanceService.GetCategory(User.GetUserId(), id);
+            return View(Mapper.Map<CategoryViewModel>(category));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCategory(CategoryViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _myFinanceService.DeleteCategory(User.GetUserId(), Mapper.Map<Category>(lvm));
+
+                return RedirectToAction(nameof(ListCategories));
+            }
+
+            return View(lvm);
         }
         #endregion
     }

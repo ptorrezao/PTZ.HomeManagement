@@ -10,7 +10,7 @@ namespace PTZ.HomeManagement.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction(nameof(MyFinanceController.Dashboard), "MyFinance");
         }
     }
 }

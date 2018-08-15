@@ -13,23 +13,19 @@ namespace PTZ.HomeManagement.MyFinance.Data
     {
         private readonly MyFinanceDbContext context;
 
-        public MyFinanceRepositoryEF(DbContextOptions<MyFinanceDbContext> options)
+        public MyFinanceRepositoryEF(IServiceProvider serviceProvider) 
         {
+            DbContextOptions<MyFinanceDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>();
             this.context = new MyFinanceDbContext(options);
 
             if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
             {
-                var lastAppliedMigration = this.context.Database.GetAppliedMigrations().LastOrDefault();
                 var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
-                if (lastAppliedMigration != lastDefinedMigration)
+                if (this.context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
                 {
                     this.context.Database.Migrate();
                 }
             }
-        }
-        public MyFinanceRepositoryEF(IServiceProvider serviceProvider) :
-            this(serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>())
-        {
         }
 
         public void CommitChanges()
@@ -134,6 +130,29 @@ namespace PTZ.HomeManagement.MyFinance.Data
         public bool ExistsBankAccountMovements(BankAccountMovement item)
         {
             return this.context.BankAccountMovements.Include(x => x.BankAccount).Any(x => x.GetHashCode() == item.GetHashCode());
+        }
+
+        public List<Category> GetCategories(string userId)
+        {
+            return this.context.Categories.Where(x => x.ApplicationUser.Id == userId).ToList();
+        }
+
+        public Category GetCategory(string userId, long id)
+        {
+            Category category = this.context.Categories.FirstOrDefault(x => x.Id == id && x.ApplicationUser.Id == userId);
+
+            return category;
+        }
+
+        public void SaveCategory(string userId, Category category)
+        {
+            this.context.Entry(category).State = category.Id == 0 ? EntityState.Added : EntityState.Modified;
+        }
+
+        public void DeleteCategory(string userId, Category category)
+        {
+            var elementsToRemove = this.context.Categories.Where(x => x.ApplicationUser.Id == userId && category.Id == x.Id);
+            this.context.Categories.RemoveRange(elementsToRemove);
         }
     }
 }

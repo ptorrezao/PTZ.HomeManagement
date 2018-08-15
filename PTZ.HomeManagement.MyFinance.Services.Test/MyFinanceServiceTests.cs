@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Models;
@@ -25,8 +26,13 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
                 .UseInMemoryDatabase(databaseName: "MyFinanceDb")
                 .Options;
 
-            this.repo = new MyFinanceRepositoryEF(myFinanceDbContextOptions);
-            this.apprepo = new ApplicationDbRepository(appDbContextOptions);
+            var mock = new Mock<IServiceProvider>();
+            mock.Setup(p => p.GetService(typeof(DbContextOptions<MyFinanceDbContext>))).Returns(myFinanceDbContextOptions);
+            mock.Setup(p => p.GetService(typeof(DbContextOptions<ApplicationDbContext>))).Returns(appDbContextOptions);
+            var serviceProvider = mock.Object;
+
+            this.repo = new MyFinanceRepositoryEF(serviceProvider);
+            this.apprepo = new ApplicationDbRepository(serviceProvider);
             this.myFinanceService = new MyFinanceService(repo, apprepo);
 
             InitUsers();
