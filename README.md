@@ -19,6 +19,9 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
 - Admin Template (light-bootstrap-dashboard) [Creative Tim](https://www.creative-tim.com/product/light-bootstrap-dashboard)
 - Bootstrap-select [bootstrap-select](https://silviomoreto.github.io/bootstrap-select/)
 - Mailgun [Mailgun](https://www.mailgun.com/email-api)
+- Tiny Colorpicker - A lightweight cross browser color picker. [Page](http://baijs.com/tinycolorpicker/)
+
+
 ## WorkFlow
 ![WorkFlow](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/workflow.png?raw=true)
 

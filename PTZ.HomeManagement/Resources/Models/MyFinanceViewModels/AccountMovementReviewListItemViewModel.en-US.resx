@@ -117,22 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountType" xml:space="preserve">
-    <value>Account Type</value>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
   </data>
-  <data name="Bank" xml:space="preserve">
-    <value>Bank</value>
-  </data>
-  <data name="Color" xml:space="preserve">
-    <value>Cor</value>
-  </data>
-  <data name="IBAN" xml:space="preserve">
-    <value>IBAN</value>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="Id" xml:space="preserve">
     <value>Identificador</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Nome</value>
+  <data name="MovementDate" xml:space="preserve">
+    <value>Movement Date</value>
+  </data>
+  <data name="TotalBalanceAfterMovement" xml:space="preserve">
+    <value>Total Balance After Mov.</value>
+  </data>
+  <data name="ValueDate" xml:space="preserve">
+    <value>Value Date</value>
   </data>
 </root>

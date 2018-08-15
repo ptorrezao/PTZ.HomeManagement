@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <RootNamespace>PTZ.HomeManagement</RootNamespace>
+
+    <ProjectGuid>e04a3541-c7c2-47f0-b094-1ba834bb78af</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>

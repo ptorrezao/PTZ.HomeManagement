@@ -60,16 +60,18 @@
 
                     <div class="pull-right">
 
-                        <a href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=ViewContext.HttpContext.Request.Query["bankAccountId"][0] })" class="btn btn-sm btn-default btn-outline">
-                            <span class="btn-label">
-                                <i class="fa fa-arrow-left"></i>
-                            </span>@localizer["ReturnButton"]
-                        </a> &nbsp;
-                        <button type="submit" class="btn btn-sm btn-danger btn-fill ">
-                            <span class="btn-label">
-                                <i class="fa fa-times"></i>
-                            </span>@localizer["DeleteButton"]
-                        </button>
+                        <div class="pull-right">
+                            <a class="btn btn-sm btn-default btn-outline" href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=ViewContext.HttpContext.Request.Query["bankAccountId"][0] })"  data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
+                                <span class="btn-label">
+                                    <i class="fa fa-arrow-left"></i>
+                                </span>
+                            </a> &nbsp;
+                            <button type="submit" class="btn btn-sm btn-danger btn-fill " data-toggle="tooltip" data-placement="top" title="@localizer["DeleteButton"]">
+                                <span class="btn-label">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                            </button>
+                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </form>

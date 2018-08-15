@@ -44,6 +44,11 @@ namespace PTZ.HomeManagement.Utils
                     return "#4cff00";
             }
         }
+
+        public static string ConvertToCurrency(this decimal value, string currency)
+        {
+            return value.ToString("#,##0.00;-#,##0.00;0.00}") + " " + currency;
+        }
     }
 
 }

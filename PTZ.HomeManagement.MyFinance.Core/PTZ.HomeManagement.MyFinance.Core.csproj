@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <ProjectGuid>78595f15-3391-4737-9cd0-093b4c159758</ProjectGuid>
     <RootNamespace>PTZ.HomeManagement.MyFinance</RootNamespace>
   </PropertyGroup>
 
