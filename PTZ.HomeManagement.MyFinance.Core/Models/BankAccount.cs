@@ -31,5 +31,7 @@ namespace PTZ.HomeManagement.MyFinance.Models
 
         [NotMapped]
         public decimal CurrentBalance { get; set; }
+
+        public string Color { get; set; }
     }
 }

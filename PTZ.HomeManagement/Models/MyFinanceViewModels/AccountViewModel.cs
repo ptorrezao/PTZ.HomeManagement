@@ -31,6 +31,9 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         [DisplayName("Bank")]
         public Bank Bank { get; set; }
 
+        [DisplayName("Color")]
+        public string Color { get; set; }
+
         public IEnumerable<SelectListItem> AvailableBanks { get; set; }
         public IEnumerable<SelectListItem> AvailableAccountType { get; set; }
     }

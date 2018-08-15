@@ -27,7 +27,7 @@
                     {
                         <tr>
                             <td>@item.Name</td>
-                            <td>@item.Bank</td>
+                            <td><span class="badge badge-pill badge-secondary" style="background-color: @item.Color;">@item.Bank</span></td>
                             <td>@item.IBAN</td>
                             <td class="no-sort">
                                 <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditAccount" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> &nbsp;

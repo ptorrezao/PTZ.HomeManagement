@@ -14,6 +14,9 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         [DisplayName("Bank")]
         public Bank Bank { get; set; }
 
+        [DisplayName("Color")]
+        public string Color { get; set; }
+        
         [DisplayName("IBAN")]
         public string IBAN { get; set; }
 

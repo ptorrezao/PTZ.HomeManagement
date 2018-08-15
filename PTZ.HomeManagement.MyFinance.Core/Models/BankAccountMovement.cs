@@ -24,6 +24,8 @@ namespace PTZ.HomeManagement.MyFinance.Models
             return MovementDate.GetHashCode() +
                 ValueDate.GetHashCode() +
                 Amount.GetHashCode() +
+                (BankAccount != null ? BankAccount.Id : 0).GetHashCode() +
+                Id.GetHashCode() +
                 TotalBalanceAfterMovement.GetHashCode() +
                 Description.GetHashCode();
         }
@@ -34,7 +36,9 @@ namespace PTZ.HomeManagement.MyFinance.Models
 
             return ob.MovementDate == this.MovementDate &&
                 ob.ValueDate == this.ValueDate &&
+                ob.Id == this.Id &&
                 ob.Amount == this.Amount &&
+                (ob.BankAccount != null ? ob.BankAccount.Id : 0) == (this.BankAccount != null ? this.BankAccount.Id : 0) &&
                 ob.TotalBalanceAfterMovement == this.TotalBalanceAfterMovement &&
                 ob.Description == this.Description;
         }
