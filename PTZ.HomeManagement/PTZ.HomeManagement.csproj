@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+
+    <ProjectGuid>f491dd1f-d14d-4ed2-809f-609ee8075f61</ProjectGuid>
     <AssemblyVersion>0.0.0.2</AssemblyVersion>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>

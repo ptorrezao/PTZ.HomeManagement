@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <ProjectGuid>1a7a79b9-6941-4071-9688-0107aef1b7e4</ProjectGuid>
     <RootNamespace>PTZ.HomeManagement</RootNamespace>
   </PropertyGroup>
 
