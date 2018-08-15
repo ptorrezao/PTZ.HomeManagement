@@ -4,16 +4,16 @@ dist: trusty
 mono: none
 dotnet: 2.0.0
 
+before_install:
+- chmod +x build.sh
+- chmod +x SonarScanner.MSBuild/sonar-scanner-3.2.0.1227/bin/sonar-scanner
+
 install:
   - export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-before_script:
-  - chmod a+x ./build.sh
-  - chmod a+x ./deploy.sh
+  - dotnet restore PTZ.HomeManagement.sln
 
 script:
-  - ./build.sh $SONAR_TOKEN
-
+  - ./build.sh $SONAR_TOKEN 
 
 deploy:
   - provider: script
@@ -24,8 +24,7 @@ deploy:
   - provider: script
     script: ./deploy.sh $TRAVIS_BRANCH $DOCKER_USERNAME $DOCKER_PASSWORD
     skip_cleanup: true
-    on: 
-      all_branches: true
+    on: development
   - provider: script
     script: ./deploy.sh latest $DOCKER_USERNAME $DOCKER_PASSWORD
     skip_cleanup: true

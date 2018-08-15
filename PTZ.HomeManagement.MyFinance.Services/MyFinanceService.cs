@@ -26,10 +26,12 @@ namespace PTZ.HomeManagement.MyFinance
 
         public BankAccount GetBankAccountDefault(string userId)
         {
-            ApplicationUser user = appRepo.GetUsers(userId);
+            ApplicationUser user = appRepo.GetUser(userId);
             return new BankAccount()
             {
                 ApplicationUser = user,
+                AccountType = AssetType.CurrentAccount,
+                IsVisible = true
             };
         }
         public BankAccountMovement GetBankAccountMovementDefault(string userId, long bankAccountId)
@@ -54,7 +56,7 @@ namespace PTZ.HomeManagement.MyFinance
         }
         public void SaveBankAccount(string userId, BankAccount bankAccount)
         {
-            bankAccount.ApplicationUser = appRepo.GetUsers(userId);
+            bankAccount.ApplicationUser = appRepo.GetUser(userId);
             myFinanceRepo.SaveBankAccount(userId, bankAccount);
             myFinanceRepo.CommitChanges();
         }

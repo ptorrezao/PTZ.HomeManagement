@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.MyFinanc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.Core.Data", "PTZ.HomeManagement.Core.Data\PTZ.HomeManagement.Core.Data.csproj", "{2D0FCD85-B6B5-432E-8B1C-1FE7A8306067}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.MyFinance.Services.Test", "PTZ.HomeManagement.MyFinance.Services.Test\PTZ.HomeManagement.MyFinance.Services.Test.csproj", "{9C087694-7601-4FDB-A5F5-77EB7CF03C57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{2D0FCD85-B6B5-432E-8B1C-1FE7A8306067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D0FCD85-B6B5-432E-8B1C-1FE7A8306067}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D0FCD85-B6B5-432E-8B1C-1FE7A8306067}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C087694-7601-4FDB-A5F5-77EB7CF03C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C087694-7601-4FDB-A5F5-77EB7CF03C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C087694-7601-4FDB-A5F5-77EB7CF03C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C087694-7601-4FDB-A5F5-77EB7CF03C57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

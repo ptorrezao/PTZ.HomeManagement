@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using PTZ.HomeManagement.MyFinance.Models;
 
@@ -12,15 +13,23 @@ namespace PTZ.HomeManagement.MyFinance.Data
     {
         private readonly MyFinanceDbContext context;
 
-        public MyFinanceRepositoryEF(IServiceProvider serviceProvider)
+        public MyFinanceRepositoryEF(DbContextOptions<MyFinanceDbContext> options)
         {
-            this.context = new MyFinanceDbContext(serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>());
-            var lastAppliedMigration = this.context.Database.GetAppliedMigrations().LastOrDefault();
-            var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
-            if (lastAppliedMigration != lastDefinedMigration)
+            this.context = new MyFinanceDbContext(options);
+
+            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
             {
-                this.context.Database.Migrate();
+                var lastAppliedMigration = this.context.Database.GetAppliedMigrations().LastOrDefault();
+                var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
+                if (lastAppliedMigration != lastDefinedMigration)
+                {
+                    this.context.Database.Migrate();
+                }
             }
+        }
+        public MyFinanceRepositoryEF(IServiceProvider serviceProvider) :
+            this(serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>())
+        {
         }
 
         public void CommitChanges()

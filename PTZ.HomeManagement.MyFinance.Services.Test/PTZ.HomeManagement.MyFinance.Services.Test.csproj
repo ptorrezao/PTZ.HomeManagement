@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ProjectGuid>9c087694-7601-4fdb-a5f5-77eb7cf03c57</ProjectGuid>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="2.2.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PTZ.HomeManagement.Core.Data\PTZ.HomeManagement.Core.Data.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Core\PTZ.HomeManagement.MyFinance.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Data.Core\PTZ.HomeManagement.MyFinance.Data.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Services\PTZ.HomeManagement.MyFinance.Services.csproj" />
+  </ItemGroup>
+
+</Project>
