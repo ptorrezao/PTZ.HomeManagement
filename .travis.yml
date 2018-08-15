@@ -7,6 +7,7 @@ dotnet: 2.0.0
 before_install:
 - chmod +x build.sh
 - chmod +x SonarScanner.MSBuild/sonar-scanner-3.2.0.1227/bin/sonar-scanner
+- chmod a+x ./deploy.sh
 
 install:
   - export DOTNET_CLI_TELEMETRY_OPTOUT=1
