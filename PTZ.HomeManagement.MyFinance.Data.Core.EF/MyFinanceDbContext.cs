@@ -11,7 +11,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<BankAccountMovement> BankAccountMovements { get; set; }
         public DbSet<Category> Categories { get; set; }
-        
+
         public MyFinanceDbContext(DbContextOptions<MyFinanceDbContext> options)
             : base(options)
         {
@@ -20,6 +20,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
 
             modelBuilder.HasSequence<long>("BankAccount").StartsAt(1).IncrementsBy(1);
             modelBuilder.Entity<BankAccount>(b =>
@@ -49,6 +50,13 @@ namespace PTZ.HomeManagement.MyFinance.Data
             {
                 b.Property(o => o.Id).HasDefaultValueSql("nextval('\"Category\"')");
                 b.HasKey(o => o.Id);
+            });
+
+            modelBuilder.Entity<CategoryBankAccountMovement>(b =>
+            {
+                b.HasKey(q => new { q.BankAccountMovementId, q.CategoryId });
+                b.HasOne(q => q.Category).WithMany(q => q.Movements).HasForeignKey(x => x.CategoryId);
+                b.HasOne(q => q.BankAccountMovement).WithMany(q => q.Categories).HasForeignKey(x => x.BankAccountMovementId);
             });
         }
     }

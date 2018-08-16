@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PTZ.HomeManagement.MyFinance.Models
@@ -18,6 +19,8 @@ namespace PTZ.HomeManagement.MyFinance.Models
         public string Description { get; set; }
 
         public virtual BankAccount BankAccount { get; set; }
+
+        public virtual List<CategoryBankAccountMovement> Categories { get; set; }
 
         public override int GetHashCode()
         {
