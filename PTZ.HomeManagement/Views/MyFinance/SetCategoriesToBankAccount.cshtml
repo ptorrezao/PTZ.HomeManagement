@@ -1,0 +1,94 @@
+﻿@model CategoriesAccountMovementViewModel
+@inject IViewLocalizer localizer
+@{
+    ViewBag.Title = ModulesNames.MyFinance;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">@localizer["SetCategories"]</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label asp-for="Id"></label>
+                                <input asp-for="Id" class="form-control" disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label asp-for="Description"></label>
+                                <input asp-for="Description" class="form-control" disabled />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                                @Html.HiddenFor(m => m.Description)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Amount"></label>
+                                <input asp-for="Amount" class="form-control" disabled />
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                                @Html.HiddenFor(m => m.Amount)
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="MovementDate"></label>
+                                <input asp-for="MovementDate" class="form-control" disabled />
+                                <span asp-validation-for="MovementDate" class="text-danger"></span>
+                                @Html.HiddenFor(m => m.MovementDate)
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="ValueDate"></label>
+                                <input asp-for="ValueDate" class="form-control" disabled />
+                                <span asp-validation-for="ValueDate" class="text-danger"></span>
+                                @Html.HiddenFor(m => m.ValueDate)
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label asp-for="SelectedCategories"></label>
+                                <select asp-for="SelectedCategories" asp-items="Model.AvailableCategories"  class="btn-group selectpicker form-control" title="@localizer["SelectOneCategory"]" >
+                                </select>
+                                <span asp-validation-for="SelectedCategories" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="pull-right">
+                            <div class="pull-right">
+                                <a class="btn btn-sm btn-default btn-outline" href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=ViewContext.HttpContext.Request.Query["bankAccountId"][0] })" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
+                                    <span class="btn-label">
+                                        <i class="fa fa-arrow-left"></i>
+                                    </span>
+                                </a> &nbsp;
+                                <button type="submit" class="btn btn-sm btn-info btn-fill " data-toggle="tooltip" data-placement="top" title="@localizer["Save"]">
+                                    <span class="btn-label">
+                                        <i class="fa fa-save"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

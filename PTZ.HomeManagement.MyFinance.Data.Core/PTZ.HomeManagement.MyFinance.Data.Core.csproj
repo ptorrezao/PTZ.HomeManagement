@@ -12,5 +12,4 @@
     <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Core\PTZ.HomeManagement.MyFinance.Core.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Data.Core.EF\PTZ.HomeManagement.MyFinance.Data.Core.EF.csproj" />
   </ItemGroup>
-
 </Project>

@@ -10,6 +10,8 @@ namespace PTZ.HomeManagement.MyFinance.Data
     {
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<BankAccountMovement> BankAccountMovements { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryBankAccountMovement> CategoriesBankAccountMovements { get; set; }
 
         public MyFinanceDbContext(DbContextOptions<MyFinanceDbContext> options)
             : base(options)
@@ -19,6 +21,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
 
             modelBuilder.HasSequence<long>("BankAccount").StartsAt(1).IncrementsBy(1);
             modelBuilder.Entity<BankAccount>(b =>
@@ -40,7 +43,23 @@ namespace PTZ.HomeManagement.MyFinance.Data
                 b.HasKey(o => o.Id);
                 b.HasIndex("BankAccountId");
                 b.ToTable("BankAccountMovements");
+                b.HasMany(x => x.Categories).WithOne(x => x.BankAccountMovement);
                 b.HasOne(o => o.BankAccount).WithMany(x => x.Movements).HasForeignKey("BankAccountId");
+            });
+
+            modelBuilder.HasSequence<long>("Category").StartsAt(1).IncrementsBy(1);
+            modelBuilder.Entity<Category>(b =>
+            {
+                b.Property(o => o.Id).HasDefaultValueSql("nextval('\"Category\"')");
+                b.HasKey(o => o.Id);
+                b.HasMany(x => x.Movements).WithOne(x => x.Category);
+            });
+
+            modelBuilder.Entity<CategoryBankAccountMovement>(b =>
+            {
+                b.HasKey(q => new { q.BankAccountMovementId, q.CategoryId });
+                b.HasOne(q => q.Category).WithMany(q => q.Movements).HasForeignKey(x => x.CategoryId);
+                b.HasOne(q => q.BankAccountMovement).WithMany(q => q.Categories).HasForeignKey(x => x.BankAccountMovementId);
             });
         }
     }

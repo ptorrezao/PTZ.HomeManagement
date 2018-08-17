@@ -34,6 +34,7 @@
                             <td>@item.TotalBalanceAfterMovement.ConvertToCurrency("€")</td>
                             <td class="no-sort">
                                 <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-edit"></i></a> &nbsp;
+                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["SetCategoriesToBankAccount"]" asp-action="SetCategoriesToBankAccount" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-tags"></i></a> &nbsp;
                                 <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-trash"></i></a> &nbsp;
 
                             </td>

@@ -8,7 +8,7 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         public AssetType AssetType { get; internal set; }
         public string AccountNumber { get; internal set; }
         public string Color { get; internal set; }
-        public Bank Bank { get; internal set; }
+        public string YAxis { get; internal set; }
         public string AccountTitle { get; internal set; }
     }
 }

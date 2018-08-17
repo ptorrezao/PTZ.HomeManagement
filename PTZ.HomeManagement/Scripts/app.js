@@ -1,4 +1,4 @@
-﻿$().ready(function () {
+$().ready(function () {
     demo.checkFullPageBackgroundImage();
 
     $('.dataTable').DataTable({
@@ -20,6 +20,15 @@
     $(".nav-item.active").closest("div").before().collapse('show');
 
     $('[data-toggle="tooltip"]').tooltip();
+
+    $.validator.methods.range = function (value, element, param) {
+        var globalizedValue = value.replace(",", ".");
+        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+    }
+
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+    }
 });
 
 var demo = {

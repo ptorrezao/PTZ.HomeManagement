@@ -21,6 +21,15 @@ namespace PTZ.HomeManagement.Extentions
 
             // set the viewbag values
             controller.ViewBag.AppName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+
+            string url = "https://github.com/ptorrezao/PTZ.HomeManagement";
+            string enviroment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower();
+            if (enviroment == "prod" || enviroment == "production")
+            {
+                url = "#";
+            }
+            controller.ViewBag.AppUrl = url;
+
             controller.ViewBag.Title = context.RouteData.Values["Action"];
             controller.ViewBag.GoogleMapKey = "AIzaSyBZ4OWSVpF7Mq7ryLA49FRWxo1o-ZUgzVQ";
 

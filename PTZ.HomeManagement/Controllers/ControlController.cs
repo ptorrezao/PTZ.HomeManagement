@@ -39,7 +39,7 @@ namespace PTZ.HomeManagement.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction(nameof(MyFinanceController.Dashboard), "MyFinance");
         }
 
         [AllowAnonymous]
@@ -83,7 +83,7 @@ namespace PTZ.HomeManagement.Controllers
 
             string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
             DatabaseType dbType;
-            Enum.TryParse<DatabaseType>(envVar, out dbType);
+            Enum.TryParse<DatabaseType>(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
             vw.DefaultConnection = DatabaseUtils.GetConnectionString(configuration, dbType);
             return View(vw);

@@ -6,13 +6,21 @@
     var type = (string)ViewData["Type"];
     var ystacked = (bool?)ViewData["YStacked"] ?? false;
     var chosenType = string.IsNullOrEmpty(type) ? "bar" : type;
+    var size = (string)ViewData["Size"];
+    size = string.IsNullOrEmpty(size) ? "4" : size;
+
+    bool clearTitle = (bool?)ViewData["clearTitle"] ?? false;
 }
-<div class="col-lg-8 col-md-6 col-xs-6">
+
+<div class="col-lg-@size">
     <div class="card ">
-        <div class="card-header ">
-            <h4 class="card-title">@localizer["Total_Assets"]</h4>
-            <p class="card-category">@localizer["Total_Assets_SubTitle"]</p>
-        </div>
+        @if (!clearTitle)
+        {
+            <div class="card-header ">
+                <h4 class="card-title">@localizer["Total_Assets"]</h4>
+                <p class="card-category">@localizer["Total_Assets_SubTitle"]</p>
+            </div>
+        }
         <div class="card-body ">
             <canvas id="@name"></canvas>
 
@@ -28,15 +36,14 @@
         var config_@name = {
              type: '@chosenType',
              data: {
-                 labels:   @Html.Raw(Json.Serialize(Model.Movements.GroupBy(x => x.Day).Select(z => z.Max(x => x.Day.ToShortDateString())))),
-                 datasets: [@foreach (var a in Model.Movements.GroupBy(w => w.Bank))
+                 labels:   @Html.Raw(Json.Serialize(Model.Movements.GroupBy(x => x.XAxis).Select(z => z.Max(x => x.XAxis)))),
+                 datasets: [@foreach (var a in Model.Movements.GroupBy(w => w.YAxis))
                  {
                      <text>
                      {
-                         label: '@a.Key.ToString()',
-                         data:  @Html.Raw(Json.Serialize(a.GroupBy(x => x.Day).Select(z => z.Sum(x => x.Amount)))),
-                         backgroundColor: "@a.Key.GetColor()",
-                         borderColor: "@a.Key.GetColor()",
+                         label: '@Html.Raw(a.Key.ToString())',
+                         data:  @Html.Raw(Json.Serialize(a.GroupBy(x => x.XAxis).Select(z => z.Sum(x => x.Amount)))),
+                         backgroundColor: @Html.Raw(Json.Serialize(a.Max(z=>z.Color))),
                          lineTension: 0.1,
                      },
                      </text>

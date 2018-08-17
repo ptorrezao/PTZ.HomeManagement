@@ -8,6 +8,6 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         {
         }
 
-        public DateTime Day { get;  set; }
+        public string XAxis { get;  set; }
     }
 }
