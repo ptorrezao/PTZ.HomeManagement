@@ -181,7 +181,7 @@ namespace PTZ.HomeManagement.Controllers
             bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
             {
                 decimal lastKnownValue = 0;
-                vm.DoughnutChart.Assets.Add(Mapper.Map<DashboardAccountViewModel>(bankAccount));
+                vm.Balance.Assets.Add(Mapper.Map<DashboardAccountViewModel>(bankAccount));
 
                 bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
 
@@ -196,14 +196,33 @@ namespace PTZ.HomeManagement.Controllers
                         lastKnownValue = movement.TotalBalanceAfterMovement;
                     }
 
-                    vm.BarChart.Movements.Add(new DashboardMovementViewModel()
+                    vm.MonthlyProgression.Movements.Add(new DashboardMovementViewModel()
                     {
-                        Day = currentDay,
+                        XAxis = currentDay.ToShortDateString(),
                         Amount = lastKnownValue,
                         AssetType = bankAccount.AccountType,
                         AccountNumber = bankAccount.IBAN,
                         AccountTitle = bankAccount.Name,
-                        Bank = bankAccount.Bank,
+                        Color = bankAccount.Color,
+                        YAxis = bankAccount.Bank.ToString(),
+                    });
+                }
+
+                var categories = _myFinanceService.GetCategories(User.GetUserId());
+
+                foreach (var selectedCategory in categories)
+                {
+                    bankAccount.Movements.GroupBy(x => x.BankAccount).ToList().ForEach(x =>
+                    {
+                        vm.Categories.Movements.Add(new DashboardMovementViewModel()
+                        {
+                            XAxis = selectedCategory.Name,
+                            Amount = -x.Where(e => e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount),
+                            AssetType = bankAccount.AccountType,
+                            AccountNumber = bankAccount.IBAN,
+                            YAxis = bankAccount.Name,
+                            Color = bankAccount.Color
+                        });
                     });
                 }
             });

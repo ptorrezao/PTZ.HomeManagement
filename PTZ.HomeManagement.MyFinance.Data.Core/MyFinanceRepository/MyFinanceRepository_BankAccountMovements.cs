@@ -14,7 +14,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
         public BankAccountMovement GetBankAccountMovement(string userId, long bankAccountId, int movementId)
         {
             return this.context.BankAccountMovements
-                .Include(x=>x.Categories)
+                .Include(x => x.Categories)
                 .FirstOrDefault(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId && x.Id == movementId);
         }
 
@@ -32,8 +32,9 @@ namespace PTZ.HomeManagement.MyFinance.Data
 
         public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, DateTime startDate, DateTime endDate)
         {
-            var list = this.context.BankAccountMovements.Where(x =>
-                    x.BankAccount.ApplicationUser.Id == userId &&
+            var list = this.context.BankAccountMovements
+                    .Include(x => x.Categories)
+                    .Where(x => x.BankAccount.ApplicationUser.Id == userId &&
                     x.BankAccount.Id == bankAccountId &&
                     x.MovementDate >= startDate &&
                     x.MovementDate <= endDate).ToList();
@@ -45,7 +46,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
         {
             bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
 
-            if (bankAccountMovement.Categories.Any())
+            if (bankAccountMovement.Categories != null && bankAccountMovement.Categories.Any())
             {
                 bankAccountMovement.Categories.ForEach(x =>
                 {

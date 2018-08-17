@@ -9,11 +9,13 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
     {
         public DashboardViewModel()
         {
-            DoughnutChart = new DoughnutChartViewModel();
-            BarChart = new BarChartViewModel();
+            Balance = new DoughnutChartViewModel();
+            MonthlyProgression = new BarChartViewModel();
+            Categories = new BarChartViewModel();
         }
 
-        public DoughnutChartViewModel DoughnutChart { get; set; }
-        public BarChartViewModel BarChart { get; set; }
+        public DoughnutChartViewModel Balance { get; set; }
+        public BarChartViewModel MonthlyProgression { get; set; }
+        public BarChartViewModel Categories { get; set; }
     }
 }

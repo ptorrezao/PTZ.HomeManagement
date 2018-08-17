@@ -45,9 +45,11 @@ namespace PTZ.HomeManagement.MyFinance.Data
                     context.CategoriesBankAccountMovements.RemoveRange(categoriesToRemove);
                 }
 
-                foreach (long categoryId in categories )
+                foreach (long categoryId in categories)
                 {
-                    if (categoryId > 0 && context.Categories.Any(x => x.Id == categoryId))
+                    if (categoryId > 0 &&
+                        context.Categories.Any(x => x.Id == categoryId) &&
+                        !context.CategoriesBankAccountMovements.Any(x => x.CategoryId == categoryId && x.BankAccountMovementId == bankAccountMovementId))
                     {
                         context.CategoriesBankAccountMovements.Add(new CategoryBankAccountMovement()
                         {
