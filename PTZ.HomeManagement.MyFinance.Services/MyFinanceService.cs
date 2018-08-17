@@ -23,5 +23,6 @@ namespace PTZ.HomeManagement.MyFinance
             this.myFinanceRepo = repo;
             this.appRepo = dbContext;
         }
+
     }
 }

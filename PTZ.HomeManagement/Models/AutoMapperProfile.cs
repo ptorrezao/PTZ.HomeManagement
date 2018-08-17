@@ -30,6 +30,10 @@ namespace PTZ.HomeManagement.Models
             CreateMap<BankAccountMovement, AccountMovementViewModel>();
             CreateMap<AccountMovementViewModel, BankAccountMovement>();
 
+            CreateMap<BankAccountMovement, CategoriesAccountMovementViewModel>()
+                .ForMember(v => v.SelectedCategories, opt => opt.MapFrom(q => q.Categories.Select(x => x.CategoryId)));
+            CreateMap<CategoriesAccountMovementViewModel, BankAccountMovement>();
+
             CreateMap<BankAccount, DashboardAccountViewModel>()
                .ForMember(vm => vm.Amount, opt => opt.MapFrom(u => u.CurrentBalance))
                .ForMember(vm => vm.AssetType, opt => opt.MapFrom(u => u.AccountType))

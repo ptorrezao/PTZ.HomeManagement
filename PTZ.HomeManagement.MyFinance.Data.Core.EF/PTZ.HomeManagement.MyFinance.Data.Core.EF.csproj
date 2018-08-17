@@ -17,6 +17,7 @@
     <Compile Remove="Migrations\20180812110811_AutoIncrement.cs" />
     <Compile Remove="Migrations\20180812111024_AutoIncrement.cs" />
     <Compile Remove="Migrations\20180812111201_AutoIncrement.cs" />
+    <Compile Remove="Migrations\20180816233542_AddCategorieToMovement.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -22,6 +22,7 @@ namespace PTZ.HomeManagement.MyFinance
         void SaveBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement);
         List<BankAccountMovement> SaveBankAccountMovements(string userId, long bankAccountId, List<BankAccountMovement> list);
         void DeleteBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement);
+        void SetCategoriesToBankAccountMovement(string userId, long bankAccountMovementId, List<long> categories);
 
         List<BankAccountMovement> ImportBankAccountMovement(string userId, long bankAccountId, BankAccountMovementImportType importType, IFormFile file);
         List<Category> GetCategories(string userId);

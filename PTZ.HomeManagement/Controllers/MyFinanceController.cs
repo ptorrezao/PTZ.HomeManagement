@@ -143,6 +143,31 @@ namespace PTZ.HomeManagement.Controllers
 
             return RedirectToAction(nameof(ImportMovements), new { import.BankAccountId });
         }
+
+        public IActionResult SetCategoriesToBankAccount(int bankAccountId, int id)
+        {
+            BankAccountMovement movement = _myFinanceService.GetBankAccountMovement(User.GetUserId(), bankAccountId, id);
+            CategoriesAccountMovementViewModel viewModel = Mapper.Map<CategoriesAccountMovementViewModel>(movement);
+            List<Category> categories = _myFinanceService.GetCategories(User.GetUserId());
+            viewModel.SetAvailableCategories(Mapper.Map<List<Category>, List<CategoryViewModel>>(categories));
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SetCategoriesToBankAccount(int bankAccountId, CategoriesAccountMovementViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                BankAccountMovement bankAccountMovement = Mapper.Map<BankAccountMovement>(lvm);
+
+                _myFinanceService.SetCategoriesToBankAccountMovement(User.GetUserId(), bankAccountMovement.Id, lvm.SelectedCategories);
+
+                return RedirectToAction(nameof(ListMovements), new { bankAccountId });
+            }
+
+            return View(lvm);
+        }
         #endregion
 
         #region Dashboard

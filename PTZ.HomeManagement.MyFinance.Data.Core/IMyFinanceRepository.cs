@@ -24,5 +24,6 @@ namespace PTZ.HomeManagement.MyFinance.Data
         Category GetCategory(string userId, long id);
         void SaveCategory(string userId, Category category);
         void DeleteCategory(string userId, Category category);
+        void SetCategoriesToBankAccountMovement(string userId, long bankAccountMovementId, List<long> categories);
     }
 }

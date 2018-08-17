@@ -13,7 +13,9 @@ namespace PTZ.HomeManagement.MyFinance.Data
     {
         public BankAccountMovement GetBankAccountMovement(string userId, long bankAccountId, int movementId)
         {
-            return this.context.BankAccountMovements.FirstOrDefault(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId && x.Id == movementId);
+            return this.context.BankAccountMovements
+                .Include(x=>x.Categories)
+                .FirstOrDefault(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId && x.Id == movementId);
         }
 
         public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
@@ -43,6 +45,14 @@ namespace PTZ.HomeManagement.MyFinance.Data
         {
             bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
 
+            if (bankAccountMovement.Categories.Any())
+            {
+                bankAccountMovement.Categories.ForEach(x =>
+                {
+                    x.BankAccountMovement = bankAccountMovement;
+                    x.Category = x.Category ?? context.Categories.First(q => q.Id == x.CategoryId);
+                });
+            }
             this.context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
         }
 
@@ -65,5 +75,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
         {
             return this.context.BankAccountMovements.Include(x => x.BankAccount).Any(x => x.GetHashCode() == item.GetHashCode());
         }
+
+
     }
 }

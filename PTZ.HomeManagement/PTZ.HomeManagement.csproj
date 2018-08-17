@@ -77,6 +77,9 @@
     <Content Update="Views\MyFinance\DeleteCategory.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\MyFinance\SetCategoriesToBankAccount.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\EmailTemplates\EmailConfirm.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -123,6 +126,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Models\ManageViewModels\IndexViewModel.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\CategoriesAccountMovementViewModel.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\CategoriesAccountMovementViewModel.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Models\MyFinanceViewModels\AccountListItemViewModel.en-US.resx">
@@ -234,6 +243,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Manage\ChangePassword.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\SetCategoriesToBankAccount.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\SetCategoriesToBankAccount.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\MyFinance\AddOrEditCategory.en-US.resx">
