@@ -21,7 +21,8 @@ namespace PTZ.HomeManagement.MyFinance.Data.EF.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("Relational:Sequence:.BankAccount", "'BankAccount', '', '1', '1', '', '', 'Int64', 'False'")
-                .HasAnnotation("Relational:Sequence:.BankAccountMovement", "'BankAccountMovement', '', '1', '1', '', '', 'Int64', 'False'");
+                .HasAnnotation("Relational:Sequence:.BankAccountMovement", "'BankAccountMovement', '', '1', '1', '', '', 'Int64', 'False'")
+                .HasAnnotation("Relational:Sequence:.Category", "'Category', '', '1', '1', '', '', 'Int64', 'False'");
 
             modelBuilder.Entity("PTZ.HomeManagement.Models.ApplicationUser", b =>
                 {
@@ -116,6 +117,40 @@ namespace PTZ.HomeManagement.MyFinance.Data.EF.Migrations
                     b.ToTable("BankAccountMovements");
                 });
 
+            modelBuilder.Entity("PTZ.HomeManagement.MyFinance.Models.Category", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("nextval('\"Category\"')");
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<string>("Color");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.MyFinance.Models.CategoryBankAccountMovement", b =>
+                {
+                    b.Property<long>("BankAccountMovementId");
+
+                    b.Property<long>("CategoryId");
+
+                    b.HasKey("BankAccountMovementId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoriesBankAccountMovements");
+                });
+
             modelBuilder.Entity("PTZ.HomeManagement.MyFinance.Models.BankAccount", b =>
                 {
                     b.HasOne("PTZ.HomeManagement.Models.ApplicationUser", "ApplicationUser")
@@ -128,6 +163,26 @@ namespace PTZ.HomeManagement.MyFinance.Data.EF.Migrations
                     b.HasOne("PTZ.HomeManagement.MyFinance.Models.BankAccount", "BankAccount")
                         .WithMany("Movements")
                         .HasForeignKey("BankAccountId");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.MyFinance.Models.Category", b =>
+                {
+                    b.HasOne("PTZ.HomeManagement.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.MyFinance.Models.CategoryBankAccountMovement", b =>
+                {
+                    b.HasOne("PTZ.HomeManagement.MyFinance.Models.BankAccountMovement", "BankAccountMovement")
+                        .WithMany("Categories")
+                        .HasForeignKey("BankAccountMovementId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PTZ.HomeManagement.MyFinance.Models.Category", "Category")
+                        .WithMany("Movements")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

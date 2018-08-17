@@ -5,8 +5,10 @@
     var name = Guid.NewGuid().ToString().Replace("-", "");
     var type = (string)ViewData["Type"];
     var chosenType = string.IsNullOrEmpty(type) ? "doughnut" : type;
+    var size = (string)ViewData["Size"];
+    size = string.IsNullOrEmpty(size) ? "4" : size;
 }
-<div class="col-lg-4 col-md-6 col-xs-6">
+<div class="col-lg-@size">
     <div class="card ">
         <div class="card-header ">
             <h4 class="card-title">@localizer["Total_Assets"]</h4>
@@ -18,10 +20,10 @@
         <div class="card-footer ">
             <hr>
             <div class="stats">
-                @foreach (var item in Model.Assets.GroupBy(x => x.Bank))
+                @foreach (var item in Model.Assets.GroupBy(x => x.YAxis))
                 {
                     <text>
-                    <i class="fa fa-circle" style="color: @item.Key.GetColor()"></i>@item.Key:@item.Sum(x => x.Amount) €
+                    <i class="fa fa-circle" style="color: @item.Max(x=>x.Color)"></i>@item.Key:@item.Sum(x => x.Amount) €
                     </text>
                 }
                 Total:@Model.Assets.Sum(x => x.Amount) €
@@ -30,7 +32,6 @@
     </div>
 </div>
 <style>
-
 </style>
 @Html.Script(
     @<script type="text/javascript">
@@ -41,14 +42,14 @@
 
         var datasets_@name = [
             {
-                data: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.Bank).Select(z=> z.Sum(x=>x.Amount)))),
-                backgroundColor: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x => x.Bank).Select(z => z.Max(x => x.Color)))),
-                labels: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.Bank).Select(z=> z.Max(x=>x.Bank.ToString())))),
+                data: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.YAxis).Select(z=> z.Sum(x=>x.Amount)))),
+                backgroundColor: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x => x.YAxis).Select(z => z.Max(x => x.Color)))),
+                labels: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.YAxis).Select(z=> z.Max(x=>x.YAxis)))),
             },
             {
-                data: [].concat.apply([], @Html.Raw(Json.Serialize(Model.Assets.GroupBy(g => g.Bank).Select(q => q.GroupBy(x => x.AssetType).Select(s => s.Sum(x => x.Amount)))))),
-                backgroundColor: [].concat.apply([], @Html.Raw(Json.Serialize(Model.Assets.GroupBy(g => g.Bank).Select(q => q.GroupBy(x => x.AssetType).Select(s => s.Max(x => x.Color)))))),
-                labels: [].concat.apply([], @Html.Raw(Json.Serialize(Model.Assets.GroupBy(g => g.Bank).Select(q => q.GroupBy(x => x.AssetType).Select(s => s.Max(x => x.AssetType.ToString())))))),
+                data: [].concat.apply([], @Html.Raw(Json.Serialize(Model.Assets.GroupBy(g => g.YAxis).Select(q => q.GroupBy(x => x.AssetType).Select(s => s.Sum(x => x.Amount)))))),
+                backgroundColor: [].concat.apply([], @Html.Raw(Json.Serialize(Model.Assets.GroupBy(g => g.YAxis).Select(q => q.GroupBy(x => x.AssetType).Select(s => s.Max(x => x.Color)))))),
+                labels: [].concat.apply([], @Html.Raw(Json.Serialize(Model.Assets.GroupBy(g => g.YAxis).Select(q => q.GroupBy(x => x.AssetType).Select(s => s.Max(x => x.AssetType.ToString())))))),
             },
             {
                 data:  @Html.Raw(Json.Serialize(Model.Assets.Select(x => x.Amount))),

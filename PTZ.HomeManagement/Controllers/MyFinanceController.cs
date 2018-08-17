@@ -123,51 +123,7 @@ namespace PTZ.HomeManagement.Controllers
 
             return View(lvm);
         }
-        #endregion
 
-        #region Dashboard
-        public IActionResult Dashboard()
-        {
-            DashboardViewModel vm = new DashboardViewModel();
-            List<BankAccount> bankAccounts = _myFinanceService.GetBankAccounts(User.GetUserId());
-            int graphLenght = 30;
-            int graphLenghtIntoFuture = 2;
-
-            bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
-            {
-                decimal lastKnownValue = 0;
-                vm.DoughnutChart.Assets.Add(Mapper.Map<DashboardAccountViewModel>(bankAccount));
-
-                bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
-
-                var currentDay = DateTime.Now.AddDays(-graphLenght).Date;
-                for (int i = 1; i < graphLenght + graphLenghtIntoFuture; i++)
-                {
-                    currentDay = currentDay.AddDays(1);
-                    var movement = bankAccount.Movements.FirstOrDefault(x => x.MovementDate.Date == currentDay);
-
-                    if (movement != default(BankAccountMovement))
-                    {
-                        lastKnownValue = movement.TotalBalanceAfterMovement;
-                    }
-
-                    vm.BarChart.Movements.Add(new DashboardMovementViewModel()
-                    {
-                        Day = currentDay,
-                        Amount = lastKnownValue,
-                        AssetType = bankAccount.AccountType,
-                        AccountNumber = bankAccount.IBAN,
-                        AccountTitle = bankAccount.Name,
-                        Bank = bankAccount.Bank,
-                    });
-                }
-            });
-
-            return View(vm);
-        } 
-        #endregion
-
-        #region ImportMovements
         public IActionResult ImportMovements(int bankAccountId)
         {
             return View(new AccountMovementImportViewModel(bankAccountId));
@@ -186,6 +142,138 @@ namespace PTZ.HomeManagement.Controllers
             }
 
             return RedirectToAction(nameof(ImportMovements), new { import.BankAccountId });
+        }
+
+        public IActionResult SetCategoriesToBankAccount(int bankAccountId, int id)
+        {
+            BankAccountMovement movement = _myFinanceService.GetBankAccountMovement(User.GetUserId(), bankAccountId, id);
+            CategoriesAccountMovementViewModel viewModel = Mapper.Map<CategoriesAccountMovementViewModel>(movement);
+            List<Category> categories = _myFinanceService.GetCategories(User.GetUserId());
+            viewModel.SetAvailableCategories(Mapper.Map<List<Category>, List<CategoryViewModel>>(categories));
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SetCategoriesToBankAccount(int bankAccountId, CategoriesAccountMovementViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                BankAccountMovement bankAccountMovement = Mapper.Map<BankAccountMovement>(lvm);
+
+                _myFinanceService.SetCategoriesToBankAccountMovement(User.GetUserId(), bankAccountMovement.Id, lvm.SelectedCategories);
+
+                return RedirectToAction(nameof(ListMovements), new { bankAccountId });
+            }
+
+            return View(lvm);
+        }
+        #endregion
+
+        #region Dashboard
+        public IActionResult Dashboard()
+        {
+            DashboardViewModel vm = new DashboardViewModel();
+            List<BankAccount> bankAccounts = _myFinanceService.GetBankAccounts(User.GetUserId());
+            int graphLenght = 30;
+            int graphLenghtIntoFuture = 1;
+
+            bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
+            {
+                decimal lastKnownValue = 0;
+                vm.Balance.Assets.Add(Mapper.Map<DashboardAccountViewModel>(bankAccount));
+
+                bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
+
+                var currentDay = DateTime.Now.AddDays(-graphLenght).Date;
+                for (int i = 1; i < graphLenght + graphLenghtIntoFuture; i++)
+                {
+                    currentDay = currentDay.AddDays(1);
+                    var movement = bankAccount.Movements.FirstOrDefault(x => x.MovementDate.Date == currentDay);
+
+                    if (movement != default(BankAccountMovement))
+                    {
+                        lastKnownValue = movement.TotalBalanceAfterMovement;
+                    }
+
+                    vm.MonthlyProgression.Movements.Add(new DashboardMovementViewModel()
+                    {
+                        XAxis = currentDay.ToShortDateString(),
+                        Amount = lastKnownValue,
+                        AssetType = bankAccount.AccountType,
+                        AccountNumber = bankAccount.IBAN,
+                        AccountTitle = bankAccount.Name,
+                        Color = bankAccount.Color,
+                        YAxis = bankAccount.Bank.ToString(),
+                    });
+                }
+
+                var categories = _myFinanceService.GetCategories(User.GetUserId());
+
+                foreach (var selectedCategory in categories)
+                {
+                    bankAccount.Movements.GroupBy(x => x.BankAccount).ToList().ForEach(x =>
+                    {
+                        vm.Categories.Movements.Add(new DashboardMovementViewModel()
+                        {
+                            XAxis = selectedCategory.Name,
+                            Amount = -x.Where(e => e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount),
+                            AssetType = bankAccount.AccountType,
+                            AccountNumber = bankAccount.IBAN,
+                            YAxis = bankAccount.Name,
+                            Color = bankAccount.Color
+                        });
+                    });
+                }
+            });
+
+            return View(vm);
+        }
+        #endregion
+
+        #region Categories
+        public IActionResult ListCategories()
+        {
+            List<Category> categories = _myFinanceService.GetCategories(User.GetUserId());
+            return View(Mapper.Map<CategoryListViewModel>(categories));
+        }
+
+        public IActionResult AddOrEditCategory(int? id)
+        {
+            Category category = id.HasValue ? _myFinanceService.GetCategory(User.GetUserId(), id.Value) : _myFinanceService.GetCategoryDefault(User.GetUserId());
+            return View(Mapper.Map<CategoryViewModel>(category));
+        }
+
+        [HttpPost]
+        public IActionResult AddOrEditCategory(CategoryViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _myFinanceService.SaveCategory(User.GetUserId(), Mapper.Map<Category>(lvm));
+
+                return RedirectToAction(nameof(ListCategories));
+            }
+
+            return View(lvm);
+        }
+
+        public IActionResult DeleteCategory(int id)
+        {
+            Category category = _myFinanceService.GetCategory(User.GetUserId(), id);
+            return View(Mapper.Map<CategoryViewModel>(category));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCategory(CategoryViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _myFinanceService.DeleteCategory(User.GetUserId(), Mapper.Map<Category>(lvm));
+
+                return RedirectToAction(nameof(ListCategories));
+            }
+
+            return View(lvm);
         }
         #endregion
     }

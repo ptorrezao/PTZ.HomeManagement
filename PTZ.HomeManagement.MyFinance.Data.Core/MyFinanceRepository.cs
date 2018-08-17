@@ -9,27 +9,23 @@ using PTZ.HomeManagement.MyFinance.Models;
 
 namespace PTZ.HomeManagement.MyFinance.Data
 {
-    public class MyFinanceRepositoryEF : IMyFinanceRepository
+    public partial class MyFinanceRepositoryEF : IMyFinanceRepository
     {
         private readonly MyFinanceDbContext context;
 
-        public MyFinanceRepositoryEF(DbContextOptions<MyFinanceDbContext> options)
+        public MyFinanceRepositoryEF(IServiceProvider serviceProvider)
         {
+            DbContextOptions<MyFinanceDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>();
             this.context = new MyFinanceDbContext(options);
 
             if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
             {
-                var lastAppliedMigration = this.context.Database.GetAppliedMigrations().LastOrDefault();
                 var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
-                if (lastAppliedMigration != lastDefinedMigration)
+                if (!this.context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
                 {
                     this.context.Database.Migrate();
                 }
             }
-        }
-        public MyFinanceRepositoryEF(IServiceProvider serviceProvider) :
-            this(serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>())
-        {
         }
 
         public void CommitChanges()
@@ -37,103 +33,35 @@ namespace PTZ.HomeManagement.MyFinance.Data
             this.context.SaveChanges();
         }
 
-        public void DeleteBankAccount(string userId, BankAccount bankAccount)
+        public void SetCategoriesToBankAccountMovement(string userId, long bankAccountMovementId, List<long> categories)
         {
-            var elementsToRemove = this.context.BankAccounts.Where(x => x.ApplicationUser.Id == userId && bankAccount.Id == x.Id);
-            this.context.BankAccounts.RemoveRange(elementsToRemove);
-        }
-
-        public BankAccount GetBankAccount(string userId, long bankAccountId)
-        {
-            BankAccount account = this.context.BankAccounts.FirstOrDefault(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
-
-            var lastMovement = this.context.BankAccountMovements.Where(x => x.BankAccount.Id == account.Id).LastOrDefault();
-            if (lastMovement != default(BankAccountMovement))
+            categories = categories ?? new List<long>();
+            if (context.BankAccountMovements.Any(x => x.Id == bankAccountMovementId))
             {
-                account.CurrentBalance = lastMovement.TotalBalanceAfterMovement;
-            }
-
-            return account;
-        }
-
-        public BankAccountMovement GetBankAccountMovement(string userId, long bankAccountId, int movementId)
-        {
-            return this.context.BankAccountMovements.FirstOrDefault(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId && x.Id == movementId);
-        }
-
-        public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
-        {
-            var list = this.context.BankAccountMovements.Where(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId).Take(qtdOfMovements);
-            switch (dateSortOrder)
-            {
-                case SortOrder.Ascending:
-                    return list.OrderBy(x => x.MovementDate).ToList();
-                default:
-                    return list.OrderByDescending(x => x.MovementDate).ToList();
-            }
-        }
-
-        public List<BankAccount> GetBankAccounts(string userId)
-        {
-            List<BankAccount> accounts = this.context.BankAccounts.Where(x => x.ApplicationUser.Id == userId).ToList();
-            accounts.ForEach(account =>
-            {
-                var lastMovement = this.context.BankAccountMovements.Where(x => x.BankAccount.Id == account.Id).OrderByDescending(x => x.MovementDate).FirstOrDefault();
-                if (lastMovement != default(BankAccountMovement))
+                var bankMovement = context.BankAccountMovements.First(x => x.Id == bankAccountMovementId);
+                if (context.CategoriesBankAccountMovements.Any(q => q.BankAccountMovementId == bankAccountMovementId && !categories.Contains(q.CategoryId)))
                 {
-                    account.CurrentBalance = lastMovement.TotalBalanceAfterMovement;
+                    var categoriesToRemove = context.CategoriesBankAccountMovements.Where(q => q.BankAccountMovementId == bankAccountMovementId && !categories.Contains(q.CategoryId));
+                    context.CategoriesBankAccountMovements.RemoveRange(categoriesToRemove);
                 }
-            });
 
-            return accounts;
-        }
-
-        public void SaveBankAccount(string userId, BankAccount bankAccount)
-        {
-            this.context.Entry(bankAccount).State = bankAccount.Id == 0 ? EntityState.Added : EntityState.Modified;
-        }
-
-        public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, DateTime startDate, DateTime endDate)
-        {
-            var list = this.context.BankAccountMovements.Where(x =>
-                    x.BankAccount.ApplicationUser.Id == userId &&
-                    x.BankAccount.Id == bankAccountId &&
-                    x.MovementDate >= startDate &&
-                    x.MovementDate <= endDate).ToList();
-
-            return list;
-        }
-
-        public bool ExistsBankAccount(long bankAccountId, string userId)
-        {
-            return this.context.BankAccounts.Any(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
-        }
-
-        public void SaveBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement)
-        {
-            bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
-
-            this.context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
-        }
-
-        public void SaveBankAccountMovements(string userId, long bankAccountId, List<BankAccountMovement> list)
-        {
-            foreach (var bankAccountMovement in list)
-            {
-                bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
-                this.context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
+                foreach (long categoryId in categories)
+                {
+                    if (categoryId > 0 &&
+                        context.Categories.Any(x => x.Id == categoryId) &&
+                        !context.CategoriesBankAccountMovements.Any(x => x.CategoryId == categoryId && x.BankAccountMovementId == bankAccountMovementId))
+                    {
+                        context.CategoriesBankAccountMovements.Add(new CategoryBankAccountMovement()
+                        {
+                            BankAccountMovement = bankMovement,
+                            BankAccountMovementId = bankMovement.Id,
+                            CategoryId = categoryId,
+                            Category = context.Categories.First(x => x.Id == categoryId),
+                        });
+                    }
+                }
             }
-        }
-
-        public void DeleteBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement)
-        {
-            var elementsToRemove = this.context.BankAccountMovements.Where(x => x.BankAccount.Id == bankAccountId && x.BankAccount.ApplicationUser.Id == userId && x.Id == bankAccountMovement.Id);
-            this.context.BankAccountMovements.RemoveRange(elementsToRemove);
-        }
-
-        public bool ExistsBankAccountMovements(BankAccountMovement item)
-        {
-            return this.context.BankAccountMovements.Include(x => x.BankAccount).Any(x => x.GetHashCode() == item.GetHashCode());
+            context.SaveChanges();
         }
     }
 }
