@@ -8,7 +8,7 @@
     var ystacked = (bool?)ViewData["YStacked"] ?? false;
     var chosenType = string.IsNullOrEmpty(type) ? "bar" : type;
     var size = (string)ViewData["Size"];
-    size = string.IsNullOrEmpty(size) ? "4" : size;
+    size = string.IsNullOrEmpty(size) ? "col-lg-4" : size;
 
     bool clearTitle = (bool?)ViewData["clearTitle"] ?? false;
     var title = (string)ViewData["title"] ?? "Total_Assets";
@@ -16,7 +16,7 @@
 
 }
 
-<div class="col-lg-@size">
+<div class="@size">
     <div class="card ">
         @if (!clearTitle)
         {

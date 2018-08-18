@@ -6,9 +6,9 @@
     var type = (string)ViewData["Type"];
     var chosenType = string.IsNullOrEmpty(type) ? "doughnut" : type;
     var size = (string)ViewData["Size"];
-    size = string.IsNullOrEmpty(size) ? "4" : size;
+    size = string.IsNullOrEmpty(size) ? "col-lg-4" : size;
 }
-<div class="col-lg-@size">
+<div class="@size">
     <div class="card ">
         <div class="card-header ">
             <h4 class="card-title">@localizer["Total_Assets"]</h4>
