@@ -2,6 +2,7 @@
 using PTZ.HomeManagement.Models.ManageViewModels;
 using PTZ.HomeManagement.Models.MyFinanceViewModels;
 using PTZ.HomeManagement.MyFinance.Models;
+using PTZ.HomeManagement.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,9 +37,10 @@ namespace PTZ.HomeManagement.Models
 
             CreateMap<BankAccount, DashboardAccountViewModel>()
                .ForMember(vm => vm.Amount, opt => opt.MapFrom(u => u.CurrentBalance))
-               .ForMember(vm => vm.AssetType, opt => opt.MapFrom(u => u.AccountType))
+               .ForMember(vm => vm.AssetType, opt => opt.MapFrom(u => u.AccountType.GetDescription()))
                .ForMember(vm => vm.AccountNumber, opt => opt.MapFrom(u => u.IBAN))
                .ForMember(vm => vm.Color, opt => opt.MapFrom(u => u.Color))
+               .ForMember(vm => vm.YAxis, opt => opt.MapFrom(u => u.Bank))
                .ForMember(vm => vm.AccountTitle, opt => opt.MapFrom(u => u.Name));
 
             CreateMap<Category, CategoryViewModel>();

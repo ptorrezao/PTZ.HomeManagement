@@ -7,6 +7,6 @@
 
 <div class="row">
     @Html.DisplayFor(x => x.Balance, new { Type = "pie", Size = "3" })
-    @Html.DisplayFor(x => x.Categories, new { Type = "bar", YStacked = true, Size = "4", clearTitle = true })
+    @Html.DisplayFor(x => x.Categories, new { Type = "bar", YStacked = false, Size = "4", Title = "Movimentos por Categorias", Subtitle =" ",Legend = false })
     @Html.DisplayFor(x => x.MonthlyProgression, new { Type = "line", YStacked = false, Size = "5" })
 </div>

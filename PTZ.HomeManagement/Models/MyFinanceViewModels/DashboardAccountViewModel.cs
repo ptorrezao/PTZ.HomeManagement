@@ -5,7 +5,7 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
     public class DashboardAccountViewModel
     {
         public decimal Amount { get; internal set; }
-        public AssetType AssetType { get; internal set; }
+        public string AssetType { get; internal set; }
         public string AccountNumber { get; internal set; }
         public string Color { get; internal set; }
         public string YAxis { get; internal set; }
