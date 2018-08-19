@@ -15,10 +15,13 @@ namespace PTZ.HomeManagement.MyFinance.Data
         {
             BankAccount account = this.context.BankAccounts.FirstOrDefault(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
 
-            var lastMovement = this.context.BankAccountMovements.Where(x => x.BankAccount.Id == account.Id).LastOrDefault();
-            if (lastMovement != default(BankAccountMovement))
+            if (account != null)
             {
-                account.CurrentBalance = lastMovement.TotalBalanceAfterMovement;
+                var lastMovement = this.context.BankAccountMovements.Where(x => x.BankAccount.Id == account.Id).LastOrDefault();
+                if (lastMovement != default(BankAccountMovement))
+                {
+                    account.CurrentBalance = lastMovement.TotalBalanceAfterMovement;
+                }
             }
 
             return account;

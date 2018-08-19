@@ -16,6 +16,8 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
         private readonly IApplicationRepository apprepo;
         private readonly MyFinanceService myFinanceService;
 
+        private long bankAccountIdDelete = 0;
+
         public MyFinanceServiceTests()
         {
             var myFinanceDbContextOptions = new DbContextOptionsBuilder<MyFinanceDbContext>()
@@ -63,6 +65,9 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
             bankAccountToDelete.IsVisible = true;
             bankAccountToDelete.Name = nameof(BankAccount_Delete);
             this.myFinanceService.SaveBankAccount(userId, bankAccountToDelete);
+
+            var savedAccounts = this.myFinanceService.GetBankAccounts(userId);
+            bankAccountIdDelete = savedAccounts.FirstOrDefault(x => x.Name == nameof(BankAccount_Delete)).Id;
         }
 
         private void InitUsers()
@@ -156,13 +161,12 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
             var user = apprepo.GetUsers(null).FirstOrDefault();
             Assert.NotNull(user);
             var userId = user.Id;
-            var savedAccounts = this.myFinanceService.GetBankAccounts(userId);
+            var bankAccount = this.myFinanceService.GetBankAccount(userId, bankAccountIdDelete);
 
-            var bankAccount = savedAccounts.FirstOrDefault(x => x.Name == nameof(BankAccount_Delete));
             this.myFinanceService.DeleteBankAccount(userId, bankAccount);
 
-            savedAccounts = this.myFinanceService.GetBankAccounts(userId);
-            Assert.Null(savedAccounts.FirstOrDefault(x => x.Name == nameof(BankAccount_Delete)));
+            bankAccount = this.myFinanceService.GetBankAccount(userId, bankAccountIdDelete);
+            Assert.Null(bankAccount);
         }
     }
 }

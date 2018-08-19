@@ -18,13 +18,10 @@ namespace PTZ.HomeManagement.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
+            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)) &&
+                !this.Database.GetAppliedMigrations().Any(x => x == this.Database.GetMigrations().LastOrDefault()))
             {
-                var lastDefinedMigration = this.Database.GetMigrations().LastOrDefault();
-                if (!this.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
-                {
-                    this.Database.Migrate();
-                }
+                this.Database.Migrate();
             }
         }
         protected override void OnModelCreating(ModelBuilder builder)
