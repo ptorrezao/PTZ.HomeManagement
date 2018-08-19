@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Digipolis.DataProtection.Postgres;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,9 @@ namespace PTZ.HomeManagement
 {
     public class Startup
     {
+        readonly Guid appId = new Guid("28BDE865-0166-443F-81EE-685C9A378F67");
+        readonly Guid instanceId = Guid.NewGuid();
+
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
@@ -46,14 +50,15 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
+
             services.Configure<EmailSettings>(x =>
-            {
-                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "key-ed6268300ba23c819a3482e348672f3f";
-                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "https://api.mailgun.net/v3/sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org/messages";
-                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org"; 
-            });
+                {
+                    x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "key-ed6268300ba23c819a3482e348672f3f";
+                    x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "https://api.mailgun.net/v3/sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                    x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org/messages";
+                    x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                    x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -61,6 +66,16 @@ namespace PTZ.HomeManagement
 
             services.AddDbContext<ApplicationDbContext>(options => this.SetCorrectProvider(options));
             services.AddDbContext<MyFinanceDbContext>(options => this.SetCorrectProvider(options));
+
+            string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
+            DatabaseType dbType;
+            Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
+
+            string connectionString = DatabaseUtils.GetConnectionString(Configuration, dbType);
+            if (dbType == DatabaseType.PostgreSQL)
+            {
+                services.AddDataProtection().PersistKeysToPostgres(connectionString, appId, instanceId);
+            }
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

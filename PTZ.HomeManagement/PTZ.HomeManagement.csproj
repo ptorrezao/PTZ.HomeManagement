@@ -5,10 +5,10 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
 
     <ProjectGuid>f491dd1f-d14d-4ed2-809f-609ee8075f61</ProjectGuid>
-    <AssemblyVersion>0.0.0.2</AssemblyVersion>
+    <AssemblyVersion>0.0.0.3</AssemblyVersion>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <FileVersion>0.0.0.2</FileVersion>
+    <FileVersion>0.0.0.3</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +26,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
     <PackageReference Include="Chart.js" Version="2.7.2" />
+    <PackageReference Include="Digipolis.DataProtection.Postgres" Version="3.0.1" />
     <PackageReference Include="GravatarSharp.Core" Version="0.3.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
@@ -351,6 +352,6 @@
     <EmbeddedResource Update="Resources\Views\Control\Status.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    
   </ItemGroup>
-
 </Project>

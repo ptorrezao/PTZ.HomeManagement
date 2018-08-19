@@ -77,7 +77,6 @@ namespace PTZ.HomeManagement.Controllers
         public IActionResult Status()
         {
             StatusViewModel vw = new StatusViewModel();
-            vw.LogEntries = core.GetLastNMessages(10, LogUtils.GetLogFileName());
             vw.TotalMemory = Conversion.ConvertBytesToMegabytes(Process.GetCurrentProcess().WorkingSet64, 2);
             vw.Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 

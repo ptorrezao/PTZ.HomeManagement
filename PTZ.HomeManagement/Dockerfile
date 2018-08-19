@@ -22,8 +22,11 @@ ENV Sentry_MinimumEventLevel=Debug
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
 COPY *.sln ./
+COPY . .
+
 COPY PTZ.HomeManagement/PTZ.HomeManagement.csproj PTZ.HomeManagement/
-RUN dotnet restore
+RUN ls PTZ.HomeManagement/
+RUN dotnet restore PTZ.HomeManagement/PTZ.HomeManagement.csproj --configfile PTZ.HomeManagement/nuget.config
 COPY . .
 
 
