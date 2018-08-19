@@ -132,7 +132,16 @@
   <data name="Movements_Page" xml:space="preserve">
     <value>Movements</value>
   </data>
+  <data name="Password_Link" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Profile_Link" xml:space="preserve">
+    <value>Profile</value>
+  </data>
   <data name="Status_Page" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="TwoStepAuth_Link" xml:space="preserve">
+    <value>Two-factor authentication</value>
   </data>
 </root>

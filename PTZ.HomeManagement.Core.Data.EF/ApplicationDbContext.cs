@@ -15,5 +15,14 @@ namespace PTZ.HomeManagement.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>(b =>
+            {
+                b.Ignore(x => x.FullName);
+            });
+        }
     }
 }

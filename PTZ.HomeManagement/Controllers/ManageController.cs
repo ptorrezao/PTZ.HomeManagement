@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Models.ManageViewModels;
 using PTZ.HomeManagement.Services;
+using PTZ.HomeManagement.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,7 @@ namespace PTZ.HomeManagement.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly IMapper _mapper;
+        private readonly IApplicationRepository _applicationRepository;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -36,7 +39,8 @@ namespace PTZ.HomeManagement.Controllers
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
           IStringLocalizer<ManageController> localizer,
-          IMapper mapper)
+          IMapper mapper,
+          IApplicationRepository applicationRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -45,6 +49,7 @@ namespace PTZ.HomeManagement.Controllers
             _urlEncoder = urlEncoder;
             _localizer = localizer;
             _mapper = mapper;
+            _applicationRepository = applicationRepository;
         }
 
         [TempData]
@@ -55,6 +60,8 @@ namespace PTZ.HomeManagement.Controllers
         {
             ApplicationUser user = await GetUserAsync();
             IndexViewModel model = _mapper.Map<IndexViewModel>(user);
+
+            user.Email = string.IsNullOrEmpty(user.Email) ? user.UserName : user.Email;
 
             StatusMessage = _localizer["VerificationEmailSent"];
 
@@ -93,6 +100,12 @@ namespace PTZ.HomeManagement.Controllers
                 }
             }
 
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            _applicationRepository.SaveUser(user);
+
+            await ClaimsPrincipalExtensions.UpdataAllClaims(user, _userManager, _signInManager, true);
+
             StatusMessage = _localizer["ProfileUpdated"];
 
             return RedirectToAction(nameof(Index));
@@ -104,7 +117,7 @@ namespace PTZ.HomeManagement.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Index", model);
             }
 
             ApplicationUser user = await GetUserAsync();

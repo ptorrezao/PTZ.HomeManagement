@@ -16,39 +16,6 @@
             <ul class="navbar-nav ml-auto">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <li class="dropdown nav-item">
-                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <i class="fas fa-user-tie"></i>
-                            <span class="d-lg-block">&nbsp;@localizer["Account_Link"]</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" asp-action="Index" asp-controller="Manage">
-                                    <i class="fas fa-user-tie"></i>
-                                    <span class="">&nbsp;@localizer["Profile_Link"]</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Manage">
-                                    <i class="fas fa-unlock"></i>
-                                    <span class="">&nbsp;@localizer["Password_Link"]</span>
-                                </a>
-                            </li>
-                            @if (hasExternalLogins)
-                            {
-                                <li>
-                                    <a class="dropdown-item" asp-action="ExternalLogins" asp-controller="Manage">@localizer["External_logins_Link"]</a>
-                                </li>
-                            }
-                            <li>
-                                <a class="dropdown-item" asp-action="TwoFactorAuthentication" asp-controller="Manage">
-                                    <i class="fas fa-user-cog"></i>
-                                    <span class="">&nbsp;@localizer["TwoStepAuth_Link"]</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
                     <li class="nav-item">
                         <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
                             <button type="submit" class="nav-link btn-link">

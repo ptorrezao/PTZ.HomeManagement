@@ -1,8 +1,57 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer localizer
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var appUser = await UserManager.FindByIdAsync(User.GetUserId());
+}
 @if (SignInManager.IsSignedIn(User))
 {
+    <div class="user">
+        <div class="photo">
+            <img src="@User.GetUserGravatar()">
+        </div>
+        <div class="info ">
+            <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+                <span>
+                    @User.GetUserFullName()
+                    <b class="caret"></b>
+                </span>
+            </a>
+            <div class="collapse" id="collapseExample">
+                <ul class="nav">
+                    <li>
+                        <a class="profile-dropdown" asp-action="Index" asp-controller="Manage">
+                            <span class="sidebar-mini">&nbsp;</span>
+                            <span class="sidebar-normal">@localizer["Profile_Link"]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="profile-dropdown" asp-action="ChangePassword" asp-controller="Manage">
+                            <span class="sidebar-mini">&nbsp;</span>
+                            <span class="sidebar-normal">@localizer["Password_Link"]</span>
+                        </a>
+                    </li>
+                    @if (hasExternalLogins)
+                    {
+                        <li>
+                            <a class="profile-dropdown" asp-action="ExternalLogins" asp-controller="Manage">
+                                <span class="sidebar-mini">&nbsp;</span>
+                                <span class="sidebar-normal">@localizer["External_logins_Link"]</span>
+                            </a>
+                        </li>
+                    }
+                    <li>
+                        <a class="profile-dropdown" asp-action="TwoFactorAuthentication" asp-controller="Manage">
+                            <span class="sidebar-mini">&nbsp;</span>
+                            <span class="sidebar-normal">@localizer["TwoStepAuth_Link"]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <ul class="nav">
         <nav-item asp-controller="Control" asp-action="Index" tld-icon="nc-chart-pie-35">@localizer["Index_Page"]</nav-item>
         <li class="nav-item">
@@ -22,19 +71,23 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#System" aria-expanded="false">
-                <i class="nc-icon nc-settings-gear-64"></i>
-                <p>
-                    @ModulesNames.System
-                    <b class="caret"></b>
-                </p>
-            </a>
-            <div class="collapse " id="System" style="">
-                <ul class="nav">
-                    <nav-item asp-controller="Control" asp-action="Status" tld-initials="E">@localizer["Status_Page"]</nav-item>
-                </ul>
-            </div>
-        </li>
+        @if (await UserManager.IsInRoleAsync(appUser, Roles.Administrator))
+        {
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#System" aria-expanded="false">
+                    <i class="nc-icon nc-settings-gear-64"></i>
+                    <p>
+                        @ModulesNames.System
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                <div class="collapse " id="System" style="">
+                    <ul class="nav">
+                        <nav-item asp-controller="Control" asp-action="Status" tld-initials="E">@localizer["Status_Page"]</nav-item>
+                    </ul>
+                </div>
+            </li>
+        }
+
     </ul>
 }

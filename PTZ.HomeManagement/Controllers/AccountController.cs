@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GravatarSharp.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Models.AccountViewModels;
 using PTZ.HomeManagement.Services;
+using PTZ.HomeManagement.Utils;
 
 namespace PTZ.HomeManagement.Controllers
 {
@@ -69,6 +72,7 @@ namespace PTZ.HomeManagement.Controllers
                         }
                         else if (result.Succeeded)
                         {
+                            await ClaimsPrincipalExtensions.UpdataAllClaims(user, _userManager,_signInManager);
                             _logger.LogInformation("User logged in.");
                             return RedirectToLocal(returnUrl);
                         }
@@ -91,6 +95,8 @@ namespace PTZ.HomeManagement.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+     
 
         [HttpGet]
         [AllowAnonymous]
@@ -132,6 +138,8 @@ namespace PTZ.HomeManagement.Controllers
 
             if (result.Succeeded)
             {
+                await ClaimsPrincipalExtensions.UpdataAllClaims(user, _userManager, _signInManager);
+
                 _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
                 return RedirectToLocal(returnUrl);
             }

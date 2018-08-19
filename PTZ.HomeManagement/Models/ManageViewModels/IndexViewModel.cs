@@ -11,6 +11,12 @@ namespace PTZ.HomeManagement.Models.ManageViewModels
         [Display(Name = "Username")]
         public string Username { get; set; }
 
+        [Display(Name = "FirstName")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "LastName")]
+        public string LastName { get; set; }
+
         [Display(Name = "IsEmailConfirmed")]
         public bool IsEmailConfirmed { get; set; }
 

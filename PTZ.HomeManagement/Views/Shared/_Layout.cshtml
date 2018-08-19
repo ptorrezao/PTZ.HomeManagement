@@ -30,6 +30,7 @@
                         @ViewBag.AppName
                     </a>
                 </div>
+
                 @if (SignInManager.IsSignedIn(User))
                 {
                     @Html.Partial("_Navigation")
