@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="~/lib/app.css" asp-append-version="true" />
     <script type="text/javascript" src="~/lib/jquery/js/jquery.3.2.1.min.js"></script>
 </head>
-<body>
+<body style="display:none">
     <div class="wrapper">
         <div class="sidebar" data-image="/media/sidebar-1.jpg" data-color="orange">
             <div class="sidebar-wrapper">
@@ -30,6 +30,7 @@
                         @ViewBag.AppName
                     </a>
                 </div>
+
                 @if (SignInManager.IsSignedIn(User))
                 {
                     @Html.Partial("_Navigation")
@@ -67,5 +68,6 @@
 
     @RenderSection("scripts", required: false)
     @Html.RenderScripts()
+
 </body>
 </html>

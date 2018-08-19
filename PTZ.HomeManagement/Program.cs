@@ -36,6 +36,12 @@ namespace PTZ.HomeManagement
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     context.Database.EnsureCreated();
+
+                    var lastDefinedMigration =context.Database.GetMigrations().LastOrDefault();
+                    if (!context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
+                    {
+                       context.Database.Migrate();
+                    }
                     SeedData.Initialize(services).Wait();
 
                 }

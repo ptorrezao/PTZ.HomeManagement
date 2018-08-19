@@ -200,7 +200,7 @@ namespace PTZ.HomeManagement.Controllers
                     {
                         XAxis = currentDay.ToShortDateString(),
                         Amount = lastKnownValue,
-                        AssetType = bankAccount.AccountType,
+                        AssetType = bankAccount.AccountType.GetDescription(),
                         AccountNumber = bankAccount.IBAN,
                         AccountTitle = bankAccount.Name,
                         Color = bankAccount.Color,
@@ -218,7 +218,7 @@ namespace PTZ.HomeManagement.Controllers
                         {
                             XAxis = selectedCategory.Name,
                             Amount = -x.Where(e => e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount),
-                            AssetType = bankAccount.AccountType,
+                            AssetType = bankAccount.AccountType.GetDescription(),
                             AccountNumber = bankAccount.IBAN,
                             YAxis = bankAccount.Name,
                             Color = bankAccount.Color

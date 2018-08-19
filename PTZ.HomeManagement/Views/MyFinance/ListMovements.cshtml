@@ -29,7 +29,9 @@
                     {
                         <tr>
                             <td data-toggle="tooltip" data-placement="right" title="@Html.DisplayNameFor(x => x.Items.First().ValueDate): @item.ValueDate.ToShortDateString()">@item.MovementDate.ToShortDateString()</td>
-                            <td>@item.Description</td>
+                            <td>
+                                @item.Description
+                            </td>
                             <td>@item.Amount.ConvertToCurrency("€")</td>
                             <td>@item.TotalBalanceAfterMovement.ConvertToCurrency("€")</td>
                             <td class="no-sort">
@@ -45,7 +47,7 @@
         </div>
         <div class="card-footer">
             <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
-                    <i class="fa fa-arrow-left"></i>
+                <i class="fa fa-arrow-left"></i>
             </a> &nbsp;
             <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-bankAccountId="@Model.Id" data-toggle="tooltip" data-placement="top" title="@localizer["Add"]">
                 <i class="fa fa-plus"></i>

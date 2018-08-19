@@ -120,8 +120,14 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
   <data name="IsEmailConfirmed" xml:space="preserve">
     <value>Email confirmado</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Apelido</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>Número Telefone</value>

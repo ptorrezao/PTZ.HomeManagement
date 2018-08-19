@@ -129,19 +129,10 @@
   <data name="Logout_Link" xml:space="preserve">
     <value>Sair</value>
   </data>
-  <data name="Password_Link" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Profile_Link" xml:space="preserve">
-    <value>Perfil</value>
-  </data>
   <data name="Register_Link" xml:space="preserve">
     <value>Novo Registo</value>
   </data>
   <data name="Toggle_navigation" xml:space="preserve">
     <value>Alterar Navegação</value>
-  </data>
-  <data name="TwoStepAuth_Link" xml:space="preserve">
-    <value>Autenticação em 2 passos.</value>
   </data>
 </root>

@@ -129,22 +129,10 @@
   <data name="Logout_Link" xml:space="preserve">
     <value>Log out</value>
   </data>
-  <data name="Password_Link" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Profile_Link" xml:space="preserve">
-    <value>Profile</value>
-  </data>
   <data name="Register_Link" xml:space="preserve">
     <value>Register</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="Toggle_navigation" xml:space="preserve">
     <value>Toggle Navigation</value>
-  </data>
-  <data name="TwoStepAuth_Link" xml:space="preserve">
-    <value>Two-factor authentication</value>
   </data>
 </root>
