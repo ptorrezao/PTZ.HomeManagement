@@ -64,5 +64,41 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
             Assert.Equal(AssetType.CurrentAccount, bankAccount.AccountType);
             Assert.True(bankAccount.IsVisible);
         }
+
+        [Fact]
+        public void BankAccount_AddNew()
+        {
+            var user = apprepo.GetUsers(null).FirstOrDefault();
+            Assert.NotNull(user);
+            var userId = user.Id;
+            var bankAccount = this.myFinanceService.GetBankAccountDefault(userId);
+
+            Assert.NotNull(bankAccount);
+            Assert.NotNull(bankAccount.ApplicationUser);
+            Assert.Equal(bankAccount.ApplicationUser.Id, userId);
+            Assert.Equal(AssetType.CurrentAccount, bankAccount.AccountType);
+            Assert.True(bankAccount.IsVisible);
+
+            bankAccount.IBAN = "PT50000201231234567890154";
+            bankAccount.AccountType = AssetType.RetirementSavingsAccount;
+            bankAccount.Bank = Bank.BPI;
+            bankAccount.Color = "#00FF00";
+            bankAccount.IsVisible = true;
+            bankAccount.Name = nameof(BankAccount_AddNew);
+            this.myFinanceService.SaveBankAccount(userId, bankAccount);
+
+            var savedAccounts = this.myFinanceService.GetBankAccounts(userId);
+
+            var savedAccount = savedAccounts.FirstOrDefault(x => x.Name == nameof(BankAccount_AddNew));
+
+            Assert.NotNull(savedAccount);
+            Assert.NotNull(savedAccount.ApplicationUser);
+            Assert.Equal("PT50000201231234567890154", savedAccount.IBAN);
+            Assert.Equal(AssetType.RetirementSavingsAccount, savedAccount.AccountType);
+            Assert.Equal(Bank.BPI, savedAccount.Bank);
+            Assert.Equal("#00FF00", savedAccount.Color);
+            Assert.True(savedAccount.IsVisible);
+            Assert.Equal(nameof(BankAccount_AddNew), savedAccount.Name);
+        }
     }
 }
