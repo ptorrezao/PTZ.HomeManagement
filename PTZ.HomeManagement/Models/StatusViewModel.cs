@@ -9,7 +9,6 @@ namespace PTZ.HomeManagement.Models
     {
         public StatusViewModel()
         {
-            LogEntries = new List<string>();
         }
 
         public string MachineName
@@ -20,7 +19,6 @@ namespace PTZ.HomeManagement.Models
             }
         }
 
-        public List<string> LogEntries { get; set; }
         public double TotalMemory { get; internal set; }
         public string Environment { get; internal set; }
         public string DefaultConnection { get; internal set; }
