@@ -15,6 +15,16 @@ namespace PTZ.HomeManagement.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public string FullName { get { return $"{FirstName} {LastName}"; } }
+        public string FullName
+        {
+            get
+            {
+                string fullName = null;
+
+                fullName = !string.IsNullOrEmpty(this.FirstName) ? this.FirstName + " " : null;
+                fullName = !string.IsNullOrEmpty(this.LastName) ? fullName + this.LastName : null;
+                return fullName == null ? null : fullName.Trim();
+            }
+        }
     }
 }

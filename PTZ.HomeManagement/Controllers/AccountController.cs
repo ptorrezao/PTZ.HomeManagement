@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -65,6 +65,8 @@ namespace PTZ.HomeManagement.Controllers
                     var user = await _userManager.FindByNameAsync(model.Email);
                     if (user != null)
                     {
+                        await ClaimsPrincipalExtensions.UpdataAllClaims(user, _userManager, _signInManager);
+
                         if (!await _userManager.IsEmailConfirmedAsync(user))
                         {
                             ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
@@ -72,7 +74,6 @@ namespace PTZ.HomeManagement.Controllers
                         }
                         else if (result.Succeeded)
                         {
-                            await ClaimsPrincipalExtensions.UpdataAllClaims(user, _userManager,_signInManager);
                             _logger.LogInformation("User logged in.");
                             return RedirectToLocal(returnUrl);
                         }
@@ -245,6 +246,7 @@ namespace PTZ.HomeManagement.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);

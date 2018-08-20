@@ -34,13 +34,22 @@ namespace PTZ.HomeManagement
 
                 try
                 {
-                    SeedData.Initialize(services).Wait();
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    context.Database.EnsureCreated();
+
+                    var lastDefinedMigration = context.Database.GetMigrations().LastOrDefault();
+                    if (!context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
+                    {
+                        context.Database.Migrate();
+                    }
                 }
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
+
+                SeedData.Initialize(services).Wait();
             }
 
             host.Run();
