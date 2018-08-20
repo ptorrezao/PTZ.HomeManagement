@@ -18,7 +18,8 @@ namespace PTZ.HomeManagement.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)) &&
+            if (this.Database.GetAppliedMigrations().Any() &&
+                !options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)) &&
                 !this.Database.GetAppliedMigrations().Any(x => x == this.Database.GetMigrations().LastOrDefault()))
             {
                 this.Database.Migrate();
