@@ -75,7 +75,7 @@ namespace PTZ.HomeManagement.MyFinance
                 }
             }
             lines.RemoveAll(x => linesToRemove.Any(q => q.GetHashCode() == x.GetHashCode()));
-            return this.SaveBankAccountMovements(userId, bankAccountId, lines);
+            return lines;
         }
 
         public void SetCategoriesToBankAccountMovement(string userId, long bankAccountMovementId, List<long> categories)

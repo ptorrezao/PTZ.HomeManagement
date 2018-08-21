@@ -144,6 +144,19 @@ namespace PTZ.HomeManagement.Controllers
             return RedirectToAction(nameof(ImportMovements), new { import.BankAccountId });
         }
 
+        public IActionResult ImportMovementsReview()
+        {
+            return View(new AccountMovementImportViewModel());
+        }
+
+        //[HttpPost]
+        //public IActionResult ImportMovementsReview(AccountMovementImportViewModel import, List<AccountMovementReviewListItemViewModel> lines)
+        //{
+        //    var list = Mapper.Map<List<BankAccountMovement>>(lines);
+
+        //    _myFinanceService.SaveBankAccountMovements(User.GetUserId(), import.BankAccountId, list);
+        //}
+
         public IActionResult SetCategoriesToBankAccount(int bankAccountId, int id)
         {
             BankAccountMovement movement = _myFinanceService.GetBankAccountMovement(User.GetUserId(), bankAccountId, id);
