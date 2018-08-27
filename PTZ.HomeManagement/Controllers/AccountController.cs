@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Models.AccountViewModels;
 using PTZ.HomeManagement.Services;
@@ -22,18 +23,21 @@ namespace PTZ.HomeManagement.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IApplicationRepository _applicationRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
-            IStringLocalizer<AccountController> localizer)
+            IStringLocalizer<AccountController> localizer,
+            IApplicationRepository applicationRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _applicationRepository = applicationRepository;
         }
 
 
@@ -48,7 +52,14 @@ namespace PTZ.HomeManagement.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+
+            LoginViewModel vm = new LoginViewModel();
+            if (_applicationRepository.OnlyDefaultUserIsAvailable())
+            {
+                vm.Message = "OnlyDefaultUserIsAvailable";
+            }
+
+            return View(vm);
         }
 
         [HttpPost]
@@ -97,7 +108,7 @@ namespace PTZ.HomeManagement.Controllers
             return View(model);
         }
 
-     
+
 
         [HttpGet]
         [AllowAnonymous]

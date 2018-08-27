@@ -38,6 +38,11 @@ namespace PTZ.HomeManagement.Core.Data
             return context.Users.Where(x => string.IsNullOrEmpty(userId) || x.Id == userId);
         }
 
+        public bool OnlyDefaultUserIsAvailable()
+        {
+            return context.Users.Count(x => !SeedData.DefaultUsers.ContainsKey(x.UserName)) <= 0;
+        }
+
         public void SaveUser(ApplicationUser user)
         {
             this.context.Entry(user).State = !this.context.Users.Any(x => x.Id == user.Id) ? EntityState.Added : EntityState.Modified;

@@ -147,3 +147,12 @@ div.dataTables_wrapper div.dataTables_length select {
 .content {
     height: max-content;
 }
+
+.field-validation-error {
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: none;
+    color: #FB404B;
+}

@@ -12,16 +12,30 @@ namespace PTZ.HomeManagement.Data
 {
     public static class SeedData
     {
+        public static Dictionary<string, string> DefaultUsers => new Dictionary<string, string> {
+            { "admin@hmptz.local", "Ch4ng3_Th1s"}
+        };
+
+        public static List<string> DefaultAdmins => new List<string> {
+            { "admin@hmptz.local"}
+        };
+
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                var adminID = await EnsureUser(serviceProvider, "Ch4ng3_Th1s", "admin@hmptz.local");
+                foreach (var item in SeedData.DefaultUsers)
+                {
+                    var userid = await EnsureUser(serviceProvider, item.Key, item.Value);
 
-                await EnsureRole(serviceProvider, Roles.Administrator, adminID);
+                    if (DefaultAdmins.Contains(item.Key))
+                    {
+                        await EnsureRole(serviceProvider, Roles.Administrator, userid);
+                    }
 
-                await EnsureRole(serviceProvider, Roles.User);
+                    await EnsureRole(serviceProvider, Roles.User);
+                }
 
                 SeedDB(context);
             }
@@ -91,7 +105,10 @@ namespace PTZ.HomeManagement.Data
 
             var user = await userManager.FindByIdAsync(userId);
 
-            IR = await userManager.AddToRoleAsync(user, role);
+            if (user != null)
+            {
+                IR = await userManager.AddToRoleAsync(user, role);
+            }
 
             return IR;
         }

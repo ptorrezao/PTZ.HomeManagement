@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   ptz.homemanagement:
@@ -6,3 +6,17 @@ services:
       context: .
       dockerfile: PTZ.HomeManagement/Dockerfile
     image: ptorrezao/ptz.homemanagement:build
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=myverysecurepassword
+      - DB_NAME=ptzhm
+      - DB_TYPE=PostgreSQL
+    external_links:
+      - db:db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: myverysecurepassword
+      POSTGRES_USER: postgres

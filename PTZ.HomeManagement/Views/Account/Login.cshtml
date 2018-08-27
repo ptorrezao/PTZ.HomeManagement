@@ -15,7 +15,6 @@
             <div class="card-body ">
                 <div class="card-body">
                     <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group">
                             <input asp-for="Email" class="form-control" placeholder="@localizer["Email_Placeholder"]" />
                             <span asp-validation-for="Email" class="text-danger"></span>
@@ -32,6 +31,16 @@
                                 </label>
                             </div>
                         </div>
+
+                        @if (Model != null && !string.IsNullOrEmpty(Model.Message ?? ""))
+                        {
+                            <span class="text-danger field-validation-error text-center">
+                                <span>@localizer[Model.Message]</span>
+                            </span>
+                            <div class="form-group">
+
+                            </div>
+                        }
                         <div class="form-group">
                             <button type="submit" class="btn btn-warning btn-fill">@localizer["Login_Button"]</button>
                         </div>
