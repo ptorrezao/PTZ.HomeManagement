@@ -138,6 +138,8 @@ namespace PTZ.HomeManagement.Controllers
 
                 import.Items = Mapper.Map<List<AccountMovementReviewListItemViewModel>>(list);
 
+                _myFinanceService.SaveBankAccountMovements(User.GetUserId(), import.BankAccountId, list);
+
                 return View("ImportMovementsReview", import);
             }
 

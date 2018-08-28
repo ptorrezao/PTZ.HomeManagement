@@ -21,18 +21,15 @@ namespace PTZ.HomeManagement.Controllers
     public class ControlController : Controller
     {
         private readonly ILogger<ControlController> logger;
-        private readonly ICoreService core;
         private readonly IConfiguration configuration;
         private readonly IStringLocalizer<ControlController> _localizer;
 
         public ControlController(
             ILogger<ControlController> log,
-            ICoreService coreSvc,
             IConfiguration configurationSvc,
             IStringLocalizer<ControlController> localizer)
         {
             logger = log;
-            core = coreSvc;
             configuration = configurationSvc;
             _localizer = localizer;
         }

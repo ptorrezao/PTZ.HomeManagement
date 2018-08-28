@@ -12,12 +12,13 @@
     "gulp-htmlmin": "^3.0.0",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "3.1.0",
-    "gulp-uglify": "^3.0.0",
     "gulp-sequence": "^1.0.0",
+    "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1"
   },
   "dependencies": {
     "bootstrap": "^4.0.0",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "node-sass": "^4.9.3"
   }
 }

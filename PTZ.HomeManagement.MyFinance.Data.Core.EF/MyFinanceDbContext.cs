@@ -22,7 +22,6 @@ namespace PTZ.HomeManagement.MyFinance.Data
         {
             base.OnModelCreating(modelBuilder);
 
-
             modelBuilder.HasSequence<long>("BankAccount").StartsAt(1).IncrementsBy(1);
             modelBuilder.Entity<BankAccount>(b =>
             {

@@ -24,7 +24,7 @@ namespace PTZ.HomeManagement.Utils
             if (principal == null)
                 throw new ArgumentNullException(nameof(principal));
 
-            return  principal.FindFirst(ClaimTypes.GivenName)?.Value;
+            return principal.FindFirst(ClaimTypes.GivenName)?.Value;
         }
 
         public static string GetUserGravatar(this ClaimsPrincipal principal)
@@ -41,8 +41,8 @@ namespace PTZ.HomeManagement.Utils
             var shouldUpdate = false;
             var claims = await userManager.GetClaimsAsync(user);
 
-            shouldUpdate = await UpdateClaims(user, userManager, claims, ClaimTypes.GivenName, user.FullName);
-            shouldUpdate = shouldUpdate && await UpdateClaims(user, userManager, claims, ClaimTypes.UserData, GravatarController.GetImageUrl(user.Email));
+            shouldUpdate = await UpdateClaims(user, userManager, claims, ClaimTypes.GivenName, user.FullName ?? user.UserName);
+            shouldUpdate = await UpdateClaims(user, userManager, claims, ClaimTypes.UserData, GravatarController.GetImageUrl(user.Email ?? user.UserName)) && shouldUpdate;
 
             if (shouldUpdate || forceRefresh)
             {

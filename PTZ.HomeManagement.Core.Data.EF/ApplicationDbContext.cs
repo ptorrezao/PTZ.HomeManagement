@@ -7,26 +7,28 @@ using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Utils;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PTZ.HomeManagement.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public static Dictionary<string, string> DefaultUsers => new Dictionary<string, string> {
+            { "admin@hmptz.local", "Ch4ng3_Th1s"}
+        };
+
+        public static List<string> DefaultAdmins => new List<string> {
+            { "admin@hmptz.local"}
+        };
+
         public DbSet<KeyValuesCollection> KeyCollections { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
-            {
-                var lastDefinedMigration = this.Database.GetMigrations().LastOrDefault();
-                if (!this.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
-                {
-                    this.Database.Migrate();
-                }
-            }
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

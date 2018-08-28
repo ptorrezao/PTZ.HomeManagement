@@ -33,8 +33,8 @@ namespace PTZ.HomeManagement.Extentions
             controller.ViewBag.Title = context.RouteData.Values["Action"];
             controller.ViewBag.GoogleMapKey = "AIzaSyBZ4OWSVpF7Mq7ryLA49FRWxo1o-ZUgzVQ";
 
-            controller.ViewBag.Version = typeof(Startup).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-
+            controller.ViewBag.Version = typeof(Startup).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            
             controller.ViewBag.CurrentAction = context.RouteData.Values["Action"];
             controller.ViewBag.CurrentController = context.RouteData.Values["Controller"];
             controller.ViewBag.CurrentArea = context.RouteData.Values["Area"];

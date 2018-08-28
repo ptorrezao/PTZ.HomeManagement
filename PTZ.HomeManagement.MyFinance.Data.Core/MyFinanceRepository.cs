@@ -18,13 +18,10 @@ namespace PTZ.HomeManagement.MyFinance.Data
             DbContextOptions<MyFinanceDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>();
             this.context = new MyFinanceDbContext(options);
 
-            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
+            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)) &&
+                (!this.context.Database.GetAppliedMigrations().Any(x => x == this.context.Database.GetMigrations().LastOrDefault())))
             {
-                var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
-                if (!this.context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
-                {
-                    this.context.Database.Migrate();
-                }
+                this.context.Database.Migrate();
             }
         }
 
