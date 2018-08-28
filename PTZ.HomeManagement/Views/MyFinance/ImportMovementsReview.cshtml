@@ -3,172 +3,50 @@
 
 @{
     ViewBag.Title = ModulesNames.MyFinance;
-    Model.Items = Model.Items ?? new List<AccountMovementReviewListItemViewModel>();
-
-    Model.Items.Add(new AccountMovementReviewListItemViewModel() { Description = "A", Amount = 100, Id = 1, MovementDate = DateTime.Now });
-    Model.Items.Add(new AccountMovementReviewListItemViewModel() { Description = "B", Amount = 120, Id = 2, MovementDate = DateTime.Now });
 }
 <div class="col-md-12">
     <div class="card strpied-tabled-with-hover">
         <div class="card-header ">
             <h4 class="card-title">@localizer["Title"] - @Model.ImportType</h4>
-            <p class="card-category">
-                Title
+            <p class="card-category text-right">
+                @if (Model.Items.Count == 0)
+                {
+                    @localizer["EveryRowWasAlreadyImported"]
+                }
+                else
+                {
+                    @localizer["SomeRowsMayBeExcludedDueToAlreadyBePresent"]
+                }
             </p>
         </div>
         <div class="card-body table-full-width table-responsive">
-            <div class="progress">
-                <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 100%"></div>
-            </div>
-            <div id="contentWrapper">
 
-            </div>
+            <table class="table table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().MovementDate)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Description)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Amount)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (AccountMovementReviewListItemViewModel item in Model.Items)
+                    {
+                        <tr>
+                            <td data-toggle="tooltip" data-placement="right" title="@Html.DisplayNameFor(x => x.Items.First().ValueDate): @item.ValueDate.ToShortDateString()">@item.MovementDate.ToShortDateString()</td>
+                            <td>@item.Description</td>
+                            <td>@item.Amount.ConvertToCurrency("€")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
         <div class="card-footer">
-            <a id="previousButton" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["Previous"]">
+            <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
                 <span class="btn-label">
                     <i class="fa fa-arrow-left"></i>
                 </span>
             </a> &nbsp;
-
-            <a id="nextButton" class="btn btn-sm btn-default btn-outline pull-right" data-toggle="tooltip" data-placement="top" title="@localizer["Next"]">
-                <span class="btn-label">
-                    <i class="fa fa-arrow-right"></i>
-                </span>
-            </a> &nbsp;
         </div>
     </div>
 </div>
-<style>
-    .card .card-body {
-        padding: .75rem 1.25rem;
-    }
-
-    .table-full-width {
-        margin-left: 0px;
-        margin-right: 0px;
-    }
-</style>
-<div id="template" style="display:none">
-    <div class="text-danger validation-summary-valid" data-valmsg-summary="true">
-        <ul>
-            <li style="display:none"></li>
-        </ul>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="form-group">
-                <label for="Id">Identificador</label>
-                <input class="form-control" disabled="" type="number" data-val="true" data-val-required="The Identificador field is required." id="Id" name="Id">
-            </div>
-        </div>
-        <div class="col-md-10">
-            <div class="form-group">
-                <label for="Description">Descritivo</label>
-                <input class="form-control" disabled="" type="text" id="Description" name="Description" >
-                <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
-                <input id="Description" name="Description" type="hidden" value="CONTA POUPANCA RENDIMENTO       ">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="Amount">Valor</label>
-                <input class="form-control" disabled="" type="text" data-val="true" data-val-number="The field Valor must be a number." data-val-required="The Valor field is required." id="Amount" name="Amount" >
-                <span class="text-danger field-validation-valid" data-valmsg-for="Amount" data-valmsg-replace="true"></span>
-                <input id="Amount" name="Amount" type="hidden" value="1054,4600">
-
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="MovementDate">Data Mov.</label>
-                <input class="form-control" disabled="" type="datetime-local" data-val="true" data-val-required="The Data Mov. field is required." id="MovementDate" name="MovementDate" value="2018-08-07T00:00:00.000">
-                <span class="text-danger field-validation-valid" data-valmsg-for="MovementDate" data-valmsg-replace="true"></span>
-                <input id="MovementDate" name="MovementDate" type="hidden" value="07/08/18 00:00:00">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="ValueDate">Data Valor</label>
-                <input class="form-control" disabled="" type="datetime-local" data-val="true" data-val-required="The Data Valor field is required." id="ValueDate" name="ValueDate" value="2018-08-07T00:00:00.000">
-                <span class="text-danger field-validation-valid" data-valmsg-for="ValueDate" data-valmsg-replace="true"></span>
-                <input id="ValueDate" name="ValueDate" type="hidden" value="07/08/18 00:00:00">
-            </div>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-md-10">
-            <div class="form-group">
-                <label for="SelectedCategories">Categorias</label>
-                <div class="btn-group bootstrap-select show-tick form-control show">
-                    <button type="button" class="btn dropdown-toggle bs-placeholder btn-default" data-toggle="dropdown" role="button" data-id="SelectedCategories" title="Selecione uma ou mais categorias" aria-expanded="true"><span class="filter-option pull-left">Selecione uma ou mais categorias</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open show" role="combobox" x-placement="bottom-start" style="max-height: 380.602px; overflow: hidden; min-height: 0px; position: absolute; transform: translate3d(0px, 39px, 0px); top: 0px; left: 0px; will-change: transform;"><ul class="dropdown-menu inner" role="listbox" aria-expanded="true" style="max-height: 380.602px; overflow-y: auto; min-height: 0px;"><li data-original-index="0"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Despesas Fixas</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="1"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Empréstimo Casa</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="2"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Carro</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li><li data-original-index="3"><a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false"><span class="text">Poupanca</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul></div><select class="btn-group selectpicker form-control" title="Selecione uma ou mais categorias" id="SelectedCategories" multiple="multiple" name="SelectedCategories" tabindex="-98">
-                        <option value="1">Despesas Fixas</option>
-                        <option value="2">Empréstimo Casa</option>
-                        <option value="3">Carro</option>
-                        <option value="4">Poupanca</option>
-                    </select>
-                </div>
-                <span class="text-danger field-validation-valid" data-valmsg-for="SelectedCategories" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $().ready(function () {
-        var items=@Json.Serialize(Model.Items);
-        wizard.init(items, $("#progressbar"), $("#nextButton"), $("#previousButton"), $("#progressbar"));
-    });
-
-    var wizard = {
-        totalSteps: null,
-        currentStep: null,
-        nextButton: null,
-        previousButton: null,
-        init: function (items, progressbar, nextButton, previousButton) {
-            wizard.items = items;
-            wizard.totalSteps = wizard.items.length;
-            wizard.currentStep = 0;
-            wizard.progressbar = progressbar;
-            wizard.progressbar.attr('aria-valuemax', wizard.totalSteps);
-            wizard.progressbar.attr('aria-valuenow', wizard.currentStep).css('width', wizard.currentStep + "%");
-            wizard.updatePage(wizard.currentStep + 1);
-            nextButton.click(function () {
-                wizard.updatePage(wizard.currentStep + 1);
-            });
-        },
-        updatePage: function (newPage) {
-            wizard.currentStep = newPage;
-
-            var currentPercentage = wizard.currentStep * 100 / wizard.totalSteps;
-
-            if (currentPercentage <= 100) {
-                wizard.progressbar.attr('aria-valuenow', wizard.currentStep).css('width', currentPercentage + "%");
-                wizard.selectItem(wizard.currentStep);
-            } else {
-                wizard.complete();
-            }
-        },
-        selectItem: function (step) {
-            var item = wizard.items[step - 1];
-            var template = $('#template').clone();
-            template.attr('id', 'id' + step);
-            
-            $("#contentWrapper").html(template);
-
-            $(template).show();
-
-            template.find("#id").val(item.id);
-
-            template.find("input#Id").val(item.id);
-            template.find("input#Description").val(item.description); 
-            template.find("input#Amount").val(item.amount); 
-        },
-        complete: function () {
-            alert('complete');
-        }
-    };
-
-</script>

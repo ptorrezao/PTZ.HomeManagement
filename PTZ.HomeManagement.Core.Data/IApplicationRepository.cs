@@ -10,5 +10,6 @@ namespace PTZ.HomeManagement.Core.Data
         IQueryable<ApplicationUser> GetUsers(string userId = null);
         ApplicationUser GetUser(string userId);
         void SaveUser(ApplicationUser user);
+        bool OnlyDefaultUserIsAvailable();
     }
 }

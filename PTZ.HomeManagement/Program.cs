@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using PTZ.HomeManagement.Data;
+using PTZ.HomeManagement.MyFinance.Data;
 using PTZ.HomeManagement.Utils;
 using Sentry;
 
@@ -32,27 +33,33 @@ namespace PTZ.HomeManagement
             {
                 var services = scope.ServiceProvider;
 
-                try
-                {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    context.Database.EnsureCreated();
-
-                    var lastDefinedMigration = context.Database.GetMigrations().LastOrDefault();
-                    if (!context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
-                    {
-                        context.Database.Migrate();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while seeding the database.");
-                }
+                MigrateIfNecessary<ApplicationDbContext>(services);
+                MigrateIfNecessary<MyFinanceDbContext>(services);
 
                 SeedData.Initialize(services).Wait();
             }
 
             host.Run();
+        }
+
+        private static void MigrateIfNecessary<T>(IServiceProvider services) where T : DbContext
+        {
+            try
+            {
+                var context = services.GetRequiredService<T>();
+                context.Database.EnsureCreated();
+
+                var lastDefinedMigration = context.Database.GetMigrations().LastOrDefault();
+                if (!context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
+                {
+                    context.Database.Migrate();
+                }
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred while seeding the database.");
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args)

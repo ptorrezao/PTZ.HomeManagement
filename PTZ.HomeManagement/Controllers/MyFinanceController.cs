@@ -138,24 +138,13 @@ namespace PTZ.HomeManagement.Controllers
 
                 import.Items = Mapper.Map<List<AccountMovementReviewListItemViewModel>>(list);
 
+                _myFinanceService.SaveBankAccountMovements(User.GetUserId(), import.BankAccountId, list);
+
                 return View("ImportMovementsReview", import);
             }
 
             return RedirectToAction(nameof(ImportMovements), new { import.BankAccountId });
         }
-
-        public IActionResult ImportMovementsReview()
-        {
-            return View(new AccountMovementImportViewModel());
-        }
-
-        //[HttpPost]
-        //public IActionResult ImportMovementsReview(AccountMovementImportViewModel import, List<AccountMovementReviewListItemViewModel> lines)
-        //{
-        //    var list = Mapper.Map<List<BankAccountMovement>>(lines);
-
-        //    _myFinanceService.SaveBankAccountMovements(User.GetUserId(), import.BankAccountId, list);
-        //}
 
         public IActionResult SetCategoriesToBankAccount(int bankAccountId, int id)
         {
