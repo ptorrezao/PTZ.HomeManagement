@@ -130,8 +130,8 @@
     <value>Log in</value>
   </data>
   <data name="OnlyDefaultUserIsAvailable" xml:space="preserve">
-    <value>Apenas o utilizador default se encontra configurado.
-Utilizador: admin@hmptz.local
+    <value>Apenas o utilizador default se encontra configurado.&lt;br&gt;
+Utilizador: admin@hmptz.local&lt;br&gt;
 Password: Ch4ng3_Th1s</value>
   </data>
   <data name="Password_Placeholder" xml:space="preserve">

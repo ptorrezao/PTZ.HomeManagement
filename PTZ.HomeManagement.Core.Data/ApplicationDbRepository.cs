@@ -12,6 +12,10 @@ namespace PTZ.HomeManagement.Core.Data
 {
     public class ApplicationDbRepository : IApplicationRepository
     {
+        public static Dictionary<string, string> DefaultUsers => ApplicationDbContext.DefaultUsers;
+
+        public static List<string> DefaultAdmins => ApplicationDbContext.DefaultAdmins;
+
         private readonly ApplicationDbContext context;
 
         public ApplicationDbRepository(IServiceProvider serviceProvider)
@@ -40,7 +44,7 @@ namespace PTZ.HomeManagement.Core.Data
 
         public bool OnlyDefaultUserIsAvailable()
         {
-            return context.Users.Count(x => !SeedData.DefaultUsers.ContainsKey(x.UserName)) <= 0;
+            return context.Users.Count(x => !DefaultUsers.ContainsKey(x.UserName)) <= 0;
         }
 
         public void SaveUser(ApplicationUser user)

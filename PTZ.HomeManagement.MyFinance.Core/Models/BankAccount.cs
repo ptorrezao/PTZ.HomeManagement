@@ -12,6 +12,7 @@ namespace PTZ.HomeManagement.MyFinance.Models
         public BankAccount()
         {
             IsVisible = true;
+            Movements = new List<BankAccountMovement>();
         }
 
         public long Id { get; set; }
