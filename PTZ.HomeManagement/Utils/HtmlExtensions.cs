@@ -49,6 +49,11 @@ namespace PTZ.HomeManagement.Utils
         {
             return value.ToString("#,##0.00;-#,##0.00;0.00}") + " " + currency;
         }
+
+        public static string ConvertToPercentage(this decimal value)
+        {
+            return value.ToString("#,##0.00;-#,##0.00;0.00}") + "%";
+        }
     }
 
 }
