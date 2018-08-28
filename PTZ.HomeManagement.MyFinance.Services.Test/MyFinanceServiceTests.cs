@@ -68,6 +68,28 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
 
             var savedAccounts = this.myFinanceService.GetBankAccounts(userId);
             bankAccountIdDelete = savedAccounts.FirstOrDefault(x => x.Name == nameof(BankAccount_Delete)).Id;
+
+            var listBankAccount1 = this.myFinanceService.GetBankAccountDefault(userId);
+
+            listBankAccount1.IBAN = "PT50000201231234567890222";
+            listBankAccount1.AccountType = AssetType.CurrentAccount;
+            listBankAccount1.Bank = Bank.BPI;
+            listBankAccount1.Color = "#11FF11";
+            listBankAccount1.IsVisible = true;
+            listBankAccount1.Name = nameof(BankAccount_List);
+            this.myFinanceService.SaveBankAccount(userId, listBankAccount1);
+
+
+            var listBankAccount2 = this.myFinanceService.GetBankAccountDefault(userId);
+
+            listBankAccount2.IBAN = "PT50000201231234567890333";
+            listBankAccount2.AccountType = AssetType.CurrentAccount;
+            listBankAccount2.Bank = Bank.BPI;
+            listBankAccount2.Color = "#11FF11";
+            listBankAccount2.IsVisible = true;
+            listBankAccount2.Name = nameof(BankAccount_List);
+            this.myFinanceService.SaveBankAccount(userId, listBankAccount2);
+
         }
 
         private void InitUsers()
@@ -167,6 +189,15 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
 
             bankAccount = this.myFinanceService.GetBankAccount(userId, bankAccountIdDelete);
             Assert.Null(bankAccount);
+        }
+
+        [Fact]
+        public void BankAccount_List()
+        {
+            var user = apprepo.GetUsers(null).FirstOrDefault();
+            Assert.NotNull(user);
+            var userId = user.Id;
+            Assert.True(this.myFinanceService.GetBankAccounts(userId).Count > 0);
         }
     }
 }
