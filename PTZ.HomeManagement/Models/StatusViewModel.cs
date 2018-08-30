@@ -22,5 +22,6 @@ namespace PTZ.HomeManagement.Models
         public double TotalMemory { get; internal set; }
         public string Environment { get; internal set; }
         public string DefaultConnection { get; internal set; }
+        public bool AllowSignin { get; internal set; }
     }
 }

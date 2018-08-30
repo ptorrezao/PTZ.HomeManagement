@@ -30,5 +30,6 @@ namespace PTZ.HomeManagement.MyFinance
         Category GetCategoryDefault(string userId);
         void SaveCategory(string userId, Category category);
         void DeleteCategory(string userId, Category category);
+        List<BankAccountMovement> GetBankAccountMovementsWithoutCategories(string userId);
     }
 }

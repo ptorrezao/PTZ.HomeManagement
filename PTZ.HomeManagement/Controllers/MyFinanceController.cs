@@ -277,6 +277,33 @@ namespace PTZ.HomeManagement.Controllers
 
             return View(lvm);
         }
+
+        public IActionResult SetBankAccountMovementsToCategory(int id)
+        {
+            List<Category> categories = _myFinanceService.GetCategories(User.GetUserId());
+            List<BankAccountMovement> list = _myFinanceService.GetBankAccountMovementsWithoutCategories(User.GetUserId());
+            var items = Mapper.Map<List<CategoriesAccountMovementViewModel>>(list);
+
+            foreach (var item in items)
+            {
+                item.SetAvailableCategories(Mapper.Map<List<Category>, List<CategoryViewModel>>(categories));
+            }
+
+            return View(items);
+        }
+
+        [HttpPost]
+        public IActionResult SetBankAccountMovementsToCategory(int bankAccountId, CategoriesAccountMovementViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                BankAccountMovement bankAccountMovement = Mapper.Map<BankAccountMovement>(lvm);
+
+                _myFinanceService.SetCategoriesToBankAccountMovement(User.GetUserId(), bankAccountMovement.Id, lvm.SelectedCategories);
+            }
+
+            return new JsonResult("");
+        }
         #endregion
     }
 }

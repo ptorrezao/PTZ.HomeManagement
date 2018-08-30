@@ -8,7 +8,7 @@
     <ProjectGuid>f491dd1f-d14d-4ed2-809f-609ee8075f61</ProjectGuid>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <Version>0.0.0.4-dev0076</Version>
+    <Version>0.0.0.4-dev0098</Version>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration) == 'Debug'">
     <BumpLabel>dev</BumpLabel>
@@ -51,6 +51,7 @@
   <ItemGroup>
     <Folder Include="lib\chartjs\" />
     <Folder Include="lib\datatables\" />
+    <Folder Include="lib\css-progress-wizard\" />
     <Folder Include="lib\popper\" />
     <Folder Include="Media\" />
     <Folder Include="Views\Manage\" />
@@ -88,6 +89,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\MyFinance\SetCategoriesToBankAccount.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\DisplayTemplates\ListDashboardAccountViewModel.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\EmailTemplates\EmailConfirm.cshtml">
@@ -253,6 +257,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Manage\ChangePassword.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\MyFinance\SetBankAccountMovementsToCategory.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\MyFinance\SetCategoriesToBankAccount.en-US.resx">
