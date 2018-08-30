@@ -85,7 +85,7 @@ namespace PTZ.HomeManagement.Controllers
             DatabaseType dbType;
             Enum.TryParse<DatabaseType>(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
-            vw.DefaultConnection = DatabaseUtils.GetConnectionString(configuration, dbType);
+            vw.DefaultConnection = DatabaseUtils.GetConnectionString(configuration, dbType, true);
 
             bool result = false;
             if (bool.TryParse(_applicationRepository.GetConfiguration("AllowSignin"), out result))

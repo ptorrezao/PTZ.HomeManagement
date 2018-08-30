@@ -6,7 +6,7 @@ namespace PTZ.HomeManagement.Utils
 {
     public static class DatabaseUtils
     {
-        public static string GetConnectionString(IConfiguration configuration, DatabaseType databaseType)
+        public static string GetConnectionString(IConfiguration configuration, DatabaseType databaseType, bool hidePassword = false)
         {
             var hostname = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
             var dbpassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
@@ -14,6 +14,8 @@ namespace PTZ.HomeManagement.Utils
             var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
             var port = 0;
             var connString = "";
+
+            dbpassword = hidePassword ? "******" : dbpassword;
             switch (databaseType)
             {
                 case DatabaseType.SqlServer:

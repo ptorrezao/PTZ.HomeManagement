@@ -26,7 +26,7 @@ namespace PTZ.HomeManagement.Core.Data
             if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
             {
                 var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
-                if (this.context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
+                if (!this.context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
                 {
                     this.context.Database.Migrate();
                 }
@@ -52,5 +52,12 @@ namespace PTZ.HomeManagement.Core.Data
             this.context.Entry(user).State = !this.context.Users.Any(x => x.Id == user.Id) ? EntityState.Added : EntityState.Modified;
             this.context.SaveChanges();
         }
+
+        public string GetConfiguration(string configName)
+        {
+            var config = this.context.Configurations.FirstOrDefault(x => x.Name == configName);
+            return config != null ? config.Value : "";
+        }
+
     }
 }

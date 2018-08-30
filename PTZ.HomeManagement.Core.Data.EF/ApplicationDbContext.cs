@@ -23,6 +23,7 @@ namespace PTZ.HomeManagement.Data
         };
 
         public DbSet<KeyValuesCollection> KeyCollections { get; set; }
+        public DbSet<Configuration> Configurations { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -36,6 +37,11 @@ namespace PTZ.HomeManagement.Data
             builder.Entity<ApplicationUser>(b =>
             {
                 b.Ignore(x => x.FullName);
+            });
+
+            builder.Entity<Configuration>(b =>
+            {
+                b.HasKey(x => x.Name);
             });
         }
     }

@@ -11,5 +11,6 @@ namespace PTZ.HomeManagement.Core.Data
         ApplicationUser GetUser(string userId);
         void SaveUser(ApplicationUser user);
         bool OnlyDefaultUserIsAvailable();
+        string GetConfiguration(string configName);
     }
 }
