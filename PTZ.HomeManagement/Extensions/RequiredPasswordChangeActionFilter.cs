@@ -25,7 +25,9 @@ namespace PTZ.HomeManagement.Extentions
             var action = context.RouteData.Values["Action"];
 
             string username = context.HttpContext.User.Identity.Name;
-            if (action.ToString() != nameof(ManageController.ChangePassword) && !string.IsNullOrEmpty(username))
+            if (action.ToString() != nameof(ManageController.ChangePassword) 
+                && !string.IsNullOrEmpty(username)
+                && action.ToString() != nameof(AccountController.Logout))
             {
                 var user = _userManager.Users.FirstOrDefault(x => x.UserName == username);
 

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using PTZ.HomeManagement.MyFinance.Models;
 
 namespace PTZ.HomeManagement.MyFinance.Data
@@ -15,13 +16,21 @@ namespace PTZ.HomeManagement.MyFinance.Data
 
         public MyFinanceRepositoryEF(IServiceProvider serviceProvider)
         {
-            DbContextOptions<MyFinanceDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>();
-            this.context = new MyFinanceDbContext(options);
-
-            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)) &&
-                (!this.context.Database.GetAppliedMigrations().Any(x => x == this.context.Database.GetMigrations().LastOrDefault())))
+            try
             {
-                this.context.Database.Migrate();
+                DbContextOptions<MyFinanceDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>();
+                this.context = new MyFinanceDbContext(options);
+
+                if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)) &&
+                    (!this.context.Database.GetAppliedMigrations().Any(x => x == this.context.Database.GetMigrations().LastOrDefault())))
+                {
+                    this.context.Database.Migrate();
+                }
+            }
+            catch (Exception ex)
+            {
+                var logger = serviceProvider.GetRequiredService<ILogger<MyFinanceRepositoryEF>>();
+                logger.LogError(ex, "An error occurred while seeding the database.");
             }
         }
 

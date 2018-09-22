@@ -11,7 +11,7 @@ namespace PTZ.HomeManagement.Utils
             var hostname = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
             var dbpassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
             var dbUser = Environment.GetEnvironmentVariable("DB_USER");
-            var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHomeManagement";
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZ_HA";
             var port = 0;
             var connString = "";
 
@@ -24,7 +24,7 @@ namespace PTZ.HomeManagement.Utils
                     break;
                 case DatabaseType.PostgreSQL:
                     dbUser = dbUser ?? "postgres";
-                    dbpassword = dbpassword ?? "mysecretpassword";
+                    dbpassword = dbpassword ?? "myverysecurepassword";
                     port = 5432;
                     connString = $"Host={hostname};Port={port};Username={dbUser};Database={dbName};Password={dbpassword}";
                     break;

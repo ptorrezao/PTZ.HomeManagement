@@ -25,7 +25,7 @@ namespace PTZ.HomeManagement.MyFinance.Imports
                     string[] words = line.Split(';');
                     if (!string.IsNullOrEmpty(words[0].Replace(" ", "")))
                     {
-                        decimal amount = !string.IsNullOrEmpty(words[3].Replace(".", "")) ? -decimal.Parse(words[3].Replace(".", "")) : decimal.Parse(words[4].Replace(".", ""));
+                        decimal amount = !string.IsNullOrEmpty(words[4].Replace(".", "")) ? -decimal.Parse(words[4].Replace(".", "")) : decimal.Parse(words[5].Replace(".", ""));
 
                         list.Add(new BankAccountMovement()
                         {
