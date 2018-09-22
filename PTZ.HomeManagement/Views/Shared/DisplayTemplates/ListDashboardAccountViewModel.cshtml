@@ -17,7 +17,7 @@
                         @{
                             var total = Model.Sum(x => x.Amount);
                         }
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.OrderByDescending(x=> (x.Amount * 100 / total)))
                         {
                             var relativePercentage = item.Amount * 100 / total;
                             <text>
