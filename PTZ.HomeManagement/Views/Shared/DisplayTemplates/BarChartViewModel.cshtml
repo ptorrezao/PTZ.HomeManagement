@@ -49,12 +49,13 @@
                          data:  @Html.Raw(Json.Serialize(a.GroupBy(x => x.XAxis).Select(z => z.Sum(x => x.Amount)))),
                          backgroundColor: @Html.Raw(Json.Serialize(a.Max(z=>z.Color))),
                          lineTension: 0.1,
+                         xpto: @Html.Raw(Json.Serialize(a.GroupBy(x => x.XAxis)))
                      },
                      </text>
                  }]
              }, options: {
                  legend: {
-                     display: @legend.ToString().ToLower(),
+                     display:false,
                  },
                  scales: {
                      xAxes: [{

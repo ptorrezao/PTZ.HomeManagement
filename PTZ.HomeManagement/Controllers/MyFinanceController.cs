@@ -187,6 +187,16 @@ namespace PTZ.HomeManagement.Controllers
 
                 bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
 
+                if (!bankAccount.Movements.Any())
+                {
+                    var lastMovs = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, 1, SortOrder.Descending);
+
+                    if (lastMovs.Any())
+                    {
+                        var lastMov = lastMovs.First();
+                        lastKnownValue = lastMov.TotalBalanceAfterMovement;
+                    }
+                }
                 var currentDay = DateTime.Now.AddDays(-graphLenght).Date;
                 for (int i = 1; i < graphLenght + graphLenghtIntoFuture; i++)
                 {
@@ -216,15 +226,23 @@ namespace PTZ.HomeManagement.Controllers
                 {
                     bankAccount.Movements.GroupBy(x => x.BankAccount).ToList().ForEach(x =>
                     {
-                        vm.Categories.Movements.Add(new DashboardMovementViewModel()
+                        if (x.Key.Movements.Where(r => r.Categories != null).SelectMany(q => q.Categories).Any())
                         {
-                            XAxis = selectedCategory.Name,
-                            Amount = -x.Where(e => e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount),
-                            AssetType = bankAccount.AccountType.GetDescription(),
-                            AccountNumber = bankAccount.IBAN,
-                            YAxis = bankAccount.Name,
-                            Color = bankAccount.Color
-                        });
+                            var amout = -x.Where(e => e.Categories != null && e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount);
+
+                            if (amout > 0)
+                            {
+                                vm.Categories.Movements.Add(new DashboardMovementViewModel()
+                                {
+                                    XAxis = selectedCategory.Name,
+                                    Amount = amout,
+                                    AssetType = bankAccount.AccountType.GetDescription(),
+                                    AccountNumber = bankAccount.IBAN,
+                                    YAxis = bankAccount.Name,
+                                    Color = bankAccount.Color
+                                });
+                            }
+                        }
                     });
                 }
             });
