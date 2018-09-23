@@ -207,6 +207,10 @@ namespace PTZ.HomeManagement.Controllers
                     {
                         lastKnownValue = movement.TotalBalanceAfterMovement;
                     }
+                    else if (bankAccount.Movements.Count > 0 && lastKnownValue == 0)
+                    {
+                        lastKnownValue = bankAccount.Movements.OrderBy(m => m.ValueDate.Date).First().TotalBalanceAfterMovement;
+                    }
 
                     vm.MonthlyProgression.Movements.Add(new DashboardMovementViewModel()
                     {
