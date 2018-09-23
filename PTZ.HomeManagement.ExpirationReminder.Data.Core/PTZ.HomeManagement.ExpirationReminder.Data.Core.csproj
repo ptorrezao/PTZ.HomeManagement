@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PTZ.HomeManagement.Core.Data\PTZ.HomeManagement.Core.Data.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Core\PTZ.HomeManagement.ExpirationReminder.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Data.Core.EF\PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.csproj" />
+  </ItemGroup>
+
+</Project>

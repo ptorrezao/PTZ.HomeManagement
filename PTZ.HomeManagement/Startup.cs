@@ -20,6 +20,9 @@ using NLog.Web;
 using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Enums;
+using PTZ.HomeManagement.ExpirationReminder.Data.Core;
+using PTZ.HomeManagement.ExpirationReminder.Data.Core.EF;
+using PTZ.HomeManagement.ExpirationReminder.Services;
 using PTZ.HomeManagement.Extentions;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.MyFinance;
@@ -52,13 +55,13 @@ namespace PTZ.HomeManagement
 
 
             services.Configure<EmailSettings>(x =>
-                {
-                    x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "key-ed6268300ba23c819a3482e348672f3f";
-                    x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "https://api.mailgun.net/v3/sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                    x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org/messages";
-                    x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                    x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                });
+            {
+                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "key-ed6268300ba23c819a3482e348672f3f";
+                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "https://api.mailgun.net/v3/sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org/messages";
+                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+            });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -66,6 +69,7 @@ namespace PTZ.HomeManagement
 
             services.AddDbContext<ApplicationDbContext>(options => this.SetCorrectProvider(options));
             services.AddDbContext<MyFinanceDbContext>(options => this.SetCorrectProvider(options));
+            services.AddDbContext<ExpirationReminderDbContext>(options => this.SetCorrectProvider(options));
 
             string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
             DatabaseType dbType;
@@ -94,6 +98,8 @@ namespace PTZ.HomeManagement
             services.AddTransient<IMyFinanceRepository, MyFinanceRepositoryEF>();
             services.AddTransient<IMyFinanceService, MyFinanceService>();
 
+            services.AddTransient<IExpirationReminderRepository, ExpirationReminderRepository>();
+            services.AddTransient<IExpirationReminderService, ExpirationReminderService>();
 
             services.AddMvc(options =>
             {
