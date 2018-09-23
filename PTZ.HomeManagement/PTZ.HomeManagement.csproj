@@ -8,7 +8,7 @@
     <ProjectGuid>f491dd1f-d14d-4ed2-809f-609ee8075f61</ProjectGuid>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <Version>0.0.0.4-dev0130</Version>
+    <Version>0.0.0.4-dev0150</Version>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration) == 'Debug'">
     <BumpLabel>dev</BumpLabel>
@@ -63,6 +63,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PTZ.HomeManagement.Core.Services\PTZ.HomeManagement.Core.Services.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Core\PTZ.HomeManagement.ExpirationReminder.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Services\PTZ.HomeManagement.ExpirationReminder.Services.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Core\PTZ.HomeManagement.MyFinance.Core.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.MyFinance.Services\PTZ.HomeManagement.MyFinance.Services.csproj" />
@@ -84,6 +86,12 @@
   <ItemGroup>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\ExpirationReminder\AddOrEditReminder.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\ExpirationReminder\DeleteReminder.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\MyFinance\DeleteCategory.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>

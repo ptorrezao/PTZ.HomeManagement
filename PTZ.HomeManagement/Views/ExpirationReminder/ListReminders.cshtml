@@ -1,0 +1,49 @@
+﻿@inject IViewLocalizer localizer
+@model ReminderListViewModel
+@{
+    ViewBag.Title = ModulesNames.ExpirationReminder;
+}
+<div class="col-md-12">
+    <div class="card strpied-tabled-with-hover">
+        <div class="card-header ">
+            <h4 class="card-title">@localizer["Title"]</h4>
+            <p class="card-category text-right">
+
+            </p>
+        </div>
+        <div class="card-body table-full-width table-responsive">
+            <table class="table table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().ReminderType)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Title)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().ExpirationDate)</th>
+                        <th class="no-sort"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ReminderListItemViewModel item in Model.Items)
+                    {
+                        <tr>
+                            <td>@item.ReminderType</td>
+                            <td>@item.Title</td>
+                            <td>@item.ExpirationDate.ToShortDateString()</td>
+                            <td class="no-sort">
+                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditReminder" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> &nbsp;
+                                <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteReminder" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a> &nbsp;
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditReminder" data-toggle="tooltip" data-placement="top" title="@localizer["Add"]">
+                <span class="btn-label">
+                    <i class="fa fa-plus"></i>
+                </span>
+            </a>
+        </div>
+
+    </div>
+</div>
