@@ -138,6 +138,9 @@
   <data name="Profile_Link" xml:space="preserve">
     <value>Perfil</value>
   </data>
+  <data name="Reminders_Page" xml:space="preserve">
+    <value>Lista de Lembretes</value>
+  </data>
   <data name="Status_Page" xml:space="preserve">
     <value>Estado</value>
   </data>

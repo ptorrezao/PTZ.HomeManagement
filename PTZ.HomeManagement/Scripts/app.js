@@ -35,7 +35,6 @@ $().ready(function () {
         }
     }
     catch (ex) {
-        console.error('inner', ex.message);
     }
     finally {
         $("body").fadeIn(200);

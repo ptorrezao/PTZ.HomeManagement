@@ -69,7 +69,7 @@ namespace PTZ.HomeManagement.MyFinance
             List<BankAccountMovement> linesToRemove = new List<BankAccountMovement>();
             foreach (var item in lines)
             {
-                if (myFinanceRepo.ExistsBankAccountMovements(item))
+                if (myFinanceRepo.ExistsBankAccountMovements(bankAccountId, item))
                 {
                     linesToRemove.Add(item);
                 }
@@ -83,6 +83,10 @@ namespace PTZ.HomeManagement.MyFinance
             myFinanceRepo.SetCategoriesToBankAccountMovement(userId, bankAccountMovementId, categories);
         }
 
-        
+        public List<BankAccountMovement> GetBankAccountMovementsWithoutCategories(string userId)
+        {
+            return myFinanceRepo.GetBankAccountMovements(userId, new List<Category>());
+        }
+
     }
 }

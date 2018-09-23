@@ -1,0 +1,43 @@
+﻿@model List<DashboardAccountViewModel>
+@inject IViewLocalizer localizer
+
+@{
+    var size = (string)ViewData["Size"];
+    size = string.IsNullOrEmpty(size) ? "col-lg-4" : size;
+}
+<div class="col-xl-6 col-md-12 col-lg-12 col-sm-12">
+    <div class="card ">
+        <div class="card-header ">
+            <h4 class="card-title">Listagem de Contas</h4>
+        </div>
+        <div class="card-body ">
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                        @{
+                            var total = Model.Sum(x => x.Amount);
+                        }
+                        @foreach (var item in Model.OrderByDescending(x=> (x.Amount * 100 / total)))
+                        {
+                            var relativePercentage = item.Amount * 100 / total;
+                            <text>
+                                <tr>
+                                    <td>
+                                        <span class="badge " style="background-color: @item.Color">@item.AccountTitle</span>
+                                    </td>
+                                    <td></td>
+                                    <td class="text-right">
+                                        @item.Amount.ConvertToCurrency("€")
+                                    </td>
+                                    <td class="text-right">
+                                        @relativePercentage.ConvertToPercentage()
+                                    </td>
+                                </tr>
+                            </text>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

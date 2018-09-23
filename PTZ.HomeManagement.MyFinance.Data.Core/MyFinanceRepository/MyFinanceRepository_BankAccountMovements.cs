@@ -72,11 +72,25 @@ namespace PTZ.HomeManagement.MyFinance.Data
             this.context.BankAccountMovements.RemoveRange(elementsToRemove);
         }
 
-        public bool ExistsBankAccountMovements(BankAccountMovement item)
+        public bool ExistsBankAccountMovements(long bankAccountId, BankAccountMovement item)
         {
-            return this.context.BankAccountMovements.Include(x => x.BankAccount).Any(x => x.GetHashCode() == item.GetHashCode());
+            return this.context.BankAccountMovements.Include(x => x.BankAccount).Any(x => x.GetHashCode() == item.GetHashCode() && x.BankAccount.Id == bankAccountId);
         }
 
+        public List<BankAccountMovement> GetBankAccountMovements(string userId, List<Category> categories, int limit = 50)
+        {
+            var elements = this.context.BankAccountMovements
+                                   .Include(x => x.Categories);
 
+            if (categories != null && categories.Count > 0)
+            {
+                return elements.Where(x => x.BankAccount.ApplicationUser.Id == userId && categories.Any(q => x.Categories.Any(c => c.CategoryId == q.Id))).OrderByDescending(x=>x.MovementDate).Take(limit).ToList();
+            }
+            else
+            {
+                return elements.Where(x => x.BankAccount.ApplicationUser.Id == userId && x.Categories.Count == 0).OrderByDescending(x => x.MovementDate).Take(limit).ToList();
+            }
+
+        }
     }
 }

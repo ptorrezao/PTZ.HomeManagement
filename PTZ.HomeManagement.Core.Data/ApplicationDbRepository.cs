@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Models;
 
@@ -20,16 +21,21 @@ namespace PTZ.HomeManagement.Core.Data
 
         public ApplicationDbRepository(IServiceProvider serviceProvider)
         {
-            DbContextOptions<ApplicationDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>();
-            this.context = new ApplicationDbContext(options);
-
-            if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)))
+            try
             {
-                var lastDefinedMigration = this.context.Database.GetMigrations().LastOrDefault();
-                if (this.context.Database.GetAppliedMigrations().Any(x => x == lastDefinedMigration))
+                DbContextOptions<ApplicationDbContext> options = serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>();
+                this.context = new ApplicationDbContext(options);
+
+                if (!options.Extensions.Any(x => x.GetType() == typeof(InMemoryOptionsExtension)) &&
+                     (!this.context.Database.GetAppliedMigrations().Any(x => x == this.context.Database.GetMigrations().LastOrDefault())))
                 {
                     this.context.Database.Migrate();
                 }
+            }
+            catch (Exception ex)
+            {
+                var logger = serviceProvider.GetRequiredService<ILogger<ApplicationDbRepository>>();
+                logger.LogError(ex, "An error occurred while seeding the database.");
             }
         }
 
@@ -52,5 +58,12 @@ namespace PTZ.HomeManagement.Core.Data
             this.context.Entry(user).State = !this.context.Users.Any(x => x.Id == user.Id) ? EntityState.Added : EntityState.Modified;
             this.context.SaveChanges();
         }
+
+        public string GetConfiguration(string configName)
+        {
+            var config = this.context.Configurations.FirstOrDefault(x => x.Name == configName);
+            return config != null ? config.Value : "";
+        }
+
     }
 }

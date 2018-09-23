@@ -1,0 +1,98 @@
+﻿@model List<CategoriesAccountMovementViewModel>
+@inject IViewLocalizer localizer
+@{
+    ViewBag.Title = ModulesNames.MyFinance;
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">@localizer["SetCategories"]</h4>
+            </div>
+            <div class="card-body">
+                <ul>
+                    @foreach (CategoriesAccountMovementViewModel item in Model)
+                    {
+                        <li>
+                            <form method="post" action="@Url.Action("SetCategoriesToBankAccount")">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input name="Id" value="@item.Id" hidden />
+                                            <input value="@item.Id" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input name="Description" value="@item.Description" hidden />
+                                            <input value="@item.Description" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input name="MovementDate" value="@item.MovementDate" hidden />
+                                            <input name="ValueDate" value="@item.ValueDate" hidden />
+                                            <input value="@item.MovementDate.ToShortDateString()" class="form-control text-right" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input name="Amount" value="@item.Amount" hidden />
+                                            <input value="@item.Amount.ConvertToCurrency("€")" class="form-control text-right" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <select name="SelectedCategories" asp-items="item.AvailableCategories" multiple class="btn-group selectpicker form-control" title="@localizer["SelectOneCategory"]"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-sm btn-info btn-fill  " data-toggle="tooltip" data-placement="top" title="@localizer["Save"]">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-save"></i>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Script(
+@<script type="text/javascript">
+     $(document).ready(function () {
+         $('form').submit(function (event) {
+             var formData = $(this).serialize();
+             var form = $(this);
+             $.ajax({
+                 type: 'POST', 
+                 data: formData, 
+                 dataType: 'json', 
+                 encode: true,
+                 domElement: form
+             }).done(function (data) {
+                 this.domElement.closest("li").fadeOut();
+
+                 if (this.domElement.closest("ul").children("li:visible").length === 1) {
+                     location.reload();
+                 }
+             });
+
+             event.preventDefault();
+         });
+     });
+</script>)
+<style>
+    .card-body li{
+        list-style-type:none;
+    }
+</style>

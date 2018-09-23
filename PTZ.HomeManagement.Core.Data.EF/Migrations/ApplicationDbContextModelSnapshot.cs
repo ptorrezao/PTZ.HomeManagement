@@ -183,6 +183,18 @@ namespace PTZ.HomeManagement.Core.Data.EF.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PTZ.HomeManagement.Models.Configuration", b =>
+                {
+                    b.Property<string>("Name")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Configurations");
+                });
+
             modelBuilder.Entity("PTZ.HomeManagement.Models.KeyValuesCollection", b =>
                 {
                     b.Property<int>("Id")

@@ -187,6 +187,16 @@ namespace PTZ.HomeManagement.Controllers
 
                 bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
 
+                if (!bankAccount.Movements.Any())
+                {
+                    var lastMovs = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, 1, SortOrder.Descending);
+
+                    if (lastMovs.Any())
+                    {
+                        var lastMov = lastMovs.First();
+                        lastKnownValue = lastMov.TotalBalanceAfterMovement;
+                    }
+                }
                 var currentDay = DateTime.Now.AddDays(-graphLenght).Date;
                 for (int i = 1; i < graphLenght + graphLenghtIntoFuture; i++)
                 {
@@ -196,6 +206,10 @@ namespace PTZ.HomeManagement.Controllers
                     if (movement != default(BankAccountMovement))
                     {
                         lastKnownValue = movement.TotalBalanceAfterMovement;
+                    }
+                    else if (bankAccount.Movements.Count > 0 && lastKnownValue == 0)
+                    {
+                        lastKnownValue = bankAccount.Movements.OrderBy(m => m.ValueDate.Date).First().TotalBalanceAfterMovement;
                     }
 
                     vm.MonthlyProgression.Movements.Add(new DashboardMovementViewModel()
@@ -216,15 +230,23 @@ namespace PTZ.HomeManagement.Controllers
                 {
                     bankAccount.Movements.GroupBy(x => x.BankAccount).ToList().ForEach(x =>
                     {
-                        vm.Categories.Movements.Add(new DashboardMovementViewModel()
+                        if (x.Key.Movements.Where(r => r.Categories != null).SelectMany(q => q.Categories).Any())
                         {
-                            XAxis = selectedCategory.Name,
-                            Amount = -x.Where(e => e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount),
-                            AssetType = bankAccount.AccountType.GetDescription(),
-                            AccountNumber = bankAccount.IBAN,
-                            YAxis = bankAccount.Name,
-                            Color = bankAccount.Color
-                        });
+                            var amout = -x.Where(e => e.Categories != null && e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount);
+
+                            if (amout > 0)
+                            {
+                                vm.Categories.Movements.Add(new DashboardMovementViewModel()
+                                {
+                                    XAxis = selectedCategory.Name,
+                                    Amount = amout,
+                                    AssetType = bankAccount.AccountType.GetDescription(),
+                                    AccountNumber = bankAccount.IBAN,
+                                    YAxis = bankAccount.Name,
+                                    Color = bankAccount.Color
+                                });
+                            }
+                        }
                     });
                 }
             });
@@ -276,6 +298,33 @@ namespace PTZ.HomeManagement.Controllers
             }
 
             return View(lvm);
+        }
+
+        public IActionResult SetBankAccountMovementsToCategory(int id)
+        {
+            List<Category> categories = _myFinanceService.GetCategories(User.GetUserId());
+            List<BankAccountMovement> list = _myFinanceService.GetBankAccountMovementsWithoutCategories(User.GetUserId());
+            var items = Mapper.Map<List<CategoriesAccountMovementViewModel>>(list);
+
+            foreach (var item in items)
+            {
+                item.SetAvailableCategories(Mapper.Map<List<Category>, List<CategoryViewModel>>(categories));
+            }
+
+            return View(items);
+        }
+
+        [HttpPost]
+        public IActionResult SetBankAccountMovementsToCategory(int bankAccountId, CategoriesAccountMovementViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                BankAccountMovement bankAccountMovement = Mapper.Map<BankAccountMovement>(lvm);
+
+                _myFinanceService.SetCategoriesToBankAccountMovement(User.GetUserId(), bankAccountMovement.Id, lvm.SelectedCategories);
+            }
+
+            return new JsonResult("");
         }
         #endregion
     }

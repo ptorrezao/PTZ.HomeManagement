@@ -4,9 +4,36 @@
     ViewBag.Title = ModulesNames.MyFinance;
     //ViewData.AddActivePage(ManageNavPages.Index);
 }
+<div class="container-fluid">
+    <div class="row ">
+        @Html.DisplayFor(x => x.Balance, new { Type = "pie", Size = "col-xl-3 col-lg-6 col-md-4 col-sm-12 balanceCard " })
+        @Html.DisplayFor(x => x.Categories, new { Type = "bar", YStacked = false, Size = "col-xl-4 col-md-8 col-lg-6 col-sm-12 categoriesCard", Title = "Movimentos por Categorias", Subtitle = " ", Legend = false })
+        @Html.DisplayFor(x => x.MonthlyProgression, new { Type = "line", YStacked = false, Size = "col-md-12 col-xl-5" })
+    </div>
 
-<div class="row">
-    @Html.DisplayFor(x => x.Balance, new { Type = "pie", Size = "col-xl-3 col-lg-6 col-md-4 col-sm-12" })
-    @Html.DisplayFor(x => x.Categories, new { Type = "bar", YStacked = false, Size = "col-xl-4 col-md-8 col-lg-6 col-sm-12", Title = "Movimentos por Categorias", Subtitle =" ",Legend = false })
-    @Html.DisplayFor(x => x.MonthlyProgression, new { Type = "line", YStacked = false, Size = "col-md-12 col-xl-5" })
+    <div class="row">
+        @Html.DisplayFor(x => x.Balance.Assets, "ListDashboardAccountViewModel", new { Size = "col-xl-3 col-lg-6 col-md-4 col-sm-12" })
+    </div>
 </div>
+
+<style>
+    .balanceCard .card-body,
+    .categoriesCard .card-body {
+        padding-top: 16%;
+    }
+
+    .card {
+        height: 100%;
+        margin-bottom: 0px;
+    }
+
+    .row:first-child {
+        margin-bottom: 30px;
+    }
+</style>
+@Html.Script(
+@<script type="text/javascript">
+     $(document).ready(function () {
+         $("#wizard").steps();
+     });
+</script>)

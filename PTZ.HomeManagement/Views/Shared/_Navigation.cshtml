@@ -71,6 +71,20 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ExpirationReminder" aria-expanded="false">
+                <i class="nc-icon nc-time-alarm"></i>
+                <p>
+                    @ModulesNames.ExpirationReminder
+                    <b class="caret"></b>
+                </p>
+            </a>
+            <div class="collapse " id="ExpirationReminder" style="">
+                <ul class="nav">
+                    <nav-item asp-controller="ExpirationReminder" asp-action="ListReminders" tld-initials="L">@localizer["Reminders_Page"]</nav-item>
+                </ul>
+            </div>
+        </li>
         @if (await UserManager.IsInRoleAsync(appUser, Roles.Administrator))
         {
             <li class="nav-item">

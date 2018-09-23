@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using PTZ.HomeManagement.ExpirationReminder.Core;
+using PTZ.HomeManagement.Models.ExpirationReminderModels;
 using PTZ.HomeManagement.Models.ManageViewModels;
 using PTZ.HomeManagement.Models.MyFinanceViewModels;
 using PTZ.HomeManagement.MyFinance.Models;
@@ -17,6 +19,7 @@ namespace PTZ.HomeManagement.Models
             CreateMap<ApplicationUser, IndexViewModel>()
                 .ForMember(vm => vm.IsEmailConfirmed, opt => opt.MapFrom(u => u.EmailConfirmed));
 
+            //MyFinance
             CreateMap<List<BankAccount>, AccountListViewModel>()
                 .ForMember(vm => vm.Items, opt => opt.MapFrom(u => Mapper.Map<IList<BankAccount>, IList<AccountListItemViewModel>>(u)));
 
@@ -47,6 +50,15 @@ namespace PTZ.HomeManagement.Models
             CreateMap<CategoryViewModel, Category>();
             CreateMap<List<Category>, CategoryListViewModel>()
             .ForMember(vm => vm.Items, opt => opt.MapFrom(u => Mapper.Map<IList<Category>, IList<CategoryListItemViewModel>>(u)));
+
+            //Expiration Reminder
+            CreateMap<List<Reminder>, ReminderListViewModel>()
+                .ForMember(vm => vm.Items, opt => opt.MapFrom(u => Mapper.Map<IList<Reminder>, IList<ReminderListItemViewModel>>(u)));
+
+            CreateMap<Reminder, ReminderListItemViewModel>();
+
+            CreateMap<Reminder, ReminderViewModel>();
+            CreateMap<ReminderViewModel, Reminder>();
         }
     }
 }
