@@ -8,7 +8,7 @@
     <ProjectGuid>f491dd1f-d14d-4ed2-809f-609ee8075f61</ProjectGuid>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <Version>0.0.0.4-dev0162</Version>
+    <Version>0.0.0.4-dev0173</Version>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration) == 'Debug'">
     <BumpLabel>dev</BumpLabel>
@@ -345,9 +345,6 @@
     <EmbeddedResource Update="Resources\Views\MyFinance\ListAccounts.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Views\Shared\DisplayTemplates\LineChartViewModel.pt-PT.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Shared\DisplayTemplates\BarChartViewModel.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -355,9 +352,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Shared\DisplayTemplates\DoughnutChartViewModel.pt-PT.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Views\Shared\DisplayTemplates\BarChartViewModel.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Shared\_Login.pt-PT.resx">

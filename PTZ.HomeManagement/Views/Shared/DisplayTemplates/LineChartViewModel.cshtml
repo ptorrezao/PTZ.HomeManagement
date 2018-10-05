@@ -12,7 +12,7 @@
 
     bool clearTitle = (bool?)ViewData["clearTitle"] ?? false;
     var title = (string)ViewData["title"] ?? "Total_Assets";
-    var subtitle = (string)ViewData["subtitle"]?? "Total_Assets_SubTitle";
+    var subtitle = (string)ViewData["subtitle"] ?? "Total_Assets_SubTitle";
 
 }
 
@@ -25,14 +25,14 @@
                 <p class="card-category">@localizer[subtitle]</p>
             </div>
         }
-        <div class="card-body ">
-            <canvas id="@name"></canvas>
+            <div class="card-body ">
+                <canvas id="@name"></canvas>
 
-        </div>
+            </div>
     </div>
-</div>
-@Html.Script(
-@<script type="text/javascript">
+    </div>
+    @Html.Script(
+            @<script type="text/javascript">
          $(document).ready(function () {
              new Chart($("#@name"), config_@name);
          });
@@ -41,11 +41,11 @@
              type: '@chosenType',
              data: {
                  labels:   @Html.Raw(Json.Serialize(Model.Movements.GroupBy(x => x.XAxis).Select(z => z.Max(x => x.XAxis)))),
-                 datasets: [@foreach (var a in Model.Movements.GroupBy(w => w.YAxis).OrderBy(x=>x.Sum(q=>q.Amount)))
+                 datasets: [@foreach (var a in Model.Movements.GroupBy(w => w.Group).OrderBy(x=>x.Sum(q=>q.Amount)))
                  {
                      <text>
                      {
-                         label: '@Html.Raw(a.Max(x=>x.AccountTitle).ToString())',
+                         label: '@Html.Raw(a.Max(x=>x.Group).ToString())',
                          data:  @Html.Raw(Json.Serialize(a.GroupBy(x => x.XAxis).Select(z => z.Sum(x => x.Amount)))),
                          backgroundColor: @Html.Raw(Json.Serialize(a.Max(z=>z.Color))),
                          lineTension: 0.1,
@@ -65,6 +65,10 @@
                          stacked: @ystacked.ToString().ToLower()
                      }]
                  },
+                 tooltips: {
+                     mode: 'index',
+                     intersect: false
+                 },
                  plugins: {
                      filler: {
                          propagate: true
@@ -74,4 +78,4 @@
          };
 
 
-</script>)
+            </script>)

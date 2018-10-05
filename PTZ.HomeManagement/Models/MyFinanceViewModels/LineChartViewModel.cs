@@ -6,9 +6,9 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
     {
         public LineChartViewModel()
         {
-            Movements = new List<DashboardMovementViewModel>();
+            Movements = new List<LineChartItemViewModel>();
         }
 
-        public List<DashboardMovementViewModel> Movements { get;  set; }
+        public List<LineChartItemViewModel> Movements { get;  set; }
     }
 }

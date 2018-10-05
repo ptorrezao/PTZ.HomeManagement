@@ -183,7 +183,7 @@ namespace PTZ.HomeManagement.Controllers
             bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
             {
                 decimal lastKnownValue = 0;
-                vm.Balance.Assets.Add(Mapper.Map<DashboardAccountViewModel>(bankAccount));
+                vm.Balance.Assets.Add(Mapper.Map<DoughnutChartItemViewModel>(bankAccount));
 
                 bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
 
@@ -212,15 +212,12 @@ namespace PTZ.HomeManagement.Controllers
                         lastKnownValue = bankAccount.Movements.OrderBy(m => m.ValueDate.Date).First().TotalBalanceAfterMovement;
                     }
 
-                    vm.MonthlyProgression.Movements.Add(new DashboardMovementViewModel()
+                    vm.MonthlyProgression.Movements.Add(new LineChartItemViewModel()
                     {
                         XAxis = currentDay.ToShortDateString(),
                         Amount = lastKnownValue,
-                        AssetType = bankAccount.AccountType.GetDescription(),
-                        AccountNumber = bankAccount.IBAN,
-                        AccountTitle = bankAccount.Name,
                         Color = bankAccount.Color,
-                        YAxis = bankAccount.Bank.ToString(),
+                        Group = bankAccount.Bank.ToString(),
                     });
                 }
 

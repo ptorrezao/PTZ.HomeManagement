@@ -38,12 +38,17 @@ namespace PTZ.HomeManagement.Models
                 .ForMember(v => v.SelectedCategories, opt => opt.MapFrom(q => q.Categories.Select(x => x.CategoryId)));
             CreateMap<CategoriesAccountMovementViewModel, BankAccountMovement>();
 
-            CreateMap<BankAccount, DashboardAccountViewModel>()
+            CreateMap<BankAccount, LineChartItemViewModel>()
+               .ForMember(vm => vm.Amount, opt => opt.MapFrom(u => u.CurrentBalance))
+               .ForMember(vm => vm.Color, opt => opt.MapFrom(u => u.Color))
+               .ForMember(vm => vm.Group, opt => opt.MapFrom(u => u.Bank));
+
+            CreateMap<BankAccount, DoughnutChartItemViewModel>()
                .ForMember(vm => vm.Amount, opt => opt.MapFrom(u => u.CurrentBalance))
                .ForMember(vm => vm.AssetType, opt => opt.MapFrom(u => u.AccountType.GetDescription()))
                .ForMember(vm => vm.AccountNumber, opt => opt.MapFrom(u => u.IBAN))
                .ForMember(vm => vm.Color, opt => opt.MapFrom(u => u.Color))
-               .ForMember(vm => vm.YAxis, opt => opt.MapFrom(u => u.Bank))
+               .ForMember(vm => vm.Group, opt => opt.MapFrom(u => u.Bank))
                .ForMember(vm => vm.AccountTitle, opt => opt.MapFrom(u => u.Name));
 
             CreateMap<Category, CategoryViewModel>();

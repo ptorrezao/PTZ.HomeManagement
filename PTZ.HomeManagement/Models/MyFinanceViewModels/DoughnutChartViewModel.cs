@@ -7,12 +7,12 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
     {
         public DoughnutChartViewModel()
         {
-            Assets = new List<DashboardAccountViewModel>();
-            Liabilities = new List<DashboardAccountViewModel>();
+            Assets = new List<DoughnutChartItemViewModel>();
+            Liabilities = new List<DoughnutChartItemViewModel>();
         }
 
 
-        public List<DashboardAccountViewModel> Assets { get; set; }
+        public List<DoughnutChartItemViewModel> Assets { get; set; }
 
         public decimal AssetsAccountingBalancing
         {
@@ -22,7 +22,7 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
             }
         }
 
-        public List<DashboardAccountViewModel> Liabilities { get; set; }
+        public List<DoughnutChartItemViewModel> Liabilities { get; set; }
 
         public decimal LiabilitiesAccountingBalancing
         {

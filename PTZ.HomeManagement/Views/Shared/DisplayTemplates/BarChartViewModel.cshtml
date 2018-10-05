@@ -40,7 +40,7 @@
             var config_@name = {
                  type: '@chosenType',
                  data: {
-                     labels:@Html.Raw(Json.Serialize(Model.Items.Select(x => x.Label).Distinct())),
+                     labels: @Html.Raw(Json.Serialize(Model.Items.Select(x => x.Label).Distinct())),
                      datasets: [@foreach (var a in Model.Items.GroupBy(x => x.Group))
                      {
                          <text>
