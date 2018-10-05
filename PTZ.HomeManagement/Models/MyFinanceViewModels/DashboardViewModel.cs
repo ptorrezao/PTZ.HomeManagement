@@ -10,12 +10,12 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         public DashboardViewModel()
         {
             Balance = new DoughnutChartViewModel();
-            MonthlyProgression = new BarChartViewModel();
+            MonthlyProgression = new LineChartViewModel();
             Categories = new BarChartViewModel();
         }
 
         public DoughnutChartViewModel Balance { get; set; }
-        public BarChartViewModel MonthlyProgression { get; set; }
+        public LineChartViewModel MonthlyProgression { get; set; }
         public BarChartViewModel Categories { get; set; }
     }
 }

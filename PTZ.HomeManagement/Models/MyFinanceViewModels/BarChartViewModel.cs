@@ -6,9 +6,9 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
     {
         public BarChartViewModel()
         {
-            Movements = new List<DashboardMovementViewModel>();
+            Items = new List<BarChartItemViewModel>();
         }
 
-        public List<DashboardMovementViewModel> Movements { get;  set; }
+        public List<BarChartItemViewModel> Items { get;  set; }
     }
 }

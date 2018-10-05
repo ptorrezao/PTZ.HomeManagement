@@ -236,14 +236,12 @@ namespace PTZ.HomeManagement.Controllers
 
                             if (amout > 0)
                             {
-                                vm.Categories.Movements.Add(new DashboardMovementViewModel()
+                                vm.Categories.Items.Add(new BarChartItemViewModel()
                                 {
-                                    XAxis = selectedCategory.Name,
-                                    Amount = amout,
-                                    AssetType = bankAccount.AccountType.GetDescription(),
-                                    AccountNumber = bankAccount.IBAN,
-                                    YAxis = bankAccount.Name,
-                                    Color = bankAccount.Color
+                                    Label = selectedCategory.Name,
+                                    Color = bankAccount.Color,
+                                    Value = amout,
+                                    Group = bankAccount.Bank.ToString()
                                 });
                             }
                         }
