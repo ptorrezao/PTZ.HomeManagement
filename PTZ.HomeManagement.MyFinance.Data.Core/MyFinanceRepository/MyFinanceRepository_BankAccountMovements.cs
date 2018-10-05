@@ -20,13 +20,13 @@ namespace PTZ.HomeManagement.MyFinance.Data
 
         public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
         {
-            var list = this.context.BankAccountMovements.Where(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId).Take(qtdOfMovements);
+            var list = this.context.BankAccountMovements.Where(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId);
             switch (dateSortOrder)
             {
                 case SortOrder.Ascending:
-                    return list.OrderBy(x => x.MovementDate).ToList();
+                    return list.OrderBy(x => x.MovementDate).Take(qtdOfMovements).ToList();
                 default:
-                    return list.OrderByDescending(x => x.MovementDate).ToList();
+                    return list.OrderByDescending(x => x.MovementDate).Take(qtdOfMovements).ToList();
             }
         }
 
@@ -53,6 +53,19 @@ namespace PTZ.HomeManagement.MyFinance.Data
                     x.BankAccountMovement = bankAccountMovement;
                     x.Category = x.Category ?? context.Categories.First(q => q.Id == x.CategoryId);
                 });
+            }
+
+            if (bankAccountMovement.Id == 0 &&
+                bankAccountMovement.TotalBalanceAfterMovement == 0)
+            {
+                var lstMov = this.GetBankAccountMovements(userId, bankAccountId, 1, SortOrder.Ascending).FirstOrDefault();
+
+                if (lstMov != null)
+                {
+                    bankAccountMovement.TotalBalanceAfterMovement = lstMov.TotalBalanceAfterMovement;
+                }
+
+                bankAccountMovement.TotalBalanceAfterMovement += bankAccountMovement.Amount;
             }
             this.context.Entry(bankAccountMovement).State = bankAccountMovement.Id == 0 ? EntityState.Added : EntityState.Modified;
         }
@@ -84,7 +97,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
 
             if (categories != null && categories.Count > 0)
             {
-                return elements.Where(x => x.BankAccount.ApplicationUser.Id == userId && categories.Any(q => x.Categories.Any(c => c.CategoryId == q.Id))).OrderByDescending(x=>x.MovementDate).Take(limit).ToList();
+                return elements.Where(x => x.BankAccount.ApplicationUser.Id == userId && categories.Any(q => x.Categories.Any(c => c.CategoryId == q.Id))).OrderByDescending(x => x.MovementDate).Take(limit).ToList();
             }
             else
             {
