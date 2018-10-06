@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace PTZ.HomeManagement.Models.MyFinanceViewModels
@@ -22,5 +23,8 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
 
         [DisplayName("Description")]
         public string Description { get; set; }
+
+        [DisplayName("Categories")]
+        public List<CategoryListItemViewModel> Categories { get; set; }
     }
 }

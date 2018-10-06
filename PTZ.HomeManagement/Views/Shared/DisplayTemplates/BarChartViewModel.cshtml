@@ -12,7 +12,7 @@
 
     bool clearTitle = (bool?)ViewData["clearTitle"] ?? false;
     var title = (string)ViewData["title"] ?? "Total_Assets";
-    var subtitle = (string)ViewData["subtitle"]?? "Total_Assets_SubTitle";
+    var subtitle = (string)ViewData["subtitle"] ?? "Total_Assets_SubTitle";
 
 }
 
@@ -20,58 +20,62 @@
     <div class="card ">
         @if (!clearTitle)
         {
-            <div class="card-header ">
-                <h4 class="card-title">@localizer[title]</h4>
-                <p class="card-category">@localizer[subtitle]</p>
-            </div>
+        <div class="card-header ">
+            <h4 class="card-title">@localizer[title]</h4>
+            <p class="card-category">@localizer[subtitle]</p>
+        </div>
         }
         <div class="card-body ">
             <canvas id="@name"></canvas>
-
         </div>
     </div>
 </div>
+
 @Html.Script(
-@<script type="text/javascript">
-         $(document).ready(function () {
-             new Chart($("#@name"), config_@name);
-         });
+    @<script type="text/javascript">
+             $(document).ready(function () {
+                 new Chart($("#@name"), config_@name);
+             });
 
-        var config_@name = {
-             type: '@chosenType',
-             data: {
-                 labels:   @Html.Raw(Json.Serialize(Model.Movements.GroupBy(x => x.XAxis).Select(z => z.Max(x => x.XAxis)))),
-                 datasets: [@foreach (var a in Model.Movements.GroupBy(w => w.YAxis).OrderBy(x=>x.Sum(q=>q.Amount)))
-                 {
-                     <text>
+            var config_@name = {
+                 type: '@chosenType',
+                 data: {
+                     labels: @Html.Raw(Json.Serialize(Model.Items.Select(x => x.Label).Distinct())),
+                     datasets: [@foreach (var a in Model.Items.GroupBy(x => x.Group))
                      {
-                         label: '@Html.Raw(a.Key.ToString())',
-                         data:  @Html.Raw(Json.Serialize(a.GroupBy(x => x.XAxis).Select(z => z.Sum(x => x.Amount)))),
-                         backgroundColor: @Html.Raw(Json.Serialize(a.Max(z=>z.Color))),
-                         lineTension: 0.1,
-                         xpto: @Html.Raw(Json.Serialize(a.GroupBy(x => x.XAxis)))
-                     },
-                     </text>
-                 }]
-             }, options: {
-                 legend: {
-                     display:false,
-                 },
-                 scales: {
-                     xAxes: [{
-                         stacked: true
-                     }],
-                     yAxes: [{
-                         stacked: @ystacked.ToString().ToLower()
+                         <text>
+                         {
+                             label: '@Html.Raw(a.Key.ToString())',
+                             data: @Html.Raw(Json.Serialize(Model.Items.GroupBy(x => x.Label).Select(x => x.Sum(q => q.Group == a.Key ? q.Value : 0)))),
+                             backgroundColor: @Html.Raw(Json.Serialize(a.Max(z=>z.Color))),
+                             lineTension: 0.1,
+                         },
+                         </text>
                      }]
-                 },
-                 plugins: {
-                     filler: {
-                         propagate: true
-                     }
-                 }
-             }
-         };
+                }, options: {
+                    legend: {
+                        display:true,
+                    },
+                    scales: {
+                         xAxes: [{
+                             stacked: true
+                         }],
+                         yAxes: [{
+                             stacked: true
+                         }]
+                     },
+                    plugins: {
+                         filler: {
+                             propagate: true
+                         }
+                     },
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true
+				}
+             };
 
 
-</script>)
+    </script>)

@@ -11,7 +11,7 @@ namespace PTZ.HomeManagement.Utils
             var hostname = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
             var dbpassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
             var dbUser = Environment.GetEnvironmentVariable("DB_USER");
-            var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZ_HA";
+            var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "PTZHMA";
             var port = 0;
             var connString = "";
 

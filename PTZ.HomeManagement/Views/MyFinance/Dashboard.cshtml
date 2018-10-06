@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row ">
         @Html.DisplayFor(x => x.Balance, new { Type = "pie", Size = "col-xl-3 col-lg-6 col-md-4 col-sm-12 balanceCard " })
-        @Html.DisplayFor(x => x.Categories, new { Type = "bar", YStacked = false, Size = "col-xl-4 col-md-8 col-lg-6 col-sm-12 categoriesCard", Title = "Movimentos por Categorias", Subtitle = " ", Legend = false })
+        @Html.DisplayFor(x => x.Categories, new { Type = "bar", YStacked = false, Size = "col-xl-4 col-md-8 col-lg-6 col-sm-12 ", Title = "Movimentos por Categorias", Subtitle = "Resumo por categoria"})
         @Html.DisplayFor(x => x.MonthlyProgression, new { Type = "line", YStacked = false, Size = "col-md-12 col-xl-5" })
     </div>
 

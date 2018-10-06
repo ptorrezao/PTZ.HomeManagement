@@ -20,7 +20,7 @@
         <div class="card-footer ">
             <hr>
             <div class="stats">
-                @foreach (var item in Model.Assets.GroupBy(x => x.YAxis))
+                @foreach (var item in Model.Assets.GroupBy(x => x.Group))
                 {
                     <text>
                     <span class="badge " style="background-color: @item.Max(x=>x.Color)">@item.Key: @item.Sum(x => x.Amount).ConvertToCurrency("€")</span>
@@ -52,9 +52,9 @@
                 labels: [].concat.apply([], @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x => x.AssetType).Select(s => s.Max(x => x.AssetType.ToString()))))),
             },
             {
-                data: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.YAxis).Select(z=> z.Sum(x=>x.Amount)))),
-                backgroundColor: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x => x.YAxis).Select(z => z.Max(x => x.Color)))),
-                labels: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.YAxis).Select(z=> z.Max(x=>x.YAxis)))),
+                data: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.Group).Select(z=> z.Sum(x=>x.Amount)))),
+                backgroundColor: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x => x.Group).Select(z => z.Max(x => x.Color)))),
+                labels: @Html.Raw(Json.Serialize(Model.Assets.GroupBy(x=>x.Group).Select(z=> z.Max(x=>x.Group)))),
             }];
 
         var config_@name = {

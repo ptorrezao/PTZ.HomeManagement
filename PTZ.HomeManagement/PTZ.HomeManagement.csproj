@@ -8,7 +8,9 @@
     <ProjectGuid>f491dd1f-d14d-4ed2-809f-609ee8075f61</ProjectGuid>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <Version>0.0.0.4-dev0153</Version>
+    <Version>0.0.1.0</Version>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration) == 'Debug'">
     <BumpLabel>dev</BumpLabel>
@@ -97,6 +99,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\MyFinance\SetCategoriesToBankAccount.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\DisplayTemplates\LineChartViewModel.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\DisplayTemplates\ListDashboardAccountViewModel.cshtml">
@@ -349,9 +354,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Shared\DisplayTemplates\DoughnutChartViewModel.pt-PT.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Views\Shared\DisplayTemplates\BarChartViewModel.pt-PT.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Shared\_Login.pt-PT.resx">
