@@ -20,7 +20,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
 
         public List<BankAccountMovement> GetBankAccountMovements(string userId, long bankAccountId, int qtdOfMovements = 1000, SortOrder dateSortOrder = SortOrder.Unspecified)
         {
-            var list = this.context.BankAccountMovements.Where(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId);
+            var list = this.context.BankAccountMovements.Include(x => x.Categories).ThenInclude(p => p.Category).Where(x => x.BankAccount.ApplicationUser.Id == userId && x.BankAccount.Id == bankAccountId);
             switch (dateSortOrder)
             {
                 case SortOrder.Ascending:
