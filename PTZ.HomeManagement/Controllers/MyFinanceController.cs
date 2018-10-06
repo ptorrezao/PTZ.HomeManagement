@@ -177,7 +177,7 @@ namespace PTZ.HomeManagement.Controllers
         {
             DashboardViewModel vm = new DashboardViewModel();
             List<BankAccount> bankAccounts = _myFinanceService.GetBankAccounts(User.GetUserId());
-            int graphLenght = 30;
+            int graphLenght = 20;
             int graphLenghtIntoFuture = 1;
 
             bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
