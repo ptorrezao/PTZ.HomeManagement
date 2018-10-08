@@ -1,7 +1,7 @@
-﻿@model AccountMovementViewModel
+﻿@model ReminderCategoryViewModel
 @inject IViewLocalizer localizer
 @{
-    ViewBag.Title = ModulesNames.MyFinance;
+    ViewBag.Title = ModulesNames.ExpirationReminder;
     bool isEdit = Model.Id > 0;
     LocalizedHtmlString title = isEdit ? localizer["Edit"] : localizer["Add"];
     LocalizedHtmlString button = isEdit ? localizer["EditButton"] : localizer["AddButton"];
@@ -28,9 +28,9 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label asp-for="Description"></label>
-                                    <input asp-for="Description" class="form-control" />
-                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                    <label asp-for="Name"></label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                             </div>
                         }
@@ -38,47 +38,16 @@
                         {
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label asp-for="Description"></label>
-                                    <input asp-for="Description" class="form-control" />
-                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                    <label asp-for="Name"></label>
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                             </div>
                         }
                     </div>
-                    <div class="row">
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label asp-for="Amount"></label>
-                                <input asp-for="Amount" class="form-control" />
-                                <span asp-validation-for="Amount" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label asp-for="MovementDate"></label>
-                                <input asp-for="MovementDate" class="form-control" />
-                                <span asp-validation-for="MovementDate" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label asp-for="ValueDate"></label>
-                                <input asp-for="ValueDate" class="form-control" />
-                                <span asp-validation-for="ValueDate" class="text-danger"></span>
-
-                                <input asp-for="TotalBalanceAfterMovement" hidden class="form-control" />
-
-                            </div>
-                        </div>
-
-                    </div>
 
                     <div class="pull-right">
-                        <a href="@Url.Action(nameof(MyFinanceController.ListMovements), new { bankAccountId=ViewContext.HttpContext.Request.Query["bankAccountId"][0] })" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@returnButton">
+                        <a href="@Url.Action(nameof(ExpirationReminderController.ListReminderCategories))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@returnButton">
                             <span class="btn-label">
                                 <i class="fa fa-arrow-left"></i>
                             </span>

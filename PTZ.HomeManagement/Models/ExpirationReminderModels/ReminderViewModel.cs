@@ -16,6 +16,16 @@ namespace PTZ.HomeManagement.Models.ExpirationReminderModels
             AvailableReminderTypes = Enum.GetValues(typeof(ReminderType)).Cast<ReminderType>().Select(x => { return new SelectListItem() { Value = x.ToString(), Text = EnumExtensions.GetDescription(x) }; });
         }
 
+        public void SetAvailableCategories(List<ReminderCategoryViewModel> value)
+        {
+            this.AvailableCategories = new List<SelectListItem>();
+            this.SelectedCategories = this.SelectedCategories ?? new List<long>();
+            foreach (var item in value)
+            {
+                AvailableCategories.Add(new SelectListItem() { Value = item.Id.ToString(), Text = item.Name, Selected = this.SelectedCategories.Contains(item.Id) });
+            }
+        }
+
         [DisplayName("Id")]
         public long Id { get; set; }
 
@@ -27,6 +37,23 @@ namespace PTZ.HomeManagement.Models.ExpirationReminderModels
 
         [DisplayName("ExpirationDate")]
         public DateTime ExpirationDate { get; set; }
+
+        [DisplayName("Notes")]
+        public string Notes { get; set; }
+
+        [DisplayName("NotifyInPeriodAmout")]
+        public long NotifyInPeriodAmout { get; set; }
+
+        [DisplayName("NotifyInPeriodType")]
+        public ReminderNotifyPeriodType NotifyInPeriodType { get; set; }
+
+        [DisplayName("NotifyType")]
+        public ReminderNotifyType NotifyType { get; set; }
+
+        [DisplayName("SelectedCategories")]
+        public List<long> SelectedCategories { get; set; }
+
+        public List<SelectListItem> AvailableCategories { get; set; }
 
         public IEnumerable<SelectListItem> AvailableReminderTypes { get; private set; }
     }

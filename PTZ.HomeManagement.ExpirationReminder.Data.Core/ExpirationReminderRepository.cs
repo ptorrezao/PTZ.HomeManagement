@@ -45,10 +45,22 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
             this.context.Reminders.RemoveRange(elementsToRemove);
         }
 
+        public void DeleteReminderCategory(string userId, ReminderCategory reminderCategory)
+        {
+            var elementsToRemove = this.context.Categories.Where(x => x.ApplicationUser.Id == userId && reminderCategory.Id == x.Id);
+            this.context.Categories.RemoveRange(elementsToRemove);
+        }
+
         public Reminder GetReminder(string userId, int id)
         {
-            Reminder reminder = this.context.Reminders.FirstOrDefault(x => x.Id == id && x.ApplicationUser.Id == userId);
+            Reminder reminder = this.context.Reminders.Include(x=>x.Categories).ThenInclude(x=>x.Category).FirstOrDefault(x => x.Id == id && x.ApplicationUser.Id == userId);
             return reminder;
+        }
+
+        public ReminderCategory GetReminderCategory(string userId, int id)
+        {
+            ReminderCategory category = this.context.Categories.FirstOrDefault(x => x.Id == id && x.ApplicationUser.Id == userId);
+            return category;
         }
 
         public List<Reminder> GetReminders(string userId)
@@ -57,9 +69,51 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
             return reminders;
         }
 
+        public List<ReminderCategory> GetReminderCategories(string userId)
+        {
+            List<ReminderCategory> categories = this.context.Categories.Where(x => x.ApplicationUser.Id == userId).ToList();
+            return categories;
+        }
+
         public void SaveReminder(string userId, Reminder reminder)
         {
             this.context.Entry(reminder).State = reminder.Id == 0 ? EntityState.Added : EntityState.Modified;
+        }
+
+        public void SaveReminderCategory(string userId, ReminderCategory reminderCategory)
+        {
+            this.context.Entry(reminderCategory).State = reminderCategory.Id == 0 ? EntityState.Added : EntityState.Modified;
+        }
+
+        public void SetCategoriesToReminder(string userId, long id, List<long> selectedCategories)
+        {
+            selectedCategories = selectedCategories ?? new List<long>();
+            if (context.Reminders.Any(x => x.Id == id))
+            {
+                var reminder = context.Reminders.First(x => x.Id == id);
+                if (context.Reminders.Any(q => q.Id == id && !selectedCategories.Contains(q.Id)))
+                {
+                    var categoriesToRemove = context.CategoriesOnReminders.Where(q => q.ReminderId == id && !selectedCategories.Contains(q.CategoryId));
+                    context.CategoriesOnReminders.RemoveRange(categoriesToRemove);
+                }
+
+                foreach (long categoryId in selectedCategories)
+                {
+                    if (categoryId > 0 &&
+                        context.Categories.Any(x => x.Id == categoryId) &&
+                        !context.CategoriesOnReminders.Any(x => x.CategoryId == categoryId && x.ReminderId == id))
+                    {
+                        context.CategoriesOnReminders.Add(new ReminderCategoryReminder()
+                        {
+                            Reminder = reminder,
+                            ReminderId = reminder.Id,
+                            CategoryId = categoryId,
+                            Category = context.Categories.First(x => x.Id == categoryId),
+                        });
+                    }
+                }
+            }
+            context.SaveChanges();
         }
     }
 }

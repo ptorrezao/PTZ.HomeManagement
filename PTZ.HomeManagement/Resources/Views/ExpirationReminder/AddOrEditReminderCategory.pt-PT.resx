@@ -117,37 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accounts_Page" xml:space="preserve">
-    <value>Contas Bancárias</value>
+  <data name="Add" xml:space="preserve">
+    <value>Adicionar</value>
   </data>
-  <data name="Categories_Page" xml:space="preserve">
-    <value>Categorias</value>
+  <data name="AddButton" xml:space="preserve">
+    <value>Gravar</value>
   </data>
-  <data name="Dashboard_Page" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="AddReturnButton" xml:space="preserve">
+    <value>Voltar</value>
   </data>
-  <data name="Index_Page" xml:space="preserve">
-    <value>Página Inicial</value>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
   </data>
-  <data name="Movements_Page" xml:space="preserve">
-    <value>Movimentos</value>
+  <data name="EditButton" xml:space="preserve">
+    <value>Gravar</value>
   </data>
-  <data name="Password_Link" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Profile_Link" xml:space="preserve">
-    <value>Perfil</value>
-  </data>
-  <data name="ReminderCategories_Page" xml:space="preserve">
-    <value>Categorias</value>
-  </data>
-  <data name="Reminders_Page" xml:space="preserve">
-    <value>Lista de Lembretes</value>
-  </data>
-  <data name="Status_Page" xml:space="preserve">
-    <value>Estado</value>
-  </data>
-  <data name="TwoStepAuth_Link" xml:space="preserve">
-    <value>Autenticação em 2 passos.</value>
+  <data name="EditReturnButton" xml:space="preserve">
+    <value>Voltar</value>
   </data>
 </root>

@@ -1,0 +1,45 @@
+﻿@inject IViewLocalizer localizer
+@model ReminderCategoryListViewModel
+@{
+    ViewBag.Title = ModulesNames.ExpirationReminder;
+}
+<div class="col-md-12">
+    <div class="card strpied-tabled-with-hover">
+        <div class="card-header ">
+            <h4 class="card-title">@localizer["Title"]</h4>
+            <p class="card-category text-right">
+
+            </p>
+        </div>
+        <div class="card-body table-full-width table-responsive">
+            <table class="table table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Name)</th>
+                        <th class="no-sort"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ReminderCategoryListItemViewModel item in Model.Items)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td class="no-sort">
+                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditReminderCategory" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> &nbsp;
+                                <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteReminderCategory" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a> &nbsp;
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditReminderCategory" data-toggle="tooltip" data-placement="top" title="@localizer["Add"]">
+                <span class="btn-label">
+                    <i class="fa fa-plus"></i>
+                </span>
+            </a>
+        </div>
+
+    </div>
+</div>

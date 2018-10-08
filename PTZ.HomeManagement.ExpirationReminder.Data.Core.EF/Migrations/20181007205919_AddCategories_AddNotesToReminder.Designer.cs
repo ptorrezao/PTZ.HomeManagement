@@ -12,9 +12,10 @@ using System;
 namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
 {
     [DbContext(typeof(ExpirationReminderDbContext))]
-    partial class ExpirationReminderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181007205919_AddCategories_AddNotesToReminder")]
+    partial class AddCategories_AddNotesToReminder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +80,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoriesOnReminders");
+                    b.ToTable("ReminderCategoryReminder");
                 });
 
             modelBuilder.Entity("PTZ.HomeManagement.Models.ApplicationUser", b =>
