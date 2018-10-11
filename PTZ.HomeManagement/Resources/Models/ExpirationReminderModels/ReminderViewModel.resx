@@ -126,6 +126,15 @@
   <data name="Notes" xml:space="preserve">
     <value>Observações</value>
   </data>
+  <data name="NotifyInPeriodAmout" xml:space="preserve">
+    <value>Intervalo</value>
+  </data>
+  <data name="NotifyInPeriodType" xml:space="preserve">
+    <value>Tipo de Intervalo</value>
+  </data>
+  <data name="NotifyType" xml:space="preserve">
+    <value>Tipo de Notificação</value>
+  </data>
   <data name="ReminderType" xml:space="preserve">
     <value>Tipo</value>
   </data>

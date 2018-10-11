@@ -65,7 +65,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
 
         public List<Reminder> GetReminders(string userId)
         {
-            List<Reminder> reminders = this.context.Reminders.Where(x =>  x.ApplicationUser.Id == userId).ToList();
+            List<Reminder> reminders = this.context.Reminders.Include(x => x.Categories).ThenInclude(x => x.Category).Where(x =>  x.ApplicationUser.Id == userId).ToList();
             return reminders;
         }
 

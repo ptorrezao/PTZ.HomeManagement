@@ -43,13 +43,36 @@
                                 <span asp-validation-for="ExpirationDate" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 SelectedCategoriesGroup">
                             <div class="form-group">
                                 <label asp-for="SelectedCategories"></label>
                                 <select asp-for="SelectedCategories" asp-items="Model.AvailableCategories" class="btn-group selectpicker form-control" title="@localizer["SelectOneCategory"]"></select>
                                 <span asp-validation-for="SelectedCategories" class="text-danger"></span>
                             </div>
 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="NotifyType"></label>
+                                <select asp-for="NotifyType" asp-items="Model.AvailableNotifyTypes" class="btn-group selectpicker form-control" title="@localizer["SelectOneNotifyType"]"></select>
+                                <span asp-validation-for="NotifyType" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 NotifyInPeriodAmoutGroup">
+                            <div class="form-group">
+                                <label asp-for="NotifyInPeriodAmout"></label>
+                                <input asp-for="NotifyInPeriodAmout" class="form-control" />
+                                <span asp-validation-for="NotifyInPeriodAmout" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group NotifyInPeriodAmoutGroup">
+                                <label asp-for="NotifyInPeriodType"></label>
+                                <select asp-for="NotifyInPeriodType" asp-items="Model.AvailableReminderNotifyPeriodTypes" class="btn-group selectpicker form-control" title="@localizer["SelectOneNotifyPeriodType"]"></select>
+                                <span asp-validation-for="NotifyInPeriodType" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -83,4 +106,40 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#NotifyType").change(function () {
+                if ($("#NotifyType").val() === "@PTZ.HomeManagement.ExpirationReminder.Core.Enums.ReminderNotifyType.NoNotification.ToString()") {
+                    $("#NotifyInPeriodAmout").val(0);
+                    $(".NotifyInPeriodAmoutGroup").fadeOut();
+                    $(".NotifyInPeriodTypeGroup").fadeOut();
+                }
+                else {
+                    $(".NotifyInPeriodAmoutGroup").fadeIn();
+                    $(".NotifyInPeriodTypeGroup").fadeIn();
+                }
+            });
+
+            if ($("#SelectedCategories option").length === 0) {
+                $(".SelectedCategoriesGroup").hide();
+            }
+
+            $("#NotifyInPeriodAmout").change(function () {
+                showMessage();
+            });
+            $("#NotifyInPeriodType").change(function () {
+                showMessage();
+            });
+
+            $("#NotifyType").change();
+        });
+
+        function showMessage() {
+            var amount = $("#NotifyInPeriodAmout").val();
+            var type = $("#NotifyInPeriodType option:selected").text();
+            var msg = "Será criada uma notificação {1} {0} antes da data limite.".format(type, amount);
+            $.notify(msg);
+        }
+    </script>
 }
