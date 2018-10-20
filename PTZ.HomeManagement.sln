@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.Expirati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.ExpirationReminder.Data.Core.EF", "PTZ.HomeManagement.ExpirationReminder.Data.Core.EF\PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.csproj", "{A68F88B1-B3C9-4130-82C8-A1258E6E835A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.Worker", "PTZ.HomeManagement.Worker\PTZ.HomeManagement.Worker.csproj", "{68FD032A-21DE-4D25-B235-8B9EBF668F3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{A68F88B1-B3C9-4130-82C8-A1258E6E835A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A68F88B1-B3C9-4130-82C8-A1258E6E835A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A68F88B1-B3C9-4130-82C8-A1258E6E835A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68FD032A-21DE-4D25-B235-8B9EBF668F3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68FD032A-21DE-4D25-B235-8B9EBF668F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68FD032A-21DE-4D25-B235-8B9EBF668F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68FD032A-21DE-4D25-B235-8B9EBF668F3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PTZ.HomeManagement.Core.Services\PTZ.HomeManagement.Core.Services.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Core\PTZ.HomeManagement.ExpirationReminder.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Services\PTZ.HomeManagement.ExpirationReminder.Services.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
+  </ItemGroup>
+
+</Project>
