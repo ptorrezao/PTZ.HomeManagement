@@ -7,7 +7,7 @@ DOCKER_PASSWORD=$3
 
 docker-compose build
 docker tag ptorrezao/ptz.homemanagement:build ptorrezao/ptz.homemanagement:$TAG
-docker tag ptorrezao/ptz.homemanagement.worker:build ptorrezao/ptz.homemanagement:$TAG
+docker tag ptorrezao/ptz.homemanagement.worker:build ptorrezao/ptz.homemanagement.worker:$TAG
 
 # Login to Docker Hub and upload images
 docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
