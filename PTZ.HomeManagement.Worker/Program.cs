@@ -2,29 +2,90 @@
 using System;
 using System.Text;
 using System.Threading;
+using AutoMapper;
+using System.Collections.Generic;
+using PTZ.HomeManagement.ExpirationReminder.Data.Core;
+using PTZ.HomeManagement.ExpirationReminder.Services;
+using PTZ.HomeManagement.Interfaces;
+using PTZ.HomeManagement.Core.Data;
+using PTZ.HomeManagement.Data;
+using PTZ.HomeManagement.ExpirationReminder.Data.Core.EF;
+using Microsoft.EntityFrameworkCore;
+using PTZ.HomeManagement.Enums;
+using PTZ.HomeManagement.Utils;
+using PTZ.HomeManagement.Services;
+using PTZ.HomeManagement.Models;
 
 namespace PTZ.HomeManagement.Worker
 {
-    class Program
+    public class Program
     {
-        private static Timer _timer = new Timer(TimerElapsed, null, 0, 5000);
+        private Timer _timer;
         private static AutoResetEvent waitHandle = new AutoResetEvent(false);
-        private static ServiceProvider serviceProvider;
+        private IServiceProvider servicesProvider;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            serviceProvider = new ServiceCollection()
-                .BuildServiceProvider();
+            Program program = new Program();
+            var minutes = 5;
+
+            program.Run(minutes * 60 * 1000);
+        }
+
+        private void Run(int timerMiliseconds)
+        {
+            PrepareIoC();
+
+            SetTimerElapsedTime(timerMiliseconds);
 
             WriteHeader();
 
+            PrepareCancelAction();
+        }
+
+        private void PrepareCancelAction()
+        {
             Console.CancelKeyPress += (o, e) =>
             {
                 Console.WriteLine("Canceling...");
                 waitHandle.Set();
+                _timer.Dispose();
             };
 
             waitHandle.WaitOne();
+        }
+
+        private void SetTimerElapsedTime(int timerMiliseconds)
+        {
+            _timer = new Timer(TimerElapsed, null, 0, timerMiliseconds);
+        }
+
+        private void PrepareIoC()
+        {
+            ServiceCollection services = new ServiceCollection();
+            services.AddAutoMapper();
+
+            services.Configure<EmailSettings>(x =>
+            {
+                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "key-ed6268300ba23c819a3482e348672f3f";
+                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "https://api.mailgun.net/v3/sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "";
+                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+            });
+
+            services.AddTransient<ICoreService, CoreService>();
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddDbContext<ApplicationDbContext>(options => this.SetCorrectProvider(options));
+            services.AddDbContext<ExpirationReminderDbContext>(options => this.SetCorrectProvider(options));
+
+            services.AddTransient<IApplicationRepository, ApplicationDbRepository>();
+            services.AddTransient<IExpirationReminderRepository, ExpirationReminderRepository>();
+            services.AddTransient<IExpirationReminderService, ExpirationReminderService>();
+            services.AddTransient<IWorker, ExpirationReminderService>();
+
+            servicesProvider = services.BuildServiceProvider();
         }
 
         private static void WriteHeader()
@@ -46,21 +107,24 @@ namespace PTZ.HomeManagement.Worker
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public static void TimerElapsed(object state)
+        private void TimerElapsed(object state)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(@"#==================================================================================#");
-            //Get Jobs
-            
-            //Process Jobs w/(error control)
 
-            //Output message
-            WriteMessage("Core", LogLevel.Error, "I don't know");
-            WriteMessage("Teste", LogLevel.Warning, "I don't know");
-            WriteMessage("Core", LogLevel.Info, "I don't know");
+            var services = servicesProvider.GetServices<IWorker>();
+            foreach (var service in services)
+            {
+                var jobs = service.GetJobs();
+
+                foreach (var job in jobs)
+                {
+                    WriteMessage(service.GetName(), LogLevel.Info, job.Invoke());
+                }
+            }
         }
 
-        public static void WriteMessage(string service, LogLevel level, string message)
+        private void WriteMessage(string service, LogLevel level, string message)
         {
             StringBuilder builder = new StringBuilder(service);
             while (builder.Length < 10) { builder.Append(" "); }
@@ -101,6 +165,28 @@ namespace PTZ.HomeManagement.Worker
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Write("|");
             Console.WriteLine("[" + message + "]");
+        }
+
+        private void SetCorrectProvider(DbContextOptionsBuilder options)
+        {
+            string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
+            DatabaseType dbType;
+            Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
+
+            string connectionString = DatabaseUtils.GetConnectionString(dbType);
+
+            switch (dbType)
+            {
+                case DatabaseType.SqlServer:
+                    options.UseSqlServer(connectionString);
+                    break;
+                case DatabaseType.PostgreSQL:
+                    options.UseNpgsql(connectionString);
+                    break;
+                default:
+                    options.UseSqlite(connectionString);
+                    break;
+            }
         }
     }
 }

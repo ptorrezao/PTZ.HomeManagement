@@ -63,7 +63,6 @@ namespace PTZ.HomeManagement
             });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
             services.AddAutoMapper();
 
             services.AddDbContext<ApplicationDbContext>(options => this.SetCorrectProvider(options));
@@ -74,7 +73,7 @@ namespace PTZ.HomeManagement
             DatabaseType dbType;
             Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
-            string connectionString = DatabaseUtils.GetConnectionString(Configuration, dbType);
+            string connectionString = DatabaseUtils.GetConnectionString(dbType);
             if (dbType == DatabaseType.PostgreSQL)
             {
                 services.AddDataProtection().PersistKeysToPostgres(connectionString, appId, instanceId);
@@ -116,7 +115,7 @@ namespace PTZ.HomeManagement
             DatabaseType dbType;
             Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
-            string connectionString = DatabaseUtils.GetConnectionString(Configuration, dbType);
+            string connectionString = DatabaseUtils.GetConnectionString(dbType);
 
             switch (dbType)
             {

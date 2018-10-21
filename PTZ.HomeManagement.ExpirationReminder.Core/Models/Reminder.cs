@@ -21,5 +21,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Core
 
         public ApplicationUser ApplicationUser { get; set; }
         public virtual List<ReminderCategoryReminder> Categories { get; set; }
+        public bool Sent { get; set; }
+        public DateTime? SentOn { get; set; }
     }
 }

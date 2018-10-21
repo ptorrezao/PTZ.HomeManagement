@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PTZ.HomeManagement.Worker
 {
-    internal enum LogLevel
+    public enum LogLevel
     {
         Error,
         Warning,

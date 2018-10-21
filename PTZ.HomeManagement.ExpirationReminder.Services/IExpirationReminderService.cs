@@ -1,9 +1,10 @@
 ﻿using PTZ.HomeManagement.ExpirationReminder.Core;
+using PTZ.HomeManagement.Interfaces;
 using System.Collections.Generic;
 
 namespace PTZ.HomeManagement.ExpirationReminder.Services
 {
-    public interface IExpirationReminderService 
+    public interface IExpirationReminderService : IWorker
     { 
         List<Reminder> GetReminders(string userId);
         Reminder GetReminder(string userId, int id);

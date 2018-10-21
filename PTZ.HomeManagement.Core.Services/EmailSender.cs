@@ -1,4 +1,5 @@
 ﻿using FluentEmail.Core;
+using FluentEmail.Core.Models;
 using FluentEmail.Mailgun;
 using FluentEmail.Razor;
 using Microsoft.Extensions.Options;
@@ -62,6 +63,19 @@ namespace PTZ.HomeManagement.Services
                 .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}/wwwroot/Views/Shared/EmailTemplates/{template}.cshtml", model);
 
             await email.SendAsync();
+        }
+
+        public SendResponse SendEmail<T>(string template, string subject, string toEmail, T model, string path = "/wwwroot/Views/Shared/EmailTemplates/")
+        {
+            CheckSettings();
+
+            var email = emailSender
+                .SetFrom(_emailSettings.From)
+                .To(toEmail)
+                .Subject(subject)
+                .UsingTemplateFromFile($"{Directory.GetCurrentDirectory()}{path}{template}.cshtml", model);
+
+            return email.Send();
         }
     }
 }

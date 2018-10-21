@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.ExpirationReminder.Core;
+using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
 using PTZ.HomeManagement.ExpirationReminder.Data.Core;
+using PTZ.HomeManagement.Interfaces;
 using PTZ.HomeManagement.Models;
+using PTZ.HomeManagement.Services;
 
 namespace PTZ.HomeManagement.ExpirationReminder.Services
 {
@@ -12,12 +16,16 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
     {
         private readonly IExpirationReminderRepository expirationRepo;
         private readonly IApplicationRepository appRepo;
+        private readonly IEmailSender emailSender;
+
 
         public ExpirationReminderService(IExpirationReminderRepository repo,
-            IApplicationRepository dbContext)
+            IApplicationRepository dbContext,
+            IEmailSender emailSenderService)
         {
             this.expirationRepo = repo;
             this.appRepo = dbContext;
+            this.emailSender = emailSenderService;
         }
 
         public void DeleteReminder(string userId, Reminder reminder)
@@ -88,6 +96,59 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
         public void SetCategoriesToReminder(string userId, long id, List<long> selectedCategories)
         {
             expirationRepo.SetCategoriesToReminder(userId, id, selectedCategories);
+        }
+
+        public List<IWorkerJob> GetJobs()
+        {
+            List<IWorkerJob> list = new List<IWorkerJob>();
+            list.Add(SendEmailsForExpiredAndExpiringReminders);
+
+            return list;
+        }
+
+        public string SendEmailsForExpiredAndExpiringReminders()
+        {
+            var users = appRepo.GetUsers();
+
+            foreach (var user in users)
+            {
+                var reminders = expirationRepo.GetRemindersByType(
+                    userId: user.Id,
+                    reminderStateType: new List<ReminderStateType>() { ReminderStateType.Expired, ReminderStateType.Expiring },
+                    sentState: false);
+
+                if (reminders.Any())
+                {
+                    emailSender.SendEmail(
+                          template: "SendEmailsForExpiredAndExpiringReminders",
+                          subject: "PTZ.HomeAssistant - Reminders - " + DateTime.Now.ToShortDateString(),
+                          toEmail: user.Email,
+                          model: new
+                          {
+                              Email = user.Email,
+                              Reminders = reminders,
+                              Subject = "PTZ.HomeAssistant - Reminder - " + DateTime.Now.ToShortDateString(),
+                              Link = "https://ptorrezao.pw"
+                          },
+                          path: @"/EmailTemplates/");
+
+                    foreach (var reminder in reminders)
+                    {
+                        reminder.Sent = true;
+                        reminder.SentOn = DateTime.Now;
+                    }
+
+                    expirationRepo.SaveReminders(user.Id, reminders);
+                    expirationRepo.CommitChanges();
+                }
+            }
+
+            return "All went ok";
+        }
+
+        public string GetName()
+        {
+            return this.GetType().Name;
         }
     }
 }

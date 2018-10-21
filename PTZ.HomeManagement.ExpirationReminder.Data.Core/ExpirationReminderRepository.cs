@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PTZ.HomeManagement.ExpirationReminder.Core;
+using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
 using PTZ.HomeManagement.ExpirationReminder.Data.Core.EF;
 
 namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
@@ -53,7 +54,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
 
         public Reminder GetReminder(string userId, int id)
         {
-            Reminder reminder = this.context.Reminders.Include(x=>x.Categories).ThenInclude(x=>x.Category).FirstOrDefault(x => x.Id == id && x.ApplicationUser.Id == userId);
+            Reminder reminder = this.context.Reminders.Include(x => x.Categories).ThenInclude(x => x.Category).FirstOrDefault(x => x.Id == id && x.ApplicationUser.Id == userId);
             return reminder;
         }
 
@@ -65,8 +66,72 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
 
         public List<Reminder> GetReminders(string userId)
         {
-            List<Reminder> reminders = this.context.Reminders.Include(x => x.Categories).ThenInclude(x => x.Category).Where(x =>  x.ApplicationUser.Id == userId).ToList();
+            List<Reminder> reminders = this.context.Reminders.Include(x => x.Categories).ThenInclude(x => x.Category).Where(x => x.ApplicationUser.Id == userId).ToList();
             return reminders;
+        }
+
+        public List<Reminder> GetRemindersByType(string userId, List<ReminderStateType> reminderStateTypes, bool? sentState = null)
+        {
+            List<Reminder> filteredReminders = new List<Reminder>();
+
+            var reminders = this.context.Reminders.Include(x => x.Categories)
+                                                    .ThenInclude(x => x.Category)
+                                                    .Where(x => x.ApplicationUser.Id == userId);
+            if (sentState != null)
+            {
+                reminders = reminders.Where(x => x.SentOn.HasValue == sentState);
+            }
+
+            if (!reminders.Any())
+            {
+                filteredReminders = reminders.ToList();
+            }
+            else
+            {
+                var currentDate = DateTime.Now;
+                foreach (var reminderStateType in reminderStateTypes)
+                {
+                    switch (reminderStateType)
+                    {
+                        case ReminderStateType.NonExpired:
+                            filteredReminders.AddRange(reminders.Where(x => x.ExpirationDate > currentDate && GetNotificationDate(x) >= currentDate));
+                            break;
+                        case ReminderStateType.Expiring:
+                            filteredReminders.AddRange(reminders.Where(x => GetNotificationDate(x) <= currentDate && x.ExpirationDate >= currentDate));
+                            break;
+                        case ReminderStateType.Expired:
+                            filteredReminders.AddRange(reminders.Where(x => x.ExpirationDate < currentDate && GetNotificationDate(x) < currentDate));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return filteredReminders;
+        }
+
+        private DateTime GetNotificationDate(Reminder reminder)
+        {
+            DateTime date = reminder.ExpirationDate;
+            if (reminder.NotifyType != ReminderNotifyType.NoNotification)
+            {
+                switch (reminder.NotifyInPeriodType)
+                {
+                    case ReminderNotifyPeriodType.Days:
+                        date = date.AddDays(-reminder.NotifyInPeriodAmout);
+                        break;
+                    case ReminderNotifyPeriodType.Months:
+                        date = date.AddMonths(-Convert.ToInt32(reminder.NotifyInPeriodAmout));
+                        break;
+                    case ReminderNotifyPeriodType.Years:
+                        date = date.AddYears(-Convert.ToInt32(reminder.NotifyInPeriodAmout));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return date;
         }
 
         public List<ReminderCategory> GetReminderCategories(string userId)
@@ -78,6 +143,14 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
         public void SaveReminder(string userId, Reminder reminder)
         {
             this.context.Entry(reminder).State = reminder.Id == 0 ? EntityState.Added : EntityState.Modified;
+        }
+
+        public void SaveReminders(string userId, List<Reminder> reminders)
+        {
+            foreach (var reminder in reminders)
+            {
+                this.context.Entry(reminder).State = reminder.Id == 0 ? EntityState.Added : EntityState.Modified;
+            }
         }
 
         public void SaveReminderCategory(string userId, ReminderCategory reminderCategory)
@@ -115,5 +188,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
             }
             context.SaveChanges();
         }
+
+
     }
 }
