@@ -108,7 +108,9 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
 
         public string SendEmailsForExpiredAndExpiringReminders()
         {
+            var messagesSent = 0;
             var users = appRepo.GetUsers();
+            var result = new StringBuilder("");
 
             foreach (var user in users)
             {
@@ -119,31 +121,47 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
 
                 if (reminders.Any())
                 {
-                    emailSender.SendEmail(
-                          template: "SendEmailsForExpiredAndExpiringReminders",
-                          subject: "PTZ.HomeAssistant - Reminders - " + DateTime.Now.ToShortDateString(),
-                          toEmail: user.Email,
-                          model: new
-                          {
-                              Email = user.Email,
-                              Reminders = reminders,
-                              Subject = "PTZ.HomeAssistant - Reminder - " + DateTime.Now.ToShortDateString(),
-                              Link = "https://ptorrezao.pw"
-                          },
-                          path: @"/EmailTemplates/");
+                    var email = emailSender.SendEmail(
+                           template: "SendEmailsForExpiredAndExpiringReminders",
+                           subject: "PTZ.HomeAssistant - Reminders - " + DateTime.Now.ToShortDateString(),
+                           toEmail: user.Email,
+                           model: new
+                           {
+                               Email = user.Email,
+                               Reminders = reminders,
+                               Subject = "PTZ.HomeAssistant - Reminder - " + DateTime.Now.ToShortDateString(),
+                               Link = "https://ptorrezao.pw"
+                           },
+                           path: @"/EmailTemplates/");
 
-                    foreach (var reminder in reminders)
+                    if (email.Successful)
                     {
-                        reminder.Sent = true;
-                        reminder.SentOn = DateTime.Now;
-                    }
+                        messagesSent += 1;
+                        foreach (var reminder in reminders)
+                        {
+                            reminder.Sent = true;
+                            reminder.SentOn = DateTime.Now;
+                        }
 
-                    expirationRepo.SaveReminders(user.Id, reminders);
-                    expirationRepo.CommitChanges();
+                        expirationRepo.SaveReminders(user.Id, reminders);
+                        expirationRepo.CommitChanges();
+                    }
+                    else
+                    {
+                        foreach (var item in email.ErrorMessages)
+                        {
+                            result.AppendLine(item);
+                        }
+                    }
                 }
             }
 
-            return "All went ok";
+            if (result.Length <= 0 && messagesSent > 0)
+            {
+                result.AppendLine(string.Format("{0} emails were sent.", messagesSent));
+            }
+
+            return result.ToString();
         }
 
         public string GetName()

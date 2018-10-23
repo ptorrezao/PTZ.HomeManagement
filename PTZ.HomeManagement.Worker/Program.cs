@@ -67,11 +67,11 @@ namespace PTZ.HomeManagement.Worker
 
             services.Configure<EmailSettings>(x =>
             {
-                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "key-ed6268300ba23c819a3482e348672f3f";
-                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "https://api.mailgun.net/v3/sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "";
+                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "";
                 x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "";
-                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "";
+                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "";
             });
 
             services.AddTransient<ICoreService, CoreService>();

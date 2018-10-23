@@ -8,5 +8,11 @@ COPY . .
 
 WORKDIR /app/PTZ.HomeManagement.Worker
 
+ENV MailGun_ApiKey="";
+ENV MailGun_ApiBaseUri="";
+ENV MailGun_RequestUri="";
+ENV MailGun_From="";
+ENV MailGun_Domain="";
+
 RUN dotnet publish -c Release -o out
 ENTRYPOINT ["dotnet", "out/PTZ.HomeManagement.Worker.dll"]
