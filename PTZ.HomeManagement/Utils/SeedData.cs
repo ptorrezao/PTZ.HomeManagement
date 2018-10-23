@@ -35,6 +35,7 @@ namespace PTZ.HomeManagement.Data
             using (var context = new MyFinanceDbContext(
                serviceProvider.GetRequiredService<DbContextOptions<MyFinanceDbContext>>()))
             {
+
                 foreach (var item in ApplicationDbContext.DefaultUsers)
                 {
                     var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
@@ -42,22 +43,25 @@ namespace PTZ.HomeManagement.Data
 
                     if (user != null)
                     {
-                        var availableCategories = new string[] { "#26C6DA", "#9C27B0", "#E53935" };
-                        for (int i = 0; i < availableCategories.Length; i++)
+                        if (!context.Categories.Any())
                         {
-                            var availableCategory = availableCategories[i];
-                            if (!context.Categories.Any(x => x.Name == availableCategory))
+                            var availableCategories = new string[] { "#26C6DA", "#9C27B0", "#E53935" };
+                            for (int i = 0; i < availableCategories.Length; i++)
                             {
-                                var category = new MyFinance.Models.Category()
+                                var availableCategory = availableCategories[i];
+                                if (!context.Categories.Any(x => x.Name == availableCategory))
                                 {
-                                    ApplicationUser = user,
-                                    Color = availableCategory,
-                                    Name = "Category: " + availableCategory,
-                                    Description = availableCategory,
-                                };
-                                context.Categories.Add(category);
+                                    var category = new MyFinance.Models.Category()
+                                    {
+                                        ApplicationUser = user,
+                                        Color = availableCategory,
+                                        Name = "Category: " + availableCategory,
+                                        Description = availableCategory,
+                                    };
+                                    context.Categories.Add(category);
 
-                                context.Entry(category.ApplicationUser).State = EntityState.Unchanged;
+                                    context.Entry(category.ApplicationUser).State = EntityState.Unchanged;
+                                }
                             }
                         }
 

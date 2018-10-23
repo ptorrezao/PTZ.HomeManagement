@@ -20,7 +20,8 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
-                .HasAnnotation("Relational:Sequence:.Reminder", "'Reminder', '', '1', '1', '', '', 'Int64', 'False'");
+                .HasAnnotation("Relational:Sequence:.Reminder", "'Reminder', '', '1', '1', '', '', 'Int64', 'False'")
+                .HasAnnotation("Relational:Sequence:.ReminderCategory", "'ReminderCategory', '', '1', '1', '', '', 'Int64', 'False'");
 
             modelBuilder.Entity("PTZ.HomeManagement.ExpirationReminder.Core.Reminder", b =>
                 {
@@ -32,7 +33,19 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
 
                     b.Property<DateTime>("ExpirationDate");
 
+                    b.Property<string>("Notes");
+
+                    b.Property<long>("NotifyInPeriodAmout");
+
+                    b.Property<int>("NotifyInPeriodType");
+
+                    b.Property<int>("NotifyType");
+
                     b.Property<int>("ReminderType");
+
+                    b.Property<bool>("Sent");
+
+                    b.Property<DateTime?>("SentOn");
 
                     b.Property<string>("Title");
 
@@ -41,6 +54,36 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Reminders");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.ExpirationReminder.Core.ReminderCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("nextval('\"ReminderCategory\"')");
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("ReminderCategories");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.ExpirationReminder.Core.ReminderCategoryReminder", b =>
+                {
+                    b.Property<long>("ReminderId");
+
+                    b.Property<long>("CategoryId");
+
+                    b.HasKey("ReminderId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoriesOnReminders");
                 });
 
             modelBuilder.Entity("PTZ.HomeManagement.Models.ApplicationUser", b =>
@@ -92,6 +135,26 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
                     b.HasOne("PTZ.HomeManagement.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.ExpirationReminder.Core.ReminderCategory", b =>
+                {
+                    b.HasOne("PTZ.HomeManagement.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("PTZ.HomeManagement.ExpirationReminder.Core.ReminderCategoryReminder", b =>
+                {
+                    b.HasOne("PTZ.HomeManagement.ExpirationReminder.Core.ReminderCategory", "Category")
+                        .WithMany("Reminders")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PTZ.HomeManagement.ExpirationReminder.Core.Reminder", "Reminder")
+                        .WithMany("Categories")
+                        .HasForeignKey("ReminderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

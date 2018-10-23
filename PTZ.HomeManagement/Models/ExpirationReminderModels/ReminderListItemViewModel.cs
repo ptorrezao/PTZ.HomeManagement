@@ -20,5 +20,8 @@ namespace PTZ.HomeManagement.Models.ExpirationReminderModels
 
         [DisplayName("ExpirationDate")]
         public DateTime ExpirationDate { get; set; }
+
+        [DisplayName("Categories")]
+        public List<string> Categories { get; set; }
     }
 }

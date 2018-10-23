@@ -126,4 +126,13 @@
   <data name="SaveButton" xml:space="preserve">
     <value>Gravar</value>
   </data>
+  <data name="SelectOneCategory" xml:space="preserve">
+    <value>Selecione uma categoria</value>
+  </data>
+  <data name="SelectOneNotifyPeriodType" xml:space="preserve">
+    <value>Selecione um tipo de Period</value>
+  </data>
+  <data name="SelectOneNotifyType" xml:space="preserve">
+    <value>Selecione um tipo de notificação</value>
+  </data>
 </root>

@@ -68,10 +68,19 @@ namespace PTZ.HomeManagement.Models
             CreateMap<List<Reminder>, ReminderListViewModel>()
                 .ForMember(vm => vm.Items, opt => opt.MapFrom(u => Mapper.Map<IList<Reminder>, IList<ReminderListItemViewModel>>(u)));
 
-            CreateMap<Reminder, ReminderListItemViewModel>();
+            CreateMap<Reminder, ReminderListItemViewModel>()
+                .ForMember(vm => vm.Categories, opt => opt.MapFrom(u => u.Categories.Select(x => x.Category.Name)));
 
-            CreateMap<Reminder, ReminderViewModel>();
+            CreateMap<Reminder, ReminderViewModel>()
+                .ForMember(x => x.SelectedCategories, opt => opt.MapFrom(x => x.Categories.Select(o => o.CategoryId)));
             CreateMap<ReminderViewModel, Reminder>();
+
+            CreateMap<List<ReminderCategory>, ReminderCategoryListViewModel>()
+                .ForMember(vm => vm.Items, opt => opt.MapFrom(u => Mapper.Map<IList<ReminderCategory>, IList<ReminderCategoryListItemViewModel>>(u)));
+
+            CreateMap<ReminderCategory, ReminderCategoryViewModel>();
+            CreateMap<ReminderCategoryViewModel, ReminderCategory>();
+
         }
     }
 }

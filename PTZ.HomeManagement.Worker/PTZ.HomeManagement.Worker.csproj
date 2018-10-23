@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="EmailTemplates\SendEmailsForExpiredAndExpiringReminders.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="EmailTemplates\SendEmailsForExpiredAndExpiringReminders.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
+    <PackageReference Include="FluentEmail.Core" Version="2.5.1" />
+    <PackageReference Include="FluentEmail.Mailgun" Version="2.5.1" />
+    <PackageReference Include="FluentEmail.Razor" Version="2.5.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="RazorEngine" Version="3.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PTZ.HomeManagement.Core.Services\PTZ.HomeManagement.Core.Services.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Core\PTZ.HomeManagement.ExpirationReminder.Core.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Services\PTZ.HomeManagement.ExpirationReminder.Services.csproj" />
+    <ProjectReference Include="..\PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj" />
+  </ItemGroup>
+
+</Project>

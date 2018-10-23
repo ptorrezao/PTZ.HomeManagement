@@ -53,18 +53,16 @@ namespace PTZ.HomeManagement
                .RequireAuthenticatedUser()
                .Build();
 
-
             services.Configure<EmailSettings>(x =>
             {
-                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "key-ed6268300ba23c819a3482e348672f3f";
-                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "https://api.mailgun.net/v3/sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org/messages";
-                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "postmaster@sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
-                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "sandbox11f65e9f553d42e3ba1d57a4266bb962.mailgun.org";
+                x.ApiKey = Environment.GetEnvironmentVariable("MailGun_ApiKey") ?? "";
+                x.ApiBaseUri = Environment.GetEnvironmentVariable("MailGun_ApiBaseUri") ?? "";
+                x.RequestUri = Environment.GetEnvironmentVariable("MailGun_RequestUri") ?? "";
+                x.From = Environment.GetEnvironmentVariable("MailGun_From") ?? "";
+                x.Domain = Environment.GetEnvironmentVariable("MailGun_Domain") ?? "";
             });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
             services.AddAutoMapper();
 
             services.AddDbContext<ApplicationDbContext>(options => this.SetCorrectProvider(options));
@@ -75,7 +73,7 @@ namespace PTZ.HomeManagement
             DatabaseType dbType;
             Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
-            string connectionString = DatabaseUtils.GetConnectionString(Configuration, dbType);
+            string connectionString = DatabaseUtils.GetConnectionString(dbType);
             if (dbType == DatabaseType.PostgreSQL)
             {
                 services.AddDataProtection().PersistKeysToPostgres(connectionString, appId, instanceId);
@@ -117,7 +115,7 @@ namespace PTZ.HomeManagement
             DatabaseType dbType;
             Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
-            string connectionString = DatabaseUtils.GetConnectionString(Configuration, dbType);
+            string connectionString = DatabaseUtils.GetConnectionString(dbType);
 
             switch (dbType)
             {

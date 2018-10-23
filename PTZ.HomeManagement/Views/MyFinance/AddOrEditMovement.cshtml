@@ -19,31 +19,31 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="row">
                         @if (isEdit)
-        {
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label asp-for="Id"></label>
-                        <input asp-for="Id" class="form-control" disabled />
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="form-group">
-                        <label asp-for="Description"></label>
-                        <input asp-for="Description" class="form-control" />
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                </div>
-}
-else
-{
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label asp-for="Description"></label>
-                        <input asp-for="Description" class="form-control" />
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                </div>
-}
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label asp-for="Id"></label>
+                                    <input asp-for="Id" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label asp-for="Description"></label>
+                                    <input asp-for="Description" class="form-control" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Description"></label>
+                                    <input asp-for="Description" class="form-control" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        }
                     </div>
                     <div class="row">
 

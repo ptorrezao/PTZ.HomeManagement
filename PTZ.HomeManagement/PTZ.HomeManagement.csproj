@@ -8,8 +8,8 @@
     <ProjectGuid>f491dd1f-d14d-4ed2-809f-609ee8075f61</ProjectGuid>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
-    <Version>0.0.1-dev0001</Version>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <Version>2.0.1-dev0052</Version>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
     <FileVersion>0.0.1.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration) == 'Debug'">
@@ -89,10 +89,19 @@
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Views\ExpirationReminder\AddOrEditReminderCategory.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\ExpirationReminder\AddOrEditReminder.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\ExpirationReminder\DeleteReminderCategory.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\ExpirationReminder\DeleteReminder.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\ExpirationReminder\ListReminderCategories.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\MyFinance\DeleteCategory.cshtml">

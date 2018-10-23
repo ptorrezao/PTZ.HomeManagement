@@ -2,6 +2,7 @@
 @model ReminderListViewModel
 @{
     ViewBag.Title = ModulesNames.ExpirationReminder;
+
 }
 <div class="col-md-12">
     <div class="card strpied-tabled-with-hover">
@@ -16,6 +17,7 @@
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(x => x.Items.First().ReminderType)</th>
+                        <th>@Html.DisplayNameFor(x => x.Items.First().Categories)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().Title)</th>
                         <th>@Html.DisplayNameFor(x => x.Items.First().ExpirationDate)</th>
                         <th class="no-sort"></th>
@@ -25,7 +27,13 @@
                     @foreach (ReminderListItemViewModel item in Model.Items)
                     {
                         <tr>
-                            <td>@item.ReminderType</td>
+                            <td>@item.ReminderType.GetDescription()</td>
+                            <td style="max-width:100px">
+                                @foreach (var category in item.Categories)
+                                {
+                                    <text><span class="badge" style="background-color: #FB9902">@category</span>&nbsp;</text>
+                                }
+                            </td>
                             <td>@item.Title</td>
                             <td>@item.ExpirationDate.ToShortDateString()</td>
                             <td class="no-sort">
