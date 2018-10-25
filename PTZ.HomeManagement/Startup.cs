@@ -83,6 +83,18 @@ namespace PTZ.HomeManagement
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Account/Register";
+                options.Cookie.Name = "PTZ.HomeManagement";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                options.LoginPath = "/Account/Login";
+                // ReturnUrlParameter requires 
+                options.ReturnUrlParameter = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+
             services.AddSingleton<ISentryEventExceptionProcessor, CustomSentryEventExceptionProcessor>();
             services.AddTransient<ISentryEventProcessor, CustomSentryEventEventProcessor>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
