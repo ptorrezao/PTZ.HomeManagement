@@ -10,12 +10,12 @@ namespace PTZ.HomeManagement.Services
     {
         public static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string link)
         {
-            return emailSender.SendEmailAsync("EmailConfirm", "PTZ.HomeAssistant - Please Confirm your email", "pedro.torrezao@gmail.com", new { Email = email, Link = HtmlEncoder.Default.Encode(link), Subject = "PTZ.HomeAssistant - Please Confirm your email" });
+            return emailSender.SendEmailAsync("EmailConfirm", "PTZ.HomeAssistant - Please Confirm your email", email, new { Email = email, Link = HtmlEncoder.Default.Encode(link), Subject = "PTZ.HomeAssistant - Please Confirm your email" });
         }
 
         public static Task SendEmailResetPasswordAsync(this IEmailSender emailSender, string email, string link)
         {
-            return emailSender.SendEmailAsync("PasswordRecovery", "PTZ.HomeAssistant - Recover Email", "pedro.torrezao@gmail.com", new { Email = email, Link = link, Subject = "PTZ.HomeAssistant - Recover Email" });
+            return emailSender.SendEmailAsync("PasswordRecovery", "PTZ.HomeAssistant - Recover Email", email, new { Email = email, Link = link, Subject = "PTZ.HomeAssistant - Recover Email" });
         }
     }
 }
