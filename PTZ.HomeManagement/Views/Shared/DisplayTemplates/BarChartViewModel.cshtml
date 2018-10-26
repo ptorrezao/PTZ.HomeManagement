@@ -14,8 +14,8 @@
     var title = (string)ViewData["title"] ?? "Total_Assets";
     var subtitle = (string)ViewData["subtitle"] ?? "Total_Assets_SubTitle";
 
-    var minDate = Model.MinDate;
-    var maxDate = Model.MaxDate;
+    var minDate = Model.MinDate.ToShortDateString();
+    var maxDate = Model.MaxDate.ToShortDateString();
 }
 
 <div class="@size">
