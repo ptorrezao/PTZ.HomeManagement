@@ -58,13 +58,13 @@
         </div>
         <div class="card-footer">
             <a href="@Url.Action(nameof(MyFinanceController.ListAccounts))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
-                <i class="fa fa-arrow-left"></i>
+                <em class="fa fa-arrow-left"></em>
             </a> &nbsp;
             <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditMovement" asp-route-bankAccountId="@Model.Id" data-toggle="tooltip" data-placement="top" title="@localizer["Add"]">
-                <i class="fa fa-plus"></i>
+                <em class="fa fa-plus"></em>
             </a>  &nbsp;
             <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["ImportMovements"]" asp-action="ImportMovements" asp-route-bankAccountId="@Model.Id">
-                <i class="fa fa-file-import"></i>
+                <em class="fa fa-file-import"></em>
             </a> &nbsp;
         </div>
     </div>

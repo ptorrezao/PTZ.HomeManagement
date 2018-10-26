@@ -136,15 +136,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
 
                     if (email.Successful)
                     {
-                        messagesSent += 1;
-                        foreach (var reminder in reminders)
-                        {
-                            reminder.Sent = true;
-                            reminder.SentOn = DateTime.Now;
-                        }
-
-                        expirationRepo.SaveReminders(user.Id, reminders);
-                        expirationRepo.CommitChanges();
+                        messagesSent = UpdateReminder(messagesSent, user, reminders);
                     }
                     else
                     {
@@ -156,12 +148,31 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
                 }
             }
 
+            PrepareMessage(messagesSent, result);
+
+            return result.ToString();
+        }
+
+        private static void PrepareMessage(int messagesSent, StringBuilder result)
+        {
             if (result.Length <= 0 && messagesSent > 0)
             {
                 result.AppendLine(string.Format("{0} emails were sent.", messagesSent));
             }
+        }
 
-            return result.ToString();
+        private int UpdateReminder(int messagesSent, ApplicationUser user, List<Reminder> reminders)
+        {
+            messagesSent += 1;
+            foreach (var reminder in reminders)
+            {
+                reminder.Sent = true;
+                reminder.SentOn = DateTime.Now;
+            }
+
+            expirationRepo.SaveReminders(user.Id, reminders);
+            expirationRepo.CommitChanges();
+            return messagesSent;
         }
 
         public string GetName()
