@@ -14,6 +14,8 @@
     var title = (string)ViewData["title"] ?? "Total_Assets";
     var subtitle = (string)ViewData["subtitle"] ?? "Total_Assets_SubTitle";
 
+    var minDate = Model.MinDate;
+    var maxDate = Model.MaxDate;
 }
 
 <div class="@size">
@@ -22,7 +24,7 @@
         {
         <div class="card-header ">
             <h4 class="card-title">@localizer[title]</h4>
-            <p class="card-category">@localizer[subtitle]</p>
+            <p class="card-category">@localizer[subtitle] [@minDate - @maxDate]</p>
         </div>
         }
         <div class="card-body ">

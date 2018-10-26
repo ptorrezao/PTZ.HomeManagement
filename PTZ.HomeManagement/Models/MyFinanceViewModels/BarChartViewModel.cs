@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PTZ.HomeManagement.Models.MyFinanceViewModels
 {
@@ -10,5 +11,8 @@ namespace PTZ.HomeManagement.Models.MyFinanceViewModels
         }
 
         public List<BarChartItemViewModel> Items { get;  set; }
+
+        public DateTime MinDate { get; set; }
+        public DateTime MaxDate { get; set; }
     }
 }

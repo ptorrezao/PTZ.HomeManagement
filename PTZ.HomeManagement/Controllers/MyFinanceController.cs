@@ -180,6 +180,9 @@ namespace PTZ.HomeManagement.Controllers
             int graphLenght = 20;
             int graphLenghtIntoFuture = 1;
 
+            vm.Categories.MinDate = DateTime.MaxValue;
+            vm.Categories.MaxDate = DateTime.MinValue;
+
             bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
             {
                 decimal lastKnownValue = 0;
@@ -225,21 +228,31 @@ namespace PTZ.HomeManagement.Controllers
 
                 foreach (var selectedCategory in categories)
                 {
+                    
                     bankAccount.Movements.GroupBy(x => x.BankAccount).ToList().ForEach(x =>
                     {
                         if (x.Key.Movements.Where(r => r.Categories != null).SelectMany(q => q.Categories).Any())
                         {
-                            var amout = -x.Where(e => e.Categories != null && e.Categories.Any(r => r.CategoryId == selectedCategory.Id)).Sum(q => q.Amount);
+                            var items = x.Where(e => e.Categories != null && e.Categories.Any(r => r.CategoryId == selectedCategory.Id));
 
-                            if (amout > 0)
+                            if (items.Any())
                             {
-                                vm.Categories.Items.Add(new BarChartItemViewModel()
+                                var amout = -items.Sum(q => q.Amount);
+                                var minDate = items.Min(q => q.MovementDate);
+                                var maxDate = items.Max(q => q.MovementDate);
+                                if (amout > 0)
                                 {
-                                    Label = selectedCategory.Name,
-                                    Color = bankAccount.Color,
-                                    Value = amout,
-                                    Group = bankAccount.Bank.ToString()
-                                });
+                                    vm.Categories.MinDate = vm.Categories.MinDate > minDate ? minDate : vm.Categories.MinDate;
+                                    vm.Categories.MaxDate = vm.Categories.MaxDate < maxDate ? maxDate : vm.Categories.MaxDate;
+
+                                    vm.Categories.Items.Add(new BarChartItemViewModel()
+                                    {
+                                        Label = selectedCategory.Name,
+                                        Color = bankAccount.Color,
+                                        Value = amout,
+                                        Group = bankAccount.Bank.ToString()
+                                    });
+                                }
                             }
                         }
                     });
