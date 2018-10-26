@@ -10,7 +10,7 @@ namespace PTZ.HomeManagement.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(HomeController.StatusCode), "Home");
+            return RedirectToAction(nameof(ControlController.Status), "Control");
         }
     }
 }
