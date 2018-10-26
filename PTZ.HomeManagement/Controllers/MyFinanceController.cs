@@ -185,81 +185,90 @@ namespace PTZ.HomeManagement.Controllers
 
             bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
             {
-                decimal lastKnownValue = 0;
-                vm.Balance.Assets.Add(Mapper.Map<DoughnutChartItemViewModel>(bankAccount));
+                AddMonthlyProgressionToDashBoardViewModel(bankAccount, vm, graphLenght, graphLenghtIntoFuture);
 
-                bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
-
-                if (!bankAccount.Movements.Any())
-                {
-                    var lastMovs = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, 1, SortOrder.Descending);
-
-                    if (lastMovs.Any())
-                    {
-                        var lastMov = lastMovs.First();
-                        lastKnownValue = lastMov.TotalBalanceAfterMovement;
-                    }
-                }
-                var currentDay = DateTime.Now.AddDays(-graphLenght).Date;
-                for (int i = 1; i < graphLenght + graphLenghtIntoFuture; i++)
-                {
-                    currentDay = currentDay.AddDays(1);
-                    var movement = bankAccount.Movements.FirstOrDefault(x => x.MovementDate.Date == currentDay);
-
-                    if (movement != default(BankAccountMovement))
-                    {
-                        lastKnownValue = movement.TotalBalanceAfterMovement;
-                    }
-                    else if (bankAccount.Movements.Count > 0 && lastKnownValue == 0)
-                    {
-                        lastKnownValue = bankAccount.Movements.OrderBy(m => m.ValueDate.Date).First().TotalBalanceAfterMovement;
-                    }
-
-                    vm.MonthlyProgression.Movements.Add(new LineChartItemViewModel()
-                    {
-                        XAxis = currentDay.ToShortDateString(),
-                        Amount = lastKnownValue,
-                        Color = bankAccount.Color,
-                        Group = bankAccount.Bank.ToString(),
-                    });
-                }
-
-                var categories = _myFinanceService.GetCategories(User.GetUserId());
-
-                foreach (var selectedCategory in categories)
-                {
-                    
-                    bankAccount.Movements.GroupBy(x => x.BankAccount).ToList().ForEach(x =>
-                    {
-                        if (x.Key.Movements.Where(r => r.Categories != null).SelectMany(q => q.Categories).Any())
-                        {
-                            var items = x.Where(e => e.Categories != null && e.Categories.Any(r => r.CategoryId == selectedCategory.Id));
-
-                            if (items.Any())
-                            {
-                                var amout = -items.Sum(q => q.Amount);
-                                var minDate = items.Min(q => q.MovementDate);
-                                var maxDate = items.Max(q => q.MovementDate);
-                                if (amout > 0)
-                                {
-                                    vm.Categories.MinDate = vm.Categories.MinDate > minDate ? minDate : vm.Categories.MinDate;
-                                    vm.Categories.MaxDate = vm.Categories.MaxDate < maxDate ? maxDate : vm.Categories.MaxDate;
-
-                                    vm.Categories.Items.Add(new BarChartItemViewModel()
-                                    {
-                                        Label = selectedCategory.Name,
-                                        Color = bankAccount.Color,
-                                        Value = amout,
-                                        Group = bankAccount.Bank.ToString()
-                                    });
-                                }
-                            }
-                        }
-                    });
-                }
+                AddCategoriesToDashboardViewModel(bankAccount, vm);
             });
 
             return View(vm);
+        }
+
+        private void AddMonthlyProgressionToDashBoardViewModel(BankAccount bankAccount, DashboardViewModel vm, int graphLenght, int graphLenghtIntoFuture)
+        {
+            decimal lastKnownValue = 0;
+            vm.Balance.Assets.Add(Mapper.Map<DoughnutChartItemViewModel>(bankAccount));
+
+            bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
+
+            if (!bankAccount.Movements.Any())
+            {
+                var lastMovs = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, 1, SortOrder.Descending);
+
+                if (lastMovs.Any())
+                {
+                    var lastMov = lastMovs.First();
+                    lastKnownValue = lastMov.TotalBalanceAfterMovement;
+                }
+            }
+            var currentDay = DateTime.Now.AddDays(-graphLenght).Date;
+            for (int i = 1; i < graphLenght + graphLenghtIntoFuture; i++)
+            {
+                currentDay = currentDay.AddDays(1);
+                var movement = bankAccount.Movements.FirstOrDefault(x => x.MovementDate.Date == currentDay);
+
+                if (movement != default(BankAccountMovement))
+                {
+                    lastKnownValue = movement.TotalBalanceAfterMovement;
+                }
+                else if (bankAccount.Movements.Count > 0 && lastKnownValue == 0)
+                {
+                    lastKnownValue = bankAccount.Movements.OrderBy(m => m.ValueDate.Date).First().TotalBalanceAfterMovement;
+                }
+
+                vm.MonthlyProgression.Movements.Add(new LineChartItemViewModel()
+                {
+                    XAxis = currentDay.ToShortDateString(),
+                    Amount = lastKnownValue,
+                    Color = bankAccount.Color,
+                    Group = bankAccount.Bank.ToString(),
+                });
+            }
+        }
+
+        private void AddCategoriesToDashboardViewModel(BankAccount bankAccount, DashboardViewModel vm)
+        {
+            var categories = _myFinanceService.GetCategories(User.GetUserId());
+
+            foreach (var selectedCategory in categories)
+            {
+                bankAccount.Movements.GroupBy(x => x.BankAccount).ToList().ForEach(x =>
+                {
+                    if (x.Key.Movements.Where(r => r.Categories != null).SelectMany(q => q.Categories).Any())
+                    {
+                        var items = x.Where(e => e.Categories != null && e.Categories.Any(r => r.CategoryId == selectedCategory.Id));
+
+                        if (items.Any())
+                        {
+                            var amout = -items.Sum(q => q.Amount);
+                            var minDate = items.Min(q => q.MovementDate);
+                            var maxDate = items.Max(q => q.MovementDate);
+                            if (amout > 0)
+                            {
+                                vm.Categories.MinDate = vm.Categories.MinDate > minDate ? minDate : vm.Categories.MinDate;
+                                vm.Categories.MaxDate = vm.Categories.MaxDate < maxDate ? maxDate : vm.Categories.MaxDate;
+
+                                vm.Categories.Items.Add(new BarChartItemViewModel()
+                                {
+                                    Label = selectedCategory.Name,
+                                    Color = bankAccount.Color,
+                                    Value = amout,
+                                    Group = bankAccount.Bank.ToString()
+                                });
+                            }
+                        }
+                    }
+                });
+            }
         }
         #endregion
 
