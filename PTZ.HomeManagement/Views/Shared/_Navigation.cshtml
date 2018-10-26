@@ -10,13 +10,13 @@
 {
     <div class="user">
         <div class="photo">
-            <img src="@User.GetUserGravatar()">
+            <img src="@User.GetUserGravatar()" alt="@User.GetUserFullName()">
         </div>
         <div class="info ">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                 <span>
                     @User.GetUserFullName()
-                    <b class="caret"></b>
+                    <strong class="caret"></strong>
                 </span>
             </a>
             <div class="collapse" id="collapseExample">
@@ -56,11 +56,11 @@
         <nav-item asp-controller="Control" asp-action="Index" tld-icon="nc-chart-pie-35">@localizer["Index_Page"]</nav-item>
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#MyFinance" aria-expanded="false">
-                <i class="nc-icon nc-money-coins"></i>
-                <p>
+                <em class="nc-icon nc-money-coins"></em>
+                <em>
                     @ModulesNames.MyFinance
-                    <b class="caret"></b>
-                </p>
+                    <strong class="caret"></strong>
+                </em>
             </a>
             <div class="collapse " id="MyFinance" style="">
                 <ul class="nav">
@@ -90,10 +90,10 @@
         {
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#System" aria-expanded="false">
-                    <i class="nc-icon nc-settings-gear-64"></i>
+                    <em class="nc-icon nc-settings-gear-64"></em>
                     <p>
                         @ModulesNames.System
-                        <b class="caret"></b>
+                        <strong class="caret"></strong>
                     </p>
                 </a>
                 <div class="collapse " id="System" style="">

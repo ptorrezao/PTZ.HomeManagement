@@ -116,7 +116,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
             {
                 var reminders = expirationRepo.GetRemindersByType(
                     userId: user.Id,
-                    reminderStateType: new List<ReminderStateType>() { ReminderStateType.Expired, ReminderStateType.Expiring },
+                    reminderStateTypes: new List<ReminderStateType>() { ReminderStateType.Expired, ReminderStateType.Expiring },
                     sentState: false);
 
                 if (reminders.Any())
@@ -147,18 +147,17 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
                     }
                 }
             }
-
-            PrepareMessage(messagesSent, result);
-
-            return result.ToString();
+            return PrepareMessage(messagesSent, result);
         }
 
-        private static void PrepareMessage(int messagesSent, StringBuilder result)
+        private string PrepareMessage(int messagesSent, StringBuilder result)
         {
             if (result.Length <= 0 && messagesSent > 0)
             {
                 result.AppendLine(string.Format("{0} emails were sent.", messagesSent));
             }
+
+            return result.ToString();
         }
 
         private int UpdateReminder(int messagesSent, ApplicationUser user, List<Reminder> reminders)

@@ -70,7 +70,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
             return reminders;
         }
 
-        public List<Reminder> GetRemindersByType(string userId, List<ReminderStateType> reminderStateType, bool? sentState = null)
+        public List<Reminder> GetRemindersByType(string userId, List<ReminderStateType> reminderStateTypes, bool? sentState = null)
         {
             List<Reminder> filteredReminders = new List<Reminder>();
 
