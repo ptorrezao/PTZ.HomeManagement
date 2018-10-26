@@ -29,8 +29,8 @@
                             <td><span class="badge badge-pill badge-secondary" style="background-color: @item.Color;">@item.Name</span></td>
                             <td>@item.Description</td>
                             <td class="no-sort">
-                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditCategory" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> &nbsp;
-                                <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteCategory" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a> &nbsp;
+                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditCategory" asp-route-id="@item.Id"><em class="fa fa-edit"></em></a> &nbsp;
+                                <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteCategory" asp-route-id="@item.Id"><em class="fa fa-trash"></em></a> &nbsp;
                             </td>
                         </tr>
                     }
@@ -40,12 +40,12 @@
         <div class="card-footer">
             <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditCategory" data-toggle="tooltip" data-placement="top" title="@localizer["Add"]">
                 <span class="btn-label">
-                    <i class="fa fa-plus"></i>
+                    <em class="fa fa-plus"></em>
                 </span>
             </a>
             <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="SetBankAccountMovementsToCategory" data-toggle="tooltip" data-placement="top" title="@localizer["AddCategoriesToBankAccount"]">
                 <span class="btn-label">
-                    <i class="fa fa-bars"></i>
+                    <em class="fa fa-bars"></em>
                 </span>
             </a>
         </div>
