@@ -13,15 +13,20 @@ This is a asp.net webapp application powered by ASP.NET Core and Docker and main
 (This started as Pet Project to learn ASP.NET Core and Docker, so keep that in mind)
 
 ![Preview](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/preview.jpg?raw=true)
+![Preview2](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/preview2.jpg?raw=true)
+![Preview3](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/preview3.jpg?raw=true)
 
 ---
+
+## Components/Modules
+- MyFinance -> Allows me to keep track of Expenses and Incomes
+- ExpirationReminder -> Allows me to keep on top of the calendar and expiration dates for services.
 
 ## Features
 - Admin Template (light-bootstrap-dashboard) [Creative Tim](https://www.creative-tim.com/product/light-bootstrap-dashboard)
 - Bootstrap-select [bootstrap-select](https://silviomoreto.github.io/bootstrap-select/)
 - Mailgun [Mailgun](https://www.mailgun.com/email-api)
 - Tiny Colorpicker - A lightweight cross browser color picker. [Page](http://baijs.com/tinycolorpicker/)
-
 
 ## WorkFlow
 ![WorkFlow](https://github.com/ptorrezao/PTZ.HomeManagement/blob/master/docs/workflow.png?raw=true)
