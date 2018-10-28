@@ -48,12 +48,10 @@ namespace PTZ.HomeManagement.Components.MyFinance
                                 if (items.Any())
                                 {
                                     var amout = -items.Sum(q => q.Amount);
-                                    var minDate = items.Min(q => q.MovementDate);
-                                    var maxDate = items.Max(q => q.MovementDate);
+
                                     if (amout > 0)
                                     {
-                                        vm.MinDate = vm.MinDate > minDate ? minDate : vm.MinDate;
-                                        vm.MaxDate = vm.MaxDate < maxDate ? maxDate : vm.MaxDate;
+                                        FindDates(vm, items.Min(q => q.MovementDate), items.Max(q => q.MovementDate));
 
                                         vm.Items.Add(new BarChartItemViewModel()
                                         {
@@ -73,6 +71,12 @@ namespace PTZ.HomeManagement.Components.MyFinance
             });
 
             return View(viewModel);
+        }
+
+        private void FindDates(BarChartViewModel vm, DateTime minDate, DateTime maxDate)
+        {
+            vm.MinDate = vm.MinDate > minDate ? minDate : vm.MinDate;
+            vm.MaxDate = vm.MaxDate < maxDate ? maxDate : vm.MaxDate;
         }
     }
 }
