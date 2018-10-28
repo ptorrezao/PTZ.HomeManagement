@@ -37,17 +37,17 @@
                             @if (item.Categories.Count > 0)
                             {
                                 <td data-toggle="tooltip" data-placement="right" data-html="true" title="Categorias:   @foreach (var category in item.Categories){<text><span class='badge badge-pill badge-secondary' style='background-color: @category.Color;'>@category.Name</span></text>}" class="no-sort">
-                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-edit"></i></a> &nbsp;
-                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["SetCategoriesToBankAccount"]" asp-action="SetCategoriesToBankAccount" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-tags"></i></a> &nbsp;
-                                    <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-trash"></i></a> &nbsp;
+                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><em class="fa fa-edit"></em></a> &nbsp;
+                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["SetCategoriesToBankAccount"]" asp-action="SetCategoriesToBankAccount" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><em class="fa fa-tags"></em></a> &nbsp;
+                                    <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><em class="fa fa-trash"></em></a> &nbsp;
                                 </td>
                             }
                             else
                             {
                                 <td class="no-sort">
-                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-edit"></i></a> &nbsp;
-                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["SetCategoriesToBankAccount"]" asp-action="SetCategoriesToBankAccount" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-tags"></i></a> &nbsp;
-                                    <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><i class="fa fa-trash"></i></a> &nbsp;
+                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><em class="fa fa-edit"></em></a> &nbsp;
+                                    <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["SetCategoriesToBankAccount"]" asp-action="SetCategoriesToBankAccount" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><em class="fa fa-tags"></em></a> &nbsp;
+                                    <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteMovement" asp-route-id="@item.Id" asp-route-bankAccountId="@Model.Id"><em class="fa fa-trash"></em></a> &nbsp;
                                 </td>
                             }
 
