@@ -1,46 +1,36 @@
 ﻿@model BarChartViewModel
-@inject IViewLocalizer localizer
 
 @{
     var name = Guid.NewGuid().ToString().Replace("-", "");
-    var type = (string)ViewData["Type"];
-    var legend = (bool?)ViewData["Legend"] ?? true;
-    var ystacked = (bool?)ViewData["YStacked"] ?? false;
-    var chosenType = string.IsNullOrEmpty(type) ? "bar" : type;
-    var size = (string)ViewData["Size"];
-    size = string.IsNullOrEmpty(size) ? "col-lg-4" : size;
-
-    bool clearTitle = (bool?)ViewData["clearTitle"] ?? false;
-    var title = (string)ViewData["title"] ?? "Total_Assets";
-    var subtitle = (string)ViewData["subtitle"] ?? "Total_Assets_SubTitle";
 
     var minDate = Model.MinDate.ToShortDateString();
     var maxDate = Model.MaxDate.ToShortDateString();
-}
 
-<div class="@size">
-    <div class="card ">
-        @if (!clearTitle)
-        {
-        <div class="card-header ">
-            <h4 class="card-title">@localizer[title]</h4>
-            <p class="card-category">@localizer[subtitle] [@minDate - @maxDate]</p>
-        </div>
-        }
-        <div class="card-body ">
-            <canvas id="@name"></canvas>
+    var visible = Model.Items.Any();
+}
+@if (visible)
+{
+    <div class="col-xl-6 col-md-12 col-lg-6 col-sm-12">
+        <div class="card ">
+
+            <div class="card-header ">
+                <h4 class="card-title">Movimentos por Categorias</h4>
+                <p class="card-category">Resumo por categoria [@minDate - @maxDate]</p>
+            </div>
+            <div class="card-body ">
+                <canvas id="@name"></canvas>
+
+            </div>
         </div>
     </div>
-</div>
-
-@Html.Script(
-    @<script type="text/javascript">
+    @Html.Script(
+        @<script type="text/javascript">
              $(document).ready(function () {
                  new Chart($("#@name"), config_@name);
              });
 
             var config_@name = {
-                 type: '@chosenType',
+                 type: 'horizontalBar',
                  data: {
                      labels: @Html.Raw(Json.Serialize(Model.Items.Select(x => x.Label).Distinct())),
                      datasets: [@foreach (var a in Model.Items.GroupBy(x => x.Group))
@@ -49,7 +39,7 @@
                          {
                              label: '@Html.Raw(a.Key.ToString())',
                              data: @Html.Raw(Json.Serialize(Model.Items.GroupBy(x => x.Label).Select(x => x.Sum(q => q.Group == a.Key ? q.Value : 0)))),
-                             backgroundColor: @Html.Raw(Json.Serialize(a.Max(z=>z.Color))),
+                             backgroundColor: @Html.Raw(Json.Serialize(a.Max(z => z.Color))),
                              lineTension: 0.1,
                          },
                          </text>
@@ -80,4 +70,5 @@
              };
 
 
-    </script>)
+        </script>)
+}

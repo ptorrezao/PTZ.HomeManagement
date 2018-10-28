@@ -37,6 +37,10 @@
                             <td>@item.Title</td>
                             <td>@item.ExpirationDate.ToShortDateString()</td>
                             <td class="no-sort">
+                                @if (!item.Resolved)
+                                {
+                                    <text><a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="Marcar como resolvido" asp-action="SetAsResolved" asp-route-id="@item.Id"><i class="fa fa-check"></i></a> &nbsp;</text>
+                                }
                                 <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="@localizer["Edit"]" asp-action="AddOrEditReminder" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a> &nbsp;
                                 <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="@localizer["Delete"]" asp-action="DeleteReminder" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a> &nbsp;
                             </td>

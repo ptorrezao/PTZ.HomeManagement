@@ -1,4 +1,5 @@
 ﻿using PTZ.HomeManagement.ExpirationReminder.Core;
+using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
 using PTZ.HomeManagement.Interfaces;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
         void DeleteReminder(string userId, Reminder reminder);
 
         List<ReminderCategory> GetReminderCategories(string userId);
+        List<Reminder> GetRemindersByType(string userId, List<ReminderStateType> reminderStateTypes);
         ReminderCategory GetReminderCategory(string userId, int id);
         ReminderCategory GetReminderCategoryDefault(string userId);
         void SaveReminderCategory(string userId, ReminderCategory reminderCategory);

@@ -76,6 +76,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
 
             var reminders = this.context.Reminders.Include(x => x.Categories)
                                                     .ThenInclude(x => x.Category)
+                                                    .Where(x => !x.Resolved)
                                                     .Where(x => x.ApplicationUser.Id == userId);
             if (sentState != null)
             {
@@ -142,6 +143,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
 
         public void SaveReminder(string userId, Reminder reminder)
         {
+            this.context.Entry(reminder.ApplicationUser).State = EntityState.Unchanged;
             this.context.Entry(reminder).State = reminder.Id == 0 ? EntityState.Added : EntityState.Modified;
         }
 

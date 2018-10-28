@@ -1,11 +1,14 @@
 ﻿@using PTZ.HomeManagement.Components.MyFinance
+@inject IViewLocalizer localizer
 @{
-    ViewBag.Title = ModulesNames.Core;
+    ViewBag.Title = ModulesNames.MyFinance;
+    //ViewData.AddActivePage(ManageNavPages.Index);
 }
 <div class="container-fluid">
     <div class="row ">
         @await Component.InvokeAsync("PortfolioDistribution", new { type = PortfolioDistributionType.Pie })
-        @await Component.InvokeAsync("ReminderOverview")
+        @await Component.InvokeAsync("PortfolioDistribution", new { type = PortfolioDistributionType.List })
+        @await Component.InvokeAsync("MonthlyProgression")
     </div>
     <div class="row ">
         @await Component.InvokeAsync("CategoriesDistribution")

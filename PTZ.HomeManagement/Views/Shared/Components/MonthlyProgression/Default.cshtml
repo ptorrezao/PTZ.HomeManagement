@@ -3,14 +3,11 @@
 
 @{
     var name = Guid.NewGuid().ToString().Replace("-", "");
-    var type = (string)ViewData["Type"];
     var legend = (bool?)ViewData["Legend"] ?? true;
     var ystacked = (bool?)ViewData["YStacked"] ?? false;
-    var chosenType = string.IsNullOrEmpty(type) ? "bar" : type;
     var size = (string)ViewData["Size"];
     size = string.IsNullOrEmpty(size) ? "col-lg-4" : size;
 
-    bool clearTitle = (bool?)ViewData["clearTitle"] ?? false;
     var title = (string)ViewData["title"] ?? "Total_Assets";
     var subtitle = (string)ViewData["subtitle"] ?? "Total_Assets_SubTitle";
 
@@ -18,29 +15,25 @@
     var maxDate = Model.Movements.Max(x => x.XAxis);
 }
 
-<div class="@size">
+<div class="col-xl-5 col-md-12">
     <div class="card ">
-        @if (!clearTitle)
-        {
-            <div class="card-header ">
-                <h4 class="card-title">@localizer[title]</h4>
-                <p class="card-category">@localizer[subtitle] [@minDate - @maxDate]</p>
-            </div>
-        }
-            <div class="card-body ">
-                <canvas id="@name"></canvas>
-
-            </div>
+        <div class="card-header ">
+            <h4 class="card-title">As Minhas Finanças</h4>
+            <p class="card-category">Resumo de Contas [@minDate - @maxDate]</p>
+        </div>
+        <div class="card-body ">
+            <canvas id="@name"></canvas>
+        </div>
     </div>
-    </div>
-    @Html.Script(
+</div>
+@Html.Script(
             @<script type="text/javascript">
          $(document).ready(function () {
              new Chart($("#@name"), config_@name);
          });
 
         var config_@name = {
-             type: '@chosenType',
+             type: 'line',
              data: {
                  labels:   @Html.Raw(Json.Serialize(Model.Movements.GroupBy(x => x.XAxis).Select(z => z.Max(x => x.XAxis)))),
                  datasets: [@foreach (var a in Model.Movements.GroupBy(w => w.Group).OrderBy(x=>x.Sum(q=>q.Amount)))

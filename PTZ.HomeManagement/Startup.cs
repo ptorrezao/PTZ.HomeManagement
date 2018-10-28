@@ -88,9 +88,8 @@ namespace PTZ.HomeManagement
                 options.AccessDeniedPath = "/Account/Register";
                 options.Cookie.Name = "PTZ.HomeManagement";
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.LoginPath = "/Account/Login";
-                // ReturnUrlParameter requires 
                 options.ReturnUrlParameter = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
@@ -193,7 +192,7 @@ namespace PTZ.HomeManagement
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Control}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
 

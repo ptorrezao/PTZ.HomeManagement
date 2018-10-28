@@ -1,18 +1,13 @@
 ﻿@model DoughnutChartViewModel
-@inject IViewLocalizer localizer
-
 @{
     var name = Guid.NewGuid().ToString().Replace("-", "");
-    var type = (string)ViewData["Type"];
-    var chosenType = string.IsNullOrEmpty(type) ? "doughnut" : type;
-    var size = (string)ViewData["Size"];
-    size = string.IsNullOrEmpty(size) ? "col-lg-4" : size;
 }
-<div class="@size">
+
+<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 ">
     <div class="card ">
         <div class="card-header ">
-            <h4 class="card-title">@localizer["Total_Assets"]</h4>
-            <p class="card-category">@localizer["Total_Assets_SubTitle"]</p>
+            <h4 class="card-title">Total</h4>
+            <p class="card-category">Agregado</p>
         </div>
         <div class="card-body ">
             <canvas id="@name"></canvas>
@@ -23,7 +18,7 @@
                 @foreach (var item in Model.Assets.GroupBy(x => x.Group))
                 {
                     <text>
-                    <span class="badge " style="background-color: @item.Max(x=>x.Color)">@item.Key: @item.Sum(x => x.Amount).ConvertToCurrency("€")</span>
+                        <span class="badge " style="background-color: @item.Max(x=>x.Color)">@item.Key: @item.Sum(x => x.Amount).ConvertToCurrency("€")</span>
                     </text>
                 }
                 <span class="badge badge-light">Total: @Model.Assets.Sum(x => x.Amount).ConvertToCurrency("€")</span>
@@ -31,8 +26,6 @@
         </div>
     </div>
 </div>
-<style>
-</style>
 @Html.Script(
     @<script type="text/javascript">
         $(document).ready(function () {
@@ -58,7 +51,7 @@
             }];
 
         var config_@name = {
-            type: '@chosenType',
+            type: 'pie',
             data: {
                 datasets: datasets_@name,
                 labels: @Html.Raw(Json.Serialize(Model.Assets.Select(x => x.AccountTitle)))
@@ -77,4 +70,4 @@
                 }
             }
         };
-</script>)
+    </script>)
