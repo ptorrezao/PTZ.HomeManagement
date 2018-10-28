@@ -11,34 +11,6 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
             migrationBuilder.CreateSequence(
                 name: "Reminder");
 
-            //migrationBuilder.CreateTable(
-            //    name: "AspNetUsers",
-            //    columns: table => new
-            //    {
-            //        Id = table.Column<string>(nullable: false),
-            //        AccessFailedCount = table.Column<int>(nullable: false),
-            //        ConcurrencyStamp = table.Column<string>(nullable: true),
-            //        Email = table.Column<string>(nullable: true),
-            //        EmailConfirmed = table.Column<bool>(nullable: false),
-            //        FirstName = table.Column<string>(nullable: true),
-            //        LastName = table.Column<string>(nullable: true),
-            //        LockoutEnabled = table.Column<bool>(nullable: false),
-            //        LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-            //        NormalizedEmail = table.Column<string>(nullable: true),
-            //        NormalizedUserName = table.Column<string>(nullable: true),
-            //        PasswordHash = table.Column<string>(nullable: true),
-            //        PhoneNumber = table.Column<string>(nullable: true),
-            //        PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-            //        RequirePasswordChange = table.Column<bool>(nullable: false),
-            //        SecurityStamp = table.Column<string>(nullable: true),
-            //        TwoFactorEnabled = table.Column<bool>(nullable: false),
-            //        UserName = table.Column<string>(nullable: true)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-            //    });
-
             migrationBuilder.CreateTable(
                 name: "Reminders",
                 columns: table => new
@@ -70,9 +42,6 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Reminders");
-
-            //migrationBuilder.DropTable(
-            //    name: "AspNetUsers");
 
             migrationBuilder.DropSequence(
                 name: "Reminder");

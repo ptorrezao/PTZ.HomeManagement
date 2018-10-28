@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace PTZ.HomeManagement.Utils
+namespace PTZ.HomeManagement.Core.Utils
 {
     public static class EnumExtensions
     {
