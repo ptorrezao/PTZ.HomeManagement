@@ -178,5 +178,10 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
         {
             return this.GetType().Name;
         }
+
+        public List<Reminder> GetRemindersByType(string userId, List<ReminderStateType> reminderStateTypes)
+        {
+            return expirationRepo.GetRemindersByType(userId, reminderStateTypes);
+        }
     }
 }

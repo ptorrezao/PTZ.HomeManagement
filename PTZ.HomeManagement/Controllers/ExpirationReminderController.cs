@@ -8,6 +8,7 @@ using PTZ.HomeManagement.Models.ExpirationReminderModels;
 using PTZ.HomeManagement.ExpirationReminder.Core;
 using PTZ.HomeManagement.Utils;
 using AutoMapper;
+using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
 
 namespace PTZ.HomeManagement.Controllers
 {
@@ -25,9 +26,10 @@ namespace PTZ.HomeManagement.Controllers
             return View();
         }
 
-        public IActionResult ListReminders()
+        public IActionResult ListReminders(ReminderStateType? type = null)
         {
-            List<Reminder> reminders = _expirationReminderService.GetReminders(User.GetUserId());
+            List<Reminder> reminders = !type.HasValue ? _expirationReminderService.GetReminders(User.GetUserId()) : _expirationReminderService.GetRemindersByType(User.GetUserId(), new List<ReminderStateType>() { type.Value });
+
             return View(Mapper.Map<ReminderListViewModel>(reminders));
         }
 
@@ -53,6 +55,18 @@ namespace PTZ.HomeManagement.Controllers
             ReminderCategory reminder = id.HasValue ? _expirationReminderService.GetReminderCategory(User.GetUserId(), id.Value) : _expirationReminderService.GetReminderCategoryDefault(User.GetUserId());
             return View(Mapper.Map<ReminderCategoryViewModel>(reminder));
         }
+
+
+        public IActionResult SetAsResolved(int id)
+        {
+            Reminder reminder = _expirationReminderService.GetReminder(User.GetUserId(), id);
+            reminder.Resolved = true;
+            reminder.ResolvedOn = DateTime.Now;
+            _expirationReminderService.SaveReminder(User.GetUserId(), reminder);
+
+            return RedirectToAction(nameof(ListReminders));
+        }
+
 
         [HttpPost]
         public IActionResult AddOrEditReminder(ReminderViewModel rvm)

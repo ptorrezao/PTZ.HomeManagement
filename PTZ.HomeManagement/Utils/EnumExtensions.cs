@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -28,5 +29,56 @@ namespace PTZ.HomeManagement.Utils
             }
             return enumerationValue.ToString();
         }
+
+        public static string GetColor(this ReminderStateType enumerationValue)
+        {
+            var type = enumerationValue.GetType();
+            if (!type.IsEnum)
+            {
+                throw new ArgumentException($"{nameof(enumerationValue)} must be of Enum type", nameof(enumerationValue));
+            }
+
+            var value = "";
+            switch (enumerationValue)
+            {
+                case ReminderStateType.NonExpired:
+                    value = "#4caf50";
+                    break;
+                case ReminderStateType.Expiring:
+                    value = "#ffc107";
+                    break;
+                case ReminderStateType.Expired:
+                    value = "#dd1e31";
+                    break;
+            }
+
+            return value;
+        }
+
+        public static string GetIcon(this ReminderStateType enumerationValue)
+        {
+            var type = enumerationValue.GetType();
+            if (!type.IsEnum)
+            {
+                throw new ArgumentException($"{nameof(enumerationValue)} must be of Enum type", nameof(enumerationValue));
+            }
+
+            var value = "";
+            switch (enumerationValue)
+            {
+                case ReminderStateType.NonExpired:
+                    value = "nc-align-center";
+                    break;
+                case ReminderStateType.Expiring:
+                    value = "nc-notification-70";
+                    break;
+                case ReminderStateType.Expired:
+                    value = "nc-time-alarm";
+                    break;
+            }
+
+            return value;
+        }
+        
     }
 }

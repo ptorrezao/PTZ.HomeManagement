@@ -23,5 +23,8 @@ namespace PTZ.HomeManagement.Models.ExpirationReminderModels
 
         [DisplayName("Categories")]
         public List<string> Categories { get; set; }
+
+        [DisplayName("Resolvido")]
+        public bool Resolved { get; set; }
     }
 }

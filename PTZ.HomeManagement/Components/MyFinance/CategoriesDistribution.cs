@@ -22,10 +22,10 @@ namespace PTZ.HomeManagement.Components.MyFinance
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            int graphLenght = 20;
 
             BarChartViewModel viewModel = await Task.Run(() =>
             {
+                DateTime now = DateTime.Now;
                 BarChartViewModel vm = new BarChartViewModel();
                 vm.MinDate = DateTime.MaxValue;
                 vm.MaxDate = DateTime.MinValue;
@@ -34,8 +34,8 @@ namespace PTZ.HomeManagement.Components.MyFinance
                 bankAccounts.Where(x => x.IsVisible).ToList().ForEach(bankAccount =>
                 {
                     var categories = _myFinanceService.GetCategories(User.GetUserId());
-
-                    bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, DateTime.Now.AddDays(-graphLenght), DateTime.Now);
+                    DateTime lastPaymentDay = now.Day > 24 ? new DateTime(now.Year, now.Month, 24) : new DateTime(now.Year, now.Month, 24).AddMonths(-1);
+                    bankAccount.Movements = _myFinanceService.GetBankAccountMovements(User.GetUserId(), bankAccount.Id, lastPaymentDay, now);
 
                     foreach (var selectedCategory in categories)
                     {

@@ -19,6 +19,9 @@ namespace PTZ.HomeManagement.ExpirationReminder.Core
 
         public string Notes { get; set; }
 
+        public bool Resolved { get; set; }
+        public DateTime? ResolvedOn { get; set; }
+
         public ApplicationUser ApplicationUser { get; set; }
         public virtual List<ReminderCategoryReminder> Categories { get; set; }
         public bool Sent { get; set; }

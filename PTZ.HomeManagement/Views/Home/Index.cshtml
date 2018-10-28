@@ -1,1 +1,29 @@
-﻿Home
+﻿@using PTZ.HomeManagement.Components.MyFinance
+@{
+    ViewBag.Title = ModulesNames.Core;
+}
+<div class="container-fluid">
+    <div class="row ">
+        @await Component.InvokeAsync("PortfolioDistribution", new { type = PortfolioDistributionType.Pie })
+        @await Component.InvokeAsync("ReminderOverview")
+    </div>
+    <div class="row ">
+        @await Component.InvokeAsync("CategoriesDistribution")
+    </div>
+</div>
+
+<style>
+    .balanceCard .card-body,
+    .categoriesCard .card-body {
+        padding-top: 16%;
+    }
+
+    .card {
+        height: 100%;
+        margin-bottom: 0px;
+    }
+
+    .row:first-child {
+        margin-bottom: 30px;
+    }
+</style>
