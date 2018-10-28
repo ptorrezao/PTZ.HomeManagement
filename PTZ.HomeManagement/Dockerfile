@@ -47,7 +47,7 @@ RUN gulp -b "PTZ.HomeManagement" Generate_App
 RUN gulp -b "PTZ.HomeManagement" Generate_LBD
 RUN gulp -b "PTZ.HomeManagement" CopyEmailTemplates
 
-RUN dotnet build -c Release -o /app
+#RUN dotnet build -c Release -o /app
 
 FROM build AS publish
 RUN dotnet publish -c Release -o /app
