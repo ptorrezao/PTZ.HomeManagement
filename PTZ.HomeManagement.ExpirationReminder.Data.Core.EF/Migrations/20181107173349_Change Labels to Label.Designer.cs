@@ -12,9 +12,10 @@ using System;
 namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
 {
     [DbContext(typeof(ExpirationReminderDbContext))]
-    partial class ExpirationReminderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181107173349_Change Labels to Label")]
+    partial class ChangeLabelstoLabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

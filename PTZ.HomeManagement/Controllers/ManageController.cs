@@ -102,6 +102,7 @@ namespace PTZ.HomeManagement.Controllers
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
+            user.AppPassword = model.AppPassword;
             _applicationRepository.SaveUser(user);
 
             await ClaimsPrincipalExtensions.UpdataAllClaims(user, _userManager, _signInManager, true);

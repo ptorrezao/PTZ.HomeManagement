@@ -29,6 +29,18 @@ namespace PTZ.HomeManagement.Models.ManageViewModels
         [Display(Name = "PhoneNumber")]
         public string PhoneNumber { get; set; }
 
+        public bool HasGmailAppPassword
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(this.Email) &&
+                    this.Email.Contains("@gmail.com");
+            }
+        }
+
+        [Display(Name = "App Password")]
+        public string AppPassword { get; set; }
+
         public string StatusMessage { get; set; }
     }
 }

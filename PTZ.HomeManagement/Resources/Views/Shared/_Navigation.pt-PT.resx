@@ -141,6 +141,9 @@
   <data name="ReminderCategories_Page" xml:space="preserve">
     <value>Categorias</value>
   </data>
+  <data name="ReminderImportSettings_Page" xml:space="preserve">
+    <value>Imports</value>
+  </data>
   <data name="Reminders_Page" xml:space="preserve">
     <value>Lista de Lembretes</value>
   </data>

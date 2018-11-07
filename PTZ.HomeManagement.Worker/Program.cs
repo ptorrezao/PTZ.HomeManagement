@@ -119,7 +119,14 @@ namespace PTZ.HomeManagement.Worker
 
                 foreach (var job in jobs)
                 {
-                    WriteMessage(service.GetName(), LogLevel.Info, job.Invoke());
+                    try
+                    {
+                        WriteMessage(service.GetName(), LogLevel.Info, job.Invoke());
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteMessage(service.GetName(), LogLevel.Error, ex.Message);
+                    }
                 }
             }
         }

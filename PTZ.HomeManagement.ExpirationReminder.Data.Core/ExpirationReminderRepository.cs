@@ -115,7 +115,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
         private DateTime GetNotificationDate(Reminder reminder)
         {
             DateTime date = reminder.ExpirationDate;
-            if (reminder.NotifyType != ReminderNotifyType.NoNotification)
+            if (reminder.NotifyType != ReminderNotifyType.NoNotification && date > DateTime.MinValue)
             {
                 switch (reminder.NotifyInPeriodType)
                 {
@@ -191,6 +191,26 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core
             context.SaveChanges();
         }
 
+        public List<ImportSetting> GetImportSettings(string userId)
+        {
+            return this.context.ImportSettings.Where(x => x.ApplicationUser.Id == userId).ToList();
+        }
 
+        public void SaveImportSetting(string userId, ImportSetting importSetting)
+        {
+            this.context.Entry(importSetting.ApplicationUser).State = EntityState.Unchanged;
+            this.context.Entry(importSetting).State = importSetting.Id == 0 ? EntityState.Added : EntityState.Modified;
+        }
+
+        public void DeleteImportSetting(string userId, ImportSetting importSetting)
+        {
+            var elementsToRemove = this.context.ImportSettings.Where(x => x.ApplicationUser.Id == userId && importSetting.Id == x.Id);
+            this.context.ImportSettings.RemoveRange(elementsToRemove);
+        }
+
+        public ImportSetting GetImportSetting(string userId, int id)
+        {
+            return this.context.ImportSettings.FirstOrDefault(x => x.Id == id && x.ApplicationUser.Id == userId);
+        }
     }
 }

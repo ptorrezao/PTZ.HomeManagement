@@ -1,0 +1,46 @@
+﻿@model List<ImportSettingViewModel>
+@{
+    ViewBag.Title = ModulesNames.ExpirationReminder;
+
+}
+<div class="col-md-12">
+    <div class="card strpied-tabled-with-hover">
+        <div class="card-header ">
+            <h4 class="card-title">Imports</h4>
+            <p class="card-category text-right">
+
+            </p>
+        </div>
+        <div class="card-body table-full-width table-responsive">
+            <table class="table table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(x => x.First().Id)</th>
+                        <th>@Html.DisplayNameFor(x => x.First().Name)</th>
+                        <th class="no-sort"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ImportSettingViewModel item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td class="no-sort">
+                                <a class="text-left btn btn-sm" data-toggle="tooltip" data-placement="top" title="Editar" asp-action="AddOrEditImportSetting" asp-route-id="@item.Id"><em class="fa fa-edit"></em></a> &nbsp;
+                                <a class="text-left btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" asp-action="DeleteImportSetting" asp-route-id="@item.Id"><em class="fa fa-trash"></em></a> &nbsp;
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a class="text-left btn btn-sm btn-info btn-outline btn-fill" asp-action="AddOrEditImportSetting" data-toggle="tooltip" data-placement="top" title="Adicionar">                <span class="btn-label">
+                    <em class="fa fa-plus"></em>
+                </span>
+            </a>
+        </div>
+
+    </div>
+</div>

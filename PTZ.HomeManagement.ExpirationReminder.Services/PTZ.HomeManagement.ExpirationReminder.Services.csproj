@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PTZ.HomeManagement.Core.Services\PTZ.HomeManagement.Core.Services.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.ExpirationReminder.Data.Core\PTZ.HomeManagement.ExpirationReminder.Data.Core.csproj" />
     <ProjectReference Include="..\PTZ.HomeManagement.Core.Data\PTZ.HomeManagement.Core.Data.csproj" />

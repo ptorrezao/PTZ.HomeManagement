@@ -8,13 +8,15 @@ using Microsoft.EntityFrameworkCore.Storage.Internal;
 using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
 using PTZ.HomeManagement.ExpirationReminder.Data.Core.EF;
 using System;
+using System.Collections.Generic;
 
 namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
 {
     [DbContext(typeof(ExpirationReminderDbContext))]
-    partial class ExpirationReminderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181107133844_Import Settings")]
+    partial class ImportSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,9 +38,7 @@ namespace PTZ.HomeManagement.ExpirationReminder.Data.Core.EF.Migrations
 
                     b.Property<int>("ExpirationDateRexgexTarget");
 
-                    b.Property<string>("Label");
-
-                    b.Property<string>("Name");
+                    b.Property<List<string>>("Labels");
 
                     b.Property<string>("TitleFormat");
 
