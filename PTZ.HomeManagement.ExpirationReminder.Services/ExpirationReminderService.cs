@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using MailKit;
+using MailKit.Net.Imap;
 using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.ExpirationReminder.Core;
 using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
@@ -101,9 +104,126 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
         public List<IWorkerJob> GetJobs()
         {
             List<IWorkerJob> list = new List<IWorkerJob>();
-            list.Add(SendEmailsForExpiredAndExpiringReminders);
+            list.Add(this.SendEmailsForExpiredAndExpiringReminders);
+            list.Add(this.GetRemindersFromEmails);
 
             return list;
+        }
+
+        public List<ImportSetting> GetImportSettings(string userId)
+        {
+            return expirationRepo.GetImportSettings(userId);
+        }
+
+        public ImportSetting GetImportSetting(string userId, int id)
+        {
+            return expirationRepo.GetImportSetting(userId, id);
+        }
+
+        public void SaveImportSetting(string userId, ImportSetting importSetting)
+        {
+            importSetting.ApplicationUser = appRepo.GetUser(userId);
+            expirationRepo.SaveImportSetting(userId, importSetting);
+            expirationRepo.CommitChanges();
+        }
+
+        public void DeleteImportSetting(string userId, ImportSetting importSetting)
+        {
+            expirationRepo.DeleteImportSetting(userId, importSetting);
+            expirationRepo.CommitChanges();
+        }
+
+        private string GetRemindersFromEmails()
+        {
+            var users = appRepo.GetUsers();
+
+            foreach (var user in users)
+            {
+                if (user.HasGmailAppPassword)
+                {
+                    List<ImportSetting> importSettings = this.GetImportSettings(user.Id);
+
+                    using (var client = new ImapClient())
+                    {
+                        // For demo-purposes, accept all SSL certificates
+                        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                        client.Connect("imap.gmail.com", 993, true);
+                        client.Authenticate(user.Email, user.AppPassword);
+
+                        var inbox = client.Inbox;
+                        inbox.Open(FolderAccess.ReadWrite);
+                        var existingReminders = this.GetReminders(user.Id);
+
+                        for (int i = 0; i < inbox.Count; i++)
+                        {
+                            var messageSummary = inbox.Fetch(new List<int>() { i }, MessageSummaryItems.GMailLabels).First();
+
+                            foreach (var importSetting in importSettings)
+                            {
+                                if (messageSummary.GMailLabels.Any(x => x == importSetting.Label))
+                                {
+                                    var message = inbox.GetMessage(i);
+
+                                    string reminderTitle = ExtractRegex(importSetting.TitleRexgex, importSetting.TitleRexgexTarget, message);
+                                    string expirationDateString = ExtractRegex(importSetting.ExpirationDateRexgex, importSetting.ExpirationDateRexgexTarget, message);
+
+                                    if (!string.IsNullOrEmpty(reminderTitle) &&
+                                        !string.IsNullOrEmpty(expirationDateString))
+                                    {
+                                        DateTime expirationDate;
+                                        DateTime.TryParse(expirationDateString, out expirationDate);
+
+                                        Reminder reminder = new Reminder()
+                                        {
+                                            Title = string.Format(importSetting.TitleFormat, reminderTitle),
+                                            Notes = message.HtmlBody ?? message.TextBody,
+                                            ExpirationDate = expirationDate,
+                                            NotifyInPeriodAmout = 5,
+                                            NotifyInPeriodType = ReminderNotifyPeriodType.Days,
+                                            NotifyType = ReminderNotifyType.Email,
+                                            ReminderType = ReminderType.Service,
+                                        };
+
+                                        if (!existingReminders.Any(x => x.Title == reminder.Title))
+                                        {
+                                            this.SaveReminder(user.Id, reminder);
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                        client.Disconnect(true);
+                    }
+                }
+            }
+
+            return "";
+        }
+
+
+
+        private string ExtractRegex(string rexgex, RegexTarget regexTarget, MimeKit.MimeMessage message)
+        {
+            Regex regex = new Regex(rexgex);
+            Match match = null;
+            switch (regexTarget)
+            {
+                case RegexTarget.Body:
+                    match = regex.Match(message.HtmlBody ?? message.TextBody);
+                    break;
+                case RegexTarget.Subject:
+                    match = regex.Match(message.Subject);
+                    break;
+                case RegexTarget.Sender:
+                    match = regex.Match(message.Sender.Name);
+                    break;
+                default:
+                    break;
+            }
+            return match != null && match.Success ? match.Value : "";
         }
 
         public string SendEmailsForExpiredAndExpiringReminders()
@@ -182,6 +302,15 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
         public List<Reminder> GetRemindersByType(string userId, List<ReminderStateType> reminderStateTypes)
         {
             return expirationRepo.GetRemindersByType(userId, reminderStateTypes);
+        }
+
+        public ImportSetting GetImportSettingDefault(string userId)
+        {
+            ApplicationUser user = appRepo.GetUser(userId);
+            return new ImportSetting()
+            {
+                ApplicationUser = user
+            };
         }
     }
 }

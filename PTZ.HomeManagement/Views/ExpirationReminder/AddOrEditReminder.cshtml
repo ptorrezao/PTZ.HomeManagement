@@ -75,16 +75,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label asp-for="Notes"></label>
-                                <textarea asp-for="Notes" class="form-control" rows="15" style="height: initial;"></textarea>
-                                <span asp-validation-for="Notes" class="text-danger"></span>
+                    @if (!Model.Notes.CheckIfIsHTML())
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Notes"></label>
+                                    <textarea asp-for="Notes" class="form-control" rows="15" style="height: initial;"></textarea>
+                                    <span asp-validation-for="Notes" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.Raw(Model.Notes)
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div class="pull-right">
                         <a href="@Url.Action(nameof(ExpirationReminderController.ListReminders))" class="btn btn-sm btn-default btn-outline" data-toggle="tooltip" data-placement="top" title="@localizer["ReturnButton"]">
                             <span class="btn-label">

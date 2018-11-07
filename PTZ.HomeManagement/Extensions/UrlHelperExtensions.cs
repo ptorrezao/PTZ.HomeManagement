@@ -21,5 +21,16 @@ namespace Microsoft.AspNetCore.Mvc
                 values: new { userId, code },
                 protocol: scheme);
         }
+
+        public static bool CheckIfIsHTML(this string text)
+        {
+            bool isHtml = false;
+            text = text.ToLower();
+            isHtml = text.Contains("<html>");
+            isHtml = isHtml || text.Contains("<br>");
+            isHtml = isHtml || text.Contains("<td>");
+            isHtml = isHtml || text.Contains("<div>");
+            return isHtml;
+        }
     }
 }

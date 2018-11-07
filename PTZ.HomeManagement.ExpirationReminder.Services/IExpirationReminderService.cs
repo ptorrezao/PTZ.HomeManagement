@@ -20,5 +20,11 @@ namespace PTZ.HomeManagement.ExpirationReminder.Services
         void SaveReminderCategory(string userId, ReminderCategory reminderCategory);
         void DeleteReminderCategory(string userId, ReminderCategory reminderCategory);
         void SetCategoriesToReminder(string userId, long id, List<long> selectedCategories);
+
+        List<ImportSetting> GetImportSettings(string userId);
+        ImportSetting GetImportSettingDefault(string userId);
+        ImportSetting GetImportSetting(string userId, int id);
+        void SaveImportSetting(string userId, ImportSetting importSetting);
+        void DeleteImportSetting(string userId, ImportSetting importSetting);
     }
 }

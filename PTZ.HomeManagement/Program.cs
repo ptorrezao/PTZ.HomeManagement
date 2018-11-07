@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using PTZ.HomeManagement.Data;
+using PTZ.HomeManagement.ExpirationReminder.Data.Core.EF;
 using PTZ.HomeManagement.MyFinance.Data;
 using PTZ.HomeManagement.Utils;
 using Sentry;
@@ -35,6 +36,7 @@ namespace PTZ.HomeManagement
 
                 MigrateIfNecessary<ApplicationDbContext>(services);
                 MigrateIfNecessary<MyFinanceDbContext>(services);
+                MigrateIfNecessary<ExpirationReminderDbContext>(services);
 
                 SeedData.Initialize(services).Wait();
             }

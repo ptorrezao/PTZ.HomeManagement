@@ -26,5 +26,18 @@ namespace PTZ.HomeManagement.Models
                 return fullName == null ? null : fullName.Trim();
             }
         }
+        [NotMapped]
+        public bool HasGmailAppPassword
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(this.Email)  && 
+                    this.Email.Contains("@gmail.com") && 
+                    !string.IsNullOrEmpty(this.AppPassword);
+            }
+        }
+
+        public string AppPassword { get; set; }
+
     }
 }

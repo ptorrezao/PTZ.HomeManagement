@@ -56,7 +56,6 @@ namespace PTZ.HomeManagement.Controllers
             return View(Mapper.Map<ReminderCategoryViewModel>(reminder));
         }
 
-
         public IActionResult SetAsResolved(int id)
         {
             Reminder reminder = _expirationReminderService.GetReminder(User.GetUserId(), id);
@@ -66,7 +65,6 @@ namespace PTZ.HomeManagement.Controllers
 
             return RedirectToAction(nameof(ListReminders));
         }
-
 
         [HttpPost]
         public IActionResult AddOrEditReminder(ReminderViewModel rvm)
@@ -127,6 +125,51 @@ namespace PTZ.HomeManagement.Controllers
                 _expirationReminderService.DeleteReminderCategory(User.GetUserId(), Mapper.Map<ReminderCategory>(rvm));
 
                 return RedirectToAction(nameof(ListReminderCategories));
+            }
+
+            return View(rvm);
+        }
+
+        public IActionResult ListImportSettings()
+        {
+            List<ImportSetting> reminders = _expirationReminderService.GetImportSettings(User.GetUserId());
+            return View(Mapper.Map<List<ImportSettingViewModel>>(reminders));
+        }
+
+        public IActionResult AddOrEditImportSetting(int? id)
+        {
+            ImportSetting importSetting = id.HasValue ? _expirationReminderService.GetImportSetting(User.GetUserId(), id.Value) : _expirationReminderService.GetImportSettingDefault(User.GetUserId());
+            ImportSettingViewModel viewModel = Mapper.Map<ImportSettingViewModel>(importSetting);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult AddOrEditImportSetting(ImportSettingViewModel rvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _expirationReminderService.SaveImportSetting(User.GetUserId(), Mapper.Map<ImportSetting>(rvm));
+                return RedirectToAction(nameof(ListImportSettings));
+            }
+
+            return View(rvm);
+        }
+
+        public IActionResult DeleteImportSetting(int id)
+        {
+            ImportSetting reminder = _expirationReminderService.GetImportSetting(User.GetUserId(), id);
+            return View(Mapper.Map<ImportSettingViewModel>(reminder));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteImportSetting(ImportSettingViewModel rvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _expirationReminderService.DeleteImportSetting(User.GetUserId(), Mapper.Map<ImportSetting>(rvm));
+
+                return RedirectToAction(nameof(ListImportSettings));
             }
 
             return View(rvm);

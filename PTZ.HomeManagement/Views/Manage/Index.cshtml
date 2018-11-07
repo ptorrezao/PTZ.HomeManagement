@@ -90,6 +90,29 @@
                             </div>
                         </div>
                     </div>
+                    @if (Model.HasGmailAppPassword )
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label asp-for="AppPassword"></label>
+                                        <input asp-for="AppPassword" class="form-control"/>
+                                        <span asp-validation-for="AppPassword" class="text-danger"></span>
+                                   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <input asp-for="AppPassword" class="form-control" hidden/>
+                    }
+
+
+
+
                     <button type="submit" class="btn btn-info btn-fill pull-right">@localizer["Save"]</button>
                 </form>
             </div>
