@@ -14,7 +14,7 @@ install:
   - dotnet restore PTZ.HomeManagement.sln
 
 script:
-  - ./build.sh $SONAR_TOKEN 
+  - ./build.sh $SONAR_TOKEN $TRAVIS_BRANCH
 
 deploy:
   - provider: script
