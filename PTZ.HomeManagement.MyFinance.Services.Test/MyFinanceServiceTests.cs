@@ -6,6 +6,7 @@ using PTZ.HomeManagement.Core.Data;
 using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.MyFinance.Data;
+using PTZ.HomeManagement.MyFinance.Models;
 using Xunit;
 
 namespace PTZ.HomeManagement.MyFinance.Services.Test
@@ -90,16 +91,6 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
             listBankAccount2.IsVisible = true;
             listBankAccount2.Name = nameof(BankAccount_List);
             this.myFinanceService.SaveBankAccount(userId, listBankAccount2);
-
-            var bankAccountGetMovements = this.myFinanceService.GetBankAccountDefault(userId);
-
-            bankAccountGetMovements.IBAN = "PT50000201231234567890555";
-            bankAccountGetMovements.AccountType = AssetType.CurrentAccount;
-            bankAccountGetMovements.Bank = Bank.CGD;
-            bankAccountGetMovements.Color = "#00FF11";
-            bankAccountGetMovements.IsVisible = true;
-            bankAccountGetMovements.Name = nameof(BankAccountGetMovements);
-            this.myFinanceService.SaveBankAccount(userId, bankAccountGetMovements);
         }
 
         private void InitUsers()
@@ -210,23 +201,6 @@ namespace PTZ.HomeManagement.MyFinance.Services.Test
             Assert.NotNull(user);
             var userId = user.Id;
             Assert.True(this.myFinanceService.GetBankAccounts(userId).Count > 0);
-        }
-
-        [Fact]
-        public void BankAccountMovement_GetDefault()
-        {
-            var user = apprepo.GetUsers(null).FirstOrDefault();
-            Assert.NotNull(user);
-            var userId = user.Id;
-            var savedAccounts = this.myFinanceService.GetBankAccounts(userId);
-
-            var bankAccount = savedAccounts.FirstOrDefault(x => x.Name == nameof(BankAccountGetMovements));
-            var bankAccountMovement = this.myFinanceService.GetBankAccountMovementDefault(userId, bankAccount.Id);
-
-            Assert.NotNull(bankAccountMovement);
-            Assert.Equal(bankAccountMovement.BankAccount.Id, bankAccount.Id);
-            Assert.True(bankAccountMovement.MovementDate > DateTime.Now.Date);
-            Assert.True(bankAccountMovement.ValueDate > DateTime.Now.Date);
         }
     }
 }

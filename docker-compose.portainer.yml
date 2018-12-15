@@ -1,6 +1,25 @@
 version: '3.3'
 
 services:
+  PTZHMA-Worker:
+    image: ptorrezao/ptz.homemanagement.worker:latest
+    restart: always
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME_PROD}
+      - DB_TYPE=PostgreSQL
+      - MailGun_ApiKey=${MailGun_ApiKey}
+      - MailGun_ApiBaseUri=${MailGun_ApiBaseUri}
+      - MailGun_RequestUri=${MailGun_RequestUri}
+      - MailGun_From=${MailGun_From}
+      - MailGun_Domain=${MailGun_From}
+    networks:
+       - proxy
+    depends_on:
+     - db
+ 
   PTZHMA-Prod:
     image: ptorrezao/ptz.homemanagement:latest
     restart: always
@@ -20,50 +39,21 @@ services:
       - MailGun_ApiBaseUri=${MailGun_ApiBaseUri}
       - MailGun_RequestUri=${MailGun_RequestUri}
       - MailGun_From=${MailGun_From}
-      - MailGun_Domain=${MailGun_From}
+      - MailGun_Domain=${MailGun_Domain}
     deploy:
       labels:
-       - traefik.backend=PTZHMA-PROD
-       - traefik.frontend.rule=Host:prod.${TOP_DOMAIN},${TOP_DOMAIN}
+       - traefik.backend=[PTZHMA]-HomeManagement
+       - traefik.frontend.rule=Host:${TOP_DOMAIN}
        - traefik.port=80
-
+       - traefik.tags=HomeManagement,bla
+      replicas: 1
     networks:
        - proxy
     depends_on:
      - db
-
-  PTZHMA-Dev:
-    image: ptorrezao/ptz.homemanagement:development
-    restart: always
-    environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIROMENT_DEV}
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME_DEV}
-      - DB_TYPE=PostgreSQL
-      - Sentry_DSN=${Sentry_DSN}
-      - Sentry_IncludeRequestPayload=${Sentry_IncludeRequestPayload} 
-      - Sentry_IncludeActivityData=${Sentry_IncludeActivityData} 
-      - Sentry_MinimumBreadcrumbLevel=${Sentry_MinimumBreadcrumbLevel} 
-      - Sentry_MinimumEventLevel=${Sentry_MinimumEventLevel}
-      - MailGun_ApiKey=${MailGun_ApiKey}
-      - MailGun_ApiBaseUri=${MailGun_ApiBaseUri}
-      - MailGun_RequestUri=${MailGun_RequestUri}
-      - MailGun_From=${MailGun_From}
-      - MailGun_Domain=${MailGun_From}
-    deploy:
-      labels:
-       - traefik.backend=PTZHMA-DEV
-       - traefik.frontend.rule=Host:dev.${TOP_DOMAIN}
-       - traefik.port=80
-    networks:
-       - proxy
-    depends_on:
-     - db
-
+     
   db:
-    image: postgres
+    image: postgres:10
     restart: always
     networks:
        - proxy
@@ -83,10 +73,11 @@ services:
        - proxy
     deploy:
       labels:
-       - traefik.backend=Adminer
+       - traefik.backend=[PTZHMA]-Adminer
        - traefik.frontend.rule=Host:adminer.${TOP_DOMAIN}
        - traefik.port=8080
-      
+      replicas: 0
+   
 volumes:
   DB_src:
 

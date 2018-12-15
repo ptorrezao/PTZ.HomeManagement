@@ -9,8 +9,10 @@
     <DockerServiceName>ptz.homemanagement</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="commands.bat" />
     <None Include="docker-compose.override.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.portainer.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
@@ -18,12 +20,5 @@
     <None Include="docker-compose.ci.build.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
-    <None Include="portainer-compose.sqlserver.yml">
-      <DependentUpon>portainer-compose.yml</DependentUpon>
-    </None>
-    <None Include="portainer-compose.PostgreSQL.yml">
-      <DependentUpon>portainer-compose.yml</DependentUpon>
-    </None>
-    <None Include="portainer-compose.yml" />
   </ItemGroup>
 </Project>

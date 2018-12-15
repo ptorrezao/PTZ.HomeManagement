@@ -45,6 +45,7 @@ namespace PTZ.HomeManagement.MyFinance.Data
         public void SaveBankAccountMovement(string userId, long bankAccountId, BankAccountMovement bankAccountMovement)
         {
             bankAccountMovement.BankAccount = this.context.BankAccounts.Single(x => x.Id == bankAccountId && x.ApplicationUser.Id == userId);
+            this.context.Entry(bankAccountMovement.BankAccount).State = EntityState.Unchanged;
 
             if (bankAccountMovement.Categories != null && bankAccountMovement.Categories.Any())
             {

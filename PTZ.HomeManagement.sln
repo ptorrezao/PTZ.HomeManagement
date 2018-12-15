@@ -17,8 +17,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Travis", "Travis", "{FE58DC7B-1D72-46E4-8107-A1485D4F7171}"
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
-		build.sh = build.sh
-		deploy.sh = deploy.sh
+		CI\build.sh = CI\build.sh
+		CI\deploy.sh = CI\deploy.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTZ.HomeManagement.Core", "PTZ.HomeManagement.Lib.Core\PTZ.HomeManagement.Core.csproj", "{E04A3541-C7C2-47F0-B094-1BA834BB78AF}"
