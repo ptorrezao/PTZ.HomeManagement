@@ -7,9 +7,7 @@ using PTZ.HomeManagement.Models.MyFinanceViewModels;
 using PTZ.HomeManagement.MyFinance;
 using PTZ.HomeManagement.MyFinance.Models;
 using PTZ.HomeManagement.Utils;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PTZ.HomeManagement.Controllers
 {

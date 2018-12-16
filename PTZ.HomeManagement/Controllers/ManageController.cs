@@ -10,7 +10,6 @@ using PTZ.HomeManagement.Models.ManageViewModels;
 using PTZ.HomeManagement.Services;
 using PTZ.HomeManagement.Utils;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;

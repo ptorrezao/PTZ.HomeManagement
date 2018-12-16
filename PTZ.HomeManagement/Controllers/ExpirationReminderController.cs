@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PTZ.HomeManagement.ExpirationReminder.Core;
+using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
 using PTZ.HomeManagement.ExpirationReminder.Services;
 using PTZ.HomeManagement.Models.ExpirationReminderModels;
-using PTZ.HomeManagement.ExpirationReminder.Core;
 using PTZ.HomeManagement.Utils;
-using AutoMapper;
-using PTZ.HomeManagement.ExpirationReminder.Core.Enums;
+using System;
+using System.Collections.Generic;
 
 namespace PTZ.HomeManagement.Controllers
 {

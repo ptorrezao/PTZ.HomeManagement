@@ -1,8 +1,21 @@
 version: '3.4'
 
 services:
+  ptz.homemanagement.worker:
+    environment:
+      - "DB_HOST=ptorrezao.pw"
+      - "DB_USER="
+      - "DB_PASSWORD="
+      - "DB_NAME=ptzhma_dev"
+      - "DB_TYPE=PostgreSQL"
+
   ptz.homemanagement:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "DB_HOST=ptorrezao.pw"
+      - "DB_USER="
+      - "DB_PASSWORD="
+      - "DB_NAME=ptzhma_dev"
+      - "DB_TYPE=PostgreSQL"
     ports:
       - "80"

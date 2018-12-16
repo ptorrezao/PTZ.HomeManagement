@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using GravatarSharp.Core;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +9,9 @@ using PTZ.HomeManagement.Models;
 using PTZ.HomeManagement.Models.AccountViewModels;
 using PTZ.HomeManagement.Services;
 using PTZ.HomeManagement.Utils;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace PTZ.HomeManagement.Controllers
 {

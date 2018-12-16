@@ -1,21 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using NLog;
-using NLog.Targets;
-using NLog.Targets.Wrappers;
 using PTZ.HomeManagement.Core.Data;
-using PTZ.HomeManagement.Data;
 using PTZ.HomeManagement.Enums;
 using PTZ.HomeManagement.Models;
-using PTZ.HomeManagement.Services;
 using PTZ.HomeManagement.Utils;
+using System;
+using System.Diagnostics;
 
 namespace PTZ.HomeManagement.Controllers
 {

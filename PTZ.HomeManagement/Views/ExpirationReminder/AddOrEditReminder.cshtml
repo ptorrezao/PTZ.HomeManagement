@@ -75,7 +75,8 @@
                             </div>
                         </div>
                     </div>
-                    @if (!Model.Notes.CheckIfIsHTML())
+                    @if (Model.Notes == null ||
+                       !Model.Notes.CheckIfIsHTML())
                     {
                         <div class="row">
                             <div class="col-md-12">
@@ -93,6 +94,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     @Html.Raw(Model.Notes)
+                                    <textarea asp-for="Notes" class="form-control" rows="15" style="display: none;"></textarea>
                                 </div>
                             </div>
                         </div>
