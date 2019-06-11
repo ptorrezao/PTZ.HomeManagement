@@ -122,7 +122,7 @@ namespace PTZ.HomeManagement
 
         private void SetCorrectProvider(DbContextOptionsBuilder options)
         {
-            string envVar = Environment.GetEnvironmentVariable("DB_TYPE");
+            string envVar = Environment.GetEnvironmentVariable("DB_TYPE", EnvironmentVariableTarget.Machine);
             DatabaseType dbType;
             Enum.TryParse(envVar ?? DatabaseUtils.GetDefaultDb(), out dbType);
 
